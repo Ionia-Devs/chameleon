@@ -13,7 +13,7 @@ export default async function Index() {
           <div id="welcome">
             <h1>
               <span> Hello there, </span>
-              Welcome chameleon 👋
+              <span className="text-blue-600">Welcome chameleon 👋</span>
             </h1>
           </div>
 
