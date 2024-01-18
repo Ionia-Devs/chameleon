@@ -5,6 +5,7 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
     "@nx/next": "17.2.8",
     "next": "13.4.4",
     "react": "18.2.0",
@@ -44,7 +45,8 @@
     "jest-environment-jsdom": "^29.4.1",
     "nx": "17.2.8",
     "postcss": "8.4.21",
-    "prettier": "^2.6.2",
+    "prettier": "^3.2.4",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "3.2.7",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
