@@ -6,7 +6,7 @@
 
 ## Start the app
 
-To start the development server run `nx serve web-app`. Open your browser and navigate to http://localhost:3000/. Happy coding!
+To start the development server run `nx serve chameleon`. Open your browser and navigate to http://localhost:3000/. Happy coding!
 
 ## Generate code
 
