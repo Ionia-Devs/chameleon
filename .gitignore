@@ -31,6 +31,7 @@ node_modules
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+.pnpm-debug.log*
 testem.log
 /typings
 
@@ -38,7 +39,20 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.nx/cache
 
-# Next.js
-.next
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+.vscode
+.contentlayer
+
+
+.nx/cache

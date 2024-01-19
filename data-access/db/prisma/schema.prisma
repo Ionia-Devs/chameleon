@@ -1,0 +1,203 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// NextAuth Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// User model to represent both cosplayers and photographers
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  image          String?
+  role           UserRole  @default(COSPLAYER)
+  interests      String?
+  specialization String?
+  portfolio      Json?
+  availability   Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+
+  cosplayerMatches    Match[]        @relation("CosplayerToMatch")
+  photographerMatches Match[]        @relation("PhotographerToMatch")
+  schedules           Schedule[]
+  givenReviews        Review[]       @relation("ReviewerToReview")
+  receivedReviews     Review[]       @relation("RevieweeToReview")
+  sentMessages        Message[]      @relation("SenderToMessage")
+  receivedMessages    Message[]      @relation("ReceiverToMessage")
+  notifications       Notification[]
+  invitations         Invitation[]   @relation("invitedPhotographer")
+  Match               Match[]
+  Review              Review[]
+  Message             Message[]
+  Account             Account[]
+  Session             Session[]
+  Todo                Todo[]
+  Post                Post[]
+
+  @@index([id], name: "idx_user_id")
+}
+
+enum UserRole {
+  COSPLAYER
+  PHOTOGRAPHER
+}
+
+// Match model to represent a match between a cosplayer and a photographer
+model Match {
+  id             String     @id @default(cuid())
+  cosplayerId    String
+  photographerId String
+  createdAt      DateTime   @default(now())
+  cosplayer      User       @relation("CosplayerToMatch", fields: [cosplayerId], references: [id])
+  photographer   User       @relation("PhotographerToMatch", fields: [photographerId], references: [id])
+  User           User?      @relation(fields: [userId], references: [id])
+  userId         String?
+  Schedule       Schedule[]
+
+  @@index([cosplayerId, photographerId], name: "idx_match_ids")
+}
+
+// Schedule model to represent a scheduled session between a cosplayer and a photographer
+model Schedule {
+  id        String   @id @default(cuid())
+  matchId   String
+  date      DateTime
+  location  String
+  createdAt DateTime @default(now())
+  match     Match    @relation(fields: [matchId], references: [id])
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+
+  @@index([matchId], name: "idx_schedule_matchId")
+}
+
+// Review model to represent reviews and ratings
+model Review {
+  id         String   @id @default(cuid())
+  reviewerId String
+  revieweeId String
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+  reviewer   User     @relation("ReviewerToReview", fields: [reviewerId], references: [id])
+  reviewee   User     @relation("RevieweeToReview", fields: [revieweeId], references: [id])
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+
+  @@index([reviewerId, revieweeId], name: "idx_review_ids")
+}
+
+// Message model for chat functionality
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+  sender     User     @relation("SenderToMessage", fields: [senderId], references: [id])
+  receiver   User     @relation("ReceiverToMessage", fields: [receiverId], references: [id])
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     String?
+
+  @@index([senderId, receiverId], name: "idx_message_ids")
+}
+
+// Notification model
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  type      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "idx_notification_userId")
+}
+
+// Invitation model to represent an invitation sent to a photographer
+model Invitation {
+  id                  String       @id @default(cuid())
+  email               String
+  status              InviteStatus @default(PENDING)
+  createdAt           DateTime     @default(now())
+  invitedBy           String
+  invitedPhotographer User         @relation("invitedPhotographer", fields: [invitedBy], references: [id])
+
+  @@index([invitedBy], name: "idx_invitation_invitedBy")
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Todo {
+  id          String   @id @default(cuid())
+  text        String
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  userId      String
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   Json?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  authorId  String
+
+  author User @relation(fields: [authorId], references: [id])
+}

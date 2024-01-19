@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  wundergraph:
+    image: wundergraph:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        wg_public_node_url: ${WG_PUBLIC_NODE_URL}
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      WG_PUBLIC_NODE_URL: ${WG_PUBLIC_NODE_URL}
+    ports:
+      - 9991:9991
