@@ -4,7 +4,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Command,
   CreditCard,
   File,
   FileText,
@@ -19,6 +18,7 @@ import {
   Plus,
   Settings,
   SunMedium,
+  SwitchCamera,
   Trash,
   Twitter,
   User,
@@ -29,7 +29,7 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
-  logo: Command,
+  logo: SwitchCamera,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,

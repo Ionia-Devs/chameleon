@@ -41,8 +41,8 @@ configureWunderGraphApplication({
         ? [
             // change this before deploying to production to the actual domain where you're deploying your app
             new EnvironmentVariable("NEXTAUTH_URL"),
-            "https://www.diplomatic-distancer.com",
-            "https://diplomatic-distancer-production.up.railway.app/",
+            "https://www.chameleon.com",
+            "https://chameleon-production.up.railway.app/",
           ]
         : [
             "http://localhost:3000",
