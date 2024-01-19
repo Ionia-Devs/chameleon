@@ -14,12 +14,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    appDir: true,
-    serverComponentsExternalPackages: ['@prisma/client'],
-    serverActions: true,
-    optimisticClientCache: true,
-  },
   nx: {
     // Set this to true if you would like to use SVGR
     // See: https://github.com/gregberge/svgr
