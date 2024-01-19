@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@/*": ["apps/web-app/*"],
+      "@chameleon/data-access/db": ["data-access/db/src/index.ts"],
+      "contentlayer/generated": ["apps/web-app/.contentlayer/generated"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,0 +1,10 @@
+mutation addTodo($text: String!, $userId: String!) {
+  db_createOneTodo(data: { text: $text, user: { connect: { id: $userId } } }) {
+    id
+    text
+    user {
+      id
+      name
+    }
+  }
+}

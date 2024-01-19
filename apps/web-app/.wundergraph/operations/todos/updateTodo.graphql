@@ -1,0 +1,10 @@
+mutation updateTodo($id: String!, $text: String!, $isCompleted: Boolean!) {
+  db_updateOneTodo(
+    where: { id: $id }
+    data: { text: { set: $text }, isCompleted: { set: $isCompleted } }
+  ) {
+    id
+    text
+    isCompleted
+  }
+}

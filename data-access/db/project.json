@@ -1,0 +1,55 @@
+{
+  "name": "data-access/db",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "data-access/db/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "data-access/db/jest.config.ts"
+      }
+    },
+    "migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx prisma migrate dev"],
+        "cwd": "data-access/db"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx prisma generate"],
+        "cwd": "data-access/db"
+      }
+    },
+    "seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx prisma db seed"],
+        "cwd": "data-access/db"
+      }
+    },
+    "push": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx prisma db push --accept-data-loss"],
+        "cwd": "data-access/db"
+      }
+    },
+    "studio": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx prisma studio"],
+        "cwd": "data-access/db"
+      }
+    }
+  },
+  "tags": []
+}

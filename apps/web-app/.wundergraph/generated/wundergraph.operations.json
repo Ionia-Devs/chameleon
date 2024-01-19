@@ -1,0 +1,78 @@
+{
+"graphql_operation_files": [
+{
+"operation_name": "CountriesCountryByCode",
+"api_mount_path": "countries/CountryByCode",
+"file_path": "countries/CountryByCode.graphql",
+"content": "query CountriesCountryByCode($code: ID!){countries_country(code: $code){code name currencies capital}}"
+},
+{
+"operation_name": "TodosAddTodo",
+"api_mount_path": "todos/addTodo",
+"file_path": "todos/addTodo.graphql",
+"content": "mutation TodosAddTodo($text: String!, $userId: String!){db_createOneTodo(data: {text: $text,user: {connect: {id: $userId}}}){id text user {id name}}}"
+},
+{
+"operation_name": "TodosGetAllTodosForCurrentUser",
+"api_mount_path": "todos/getAllTodosForCurrentUser",
+"file_path": "todos/getAllTodosForCurrentUser.graphql",
+"content": "query TodosGetAllTodosForCurrentUser($userId: String!){db_findManyTodo(where: {userId: {equals: $userId}}){id text isCompleted}}"
+},
+{
+"operation_name": "TodosUpdateTodo",
+"api_mount_path": "todos/updateTodo",
+"file_path": "todos/updateTodo.graphql",
+"content": "mutation TodosUpdateTodo($id: String!, $text: String!, $isCompleted: Boolean!){db_updateOneTodo(where: {id: $id}, data: {text: {set: $text},isCompleted: {set: $isCompleted}}){id text isCompleted}}"
+}
+],
+"typescript_operation_files": [
+{
+"operation_name": "OpenaiExtract_website_metadata",
+"api_mount_path": "openai/extract-website-metadata",
+"file_path": "openai/extract-website-metadata.ts",
+"module_path": "generated/bundle/operations/openai/extract-website-metadata"
+},
+{
+"operation_name": "OpenaiLoad_url",
+"api_mount_path": "openai/load-url",
+"file_path": "openai/load-url.ts",
+"module_path": "generated/bundle/operations/openai/load-url"
+},
+{
+"operation_name": "OpenaiSummarize_url_content",
+"api_mount_path": "openai/summarize-url-content",
+"file_path": "openai/summarize-url-content.ts",
+"module_path": "generated/bundle/operations/openai/summarize-url-content"
+},
+{
+"operation_name": "OpenaiSummary",
+"api_mount_path": "openai/summary",
+"file_path": "openai/summary.ts",
+"module_path": "generated/bundle/operations/openai/summary"
+},
+{
+"operation_name": "OpenaiWeather",
+"api_mount_path": "openai/weather",
+"file_path": "openai/weather.ts",
+"module_path": "generated/bundle/operations/openai/weather"
+},
+{
+"operation_name": "UsersGet",
+"api_mount_path": "users/get",
+"file_path": "users/get.ts",
+"module_path": "generated/bundle/operations/users/get"
+},
+{
+"operation_name": "UsersSubscribe",
+"api_mount_path": "users/subscribe",
+"file_path": "users/subscribe.ts",
+"module_path": "generated/bundle/operations/users/subscribe"
+},
+{
+"operation_name": "UsersUpdate",
+"api_mount_path": "users/update",
+"file_path": "users/update.ts",
+"module_path": "generated/bundle/operations/users/update"
+}
+]
+}
