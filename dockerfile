@@ -16,11 +16,11 @@ RUN npm install -g pnpm
 
 # Copy files and install dependencies
 COPY pnpm-lock.yaml package.json /app/
-COPY ./prisma ./prisma
+COPY data-access/db/prisma/schema.prisma ./prisma
 RUN pnpm install --prefer-offline
 
 # Copy the .wundergraph folder to the image
-COPY .wundergraph ./.wundergraph
+COPY  apps/web-app/.wundergraph ./.wundergraph
 
 # Generate Prisma client and Wundergraph client
 RUN pnpm run build:wundergraph
