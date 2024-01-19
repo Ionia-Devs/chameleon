@@ -71,7 +71,7 @@
     "react-editor-js": "^2.1.0",
     "react-hook-form": "^7.47.0",
     "react-textarea-autosize": "^8.4.1",
-    "sharp": "^0.31.3",
+    "sharp": "^0.33.2",
     "shiki": "^0.11.1",
     "stripe": "^11.18.0",
     "tailwind-merge": "^1.14.0",
