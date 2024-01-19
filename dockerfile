@@ -14,13 +14,10 @@ WORKDIR /app
 # Install pnpm globally in your Docker image
 RUN npm install -g pnpm
 
-# Copy files and install dependencies
-COPY pnpm-lock.yaml package.json /app/
-COPY data-access/db/prisma/schema.prisma ./prisma
-RUN pnpm install --prefer-offline
+COPY . .
 
-# Copy the .wundergraph folder to the image
-COPY  apps/web-app/.wundergraph ./.wundergraph
+# Install dependencies
+RUN pnpm install
 
 # Generate Prisma client and Wundergraph client
 RUN pnpm exec nx run web-app:deploy
@@ -28,4 +25,4 @@ RUN pnpm exec nx run web-app:deploy
 # Expose only the node, server is private
 EXPOSE 9991
 
-CMD wunderctl start --wundergraph-dir=.wundergraph
+CMD wunderctl start --wundergraph-dir=apps/web-app/.wundergraph
