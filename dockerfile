@@ -23,7 +23,7 @@ RUN pnpm install --prefer-offline
 COPY  apps/web-app/.wundergraph ./.wundergraph
 
 # Generate Prisma client and Wundergraph client
-RUN pnpm run build:wundergraph
+RUN pnpm exec nx run web-app:deploy
 
 # Expose only the node, server is private
 EXPOSE 9991
