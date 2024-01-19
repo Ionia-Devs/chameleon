@@ -32,7 +32,6 @@ import type {
 	SubscriptionHook,
 	SubscriptionHookWithoutInput,
 } from "@wundergraph/sdk/server";
-import type { InternalClient } from "./wundergraph.internal.client";
 import type { User } from "./wundergraph.server";
 import { InternalOperationsClient } from "./wundergraph.internal.operations.client";
 
@@ -212,7 +211,7 @@ export type DATA_SOURCES =
 	| "weather";
 
 export interface HookContext<TCustomContext = any>
-	extends BaseRequestContext<User, InternalClient, InternalOperationsClient, TCustomContext> {}
+	extends BaseRequestContext<User, InternalOperationsClient, TCustomContext> {}
 
 export type HooksConfig<TCustomContext = any> = HooksConfiguration<
 	QueryHooks<TCustomContext>,

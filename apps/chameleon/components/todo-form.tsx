@@ -1,14 +1,14 @@
-'use client';
+"use client"
 
-import { experimental_useOptimistic as useOptimistic, useRef } from 'react';
-import { TodosGetAllTodosForCurrentUserResponseData } from '@/.wundergraph/generated/models';
-import { ClientResponse } from '@wundergraph/sdk/client';
-import { ClientOperationErrors } from '@wundergraph/sdk/operations';
+import { useOptimistic, useRef } from "react"
+import { TodosGetAllTodosForCurrentUserResponseData } from "@/.wundergraph/generated/models"
+import { ClientResponse } from "@wundergraph/sdk/client"
+import { ClientOperationErrors } from "@wundergraph/sdk/operations"
 
-import { addTodo } from '@/app/actions';
+import { addTodo } from "@/app/actions"
 
-import { Todo } from './todo';
-import TodoFormButton from './todo-form-button';
+import { Todo } from "./todo"
+import TodoFormButton from "./todo-form-button"
 
 export default function Todoform({
   todos,
@@ -16,19 +16,19 @@ export default function Todoform({
   todos: ClientResponse<
     TodosGetAllTodosForCurrentUserResponseData | undefined,
     ClientOperationErrors | undefined
-  >;
+  >
 }) {
-  const ref = useRef<HTMLFormElement>(null);
+  const ref = useRef<HTMLFormElement>(null)
 
   const [optimisticTodos, addOptimisticTodo] = useOptimistic(
     todos?.data?.db_findManyTodo ?? [],
     (
       state,
       newTodo: NonNullable<
-        TodosGetAllTodosForCurrentUserResponseData['db_findManyTodo']
+        TodosGetAllTodosForCurrentUserResponseData["db_findManyTodo"]
       >[0]
     ) => [...state, newTodo]
-  );
+  )
 
   return (
     <>
@@ -40,15 +40,15 @@ export default function Todoform({
         <form
           ref={ref}
           action={async (formData) => {
-            ref.current?.reset();
+            ref.current?.reset()
             const newTodo = {
               id: Math.random().toString(),
-              text: (formData.get('new-todo') as string) ?? '',
+              text: (formData.get("new-todo") as string) ?? "",
               isCompleted: false,
-            };
-            addOptimisticTodo(newTodo);
+            }
+            addOptimisticTodo(newTodo)
 
-            await addTodo(formData);
+            await addTodo(formData)
           }}
         >
           <input
@@ -61,5 +61,5 @@ export default function Todoform({
         </form>
       </div>
     </>
-  );
+  )
 }

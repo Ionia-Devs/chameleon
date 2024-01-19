@@ -1,2 +1,40 @@
-"use strict";var t=Object.defineProperty;var u=Object.getOwnPropertyDescriptor;var a=Object.getOwnPropertyNames;var p=Object.prototype.hasOwnProperty;var f=(r,e)=>{for(var s in e)t(r,s,{get:e[s],enumerable:!0})},m=(r,e,s,i)=>{if(e&&typeof e=="object"||typeof e=="function")for(let o of a(e))!p.call(r,o)&&o!==s&&t(r,o,{get:()=>e[o],enumerable:!(i=u(e,o))||i.enumerable});return r};var c=r=>m(t({},"__esModule",{value:!0}),r);var h={};f(h,{default:()=>d});module.exports=c(h);var n=require("@wundergraph/sdk/server"),d=(0,n.configureWunderGraphServer)(()=>({hooks:{queries:{Countries:{preResolve:async({operations:r})=>{}}},mutations:{}}}));0&&(module.exports={});
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// wundergraph.server.ts
+var wundergraph_server_exports = {};
+__export(wundergraph_server_exports, {
+  default: () => wundergraph_server_default
+});
+module.exports = __toCommonJS(wundergraph_server_exports);
+var import_server = require("@wundergraph/sdk/server");
+var wundergraph_server_default = (0, import_server.configureWunderGraphServer)(() => ({
+  hooks: {
+    queries: {
+      Countries: {
+        preResolve: async ({ operations }) => {
+        }
+      }
+    },
+    mutations: {}
+  }
+}));
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {});
 //# sourceMappingURL=server.cjs.map

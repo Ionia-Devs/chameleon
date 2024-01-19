@@ -1,75 +1,79 @@
-import { Inter as FontSans } from 'next/font/google';
-import localFont from 'next/font/local';
+import { Inter as FontSans } from "next/font/google"
+import localFont from "next/font/local"
 
-import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/toaster';
-import { TailwindIndicator } from '@/components/tailwind-indicator';
-import { ThemeProvider } from '@/components/theme-provider';
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { ThemeProvider } from "@/components/theme-provider"
 
-import '@/styles/globals.css';
+import "@/styles/globals.css"
 
 const fontSans = FontSans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 // Font files can be colocated inside of `pages`
 const fontHeading = localFont({
-  src: '../assets/fonts/CalSans-SemiBold.woff2',
-  variable: '--font-heading',
-});
+  src: "../assets/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
+})
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const metadata = {
+  metadataBase: process.env.NEXT_PUBLIC_VERCEL_URL,
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
-    'Next.js',
-    'React',
-    'Tailwind CSS',
-    'Server Components',
-    'Radix UI',
+    "Next.js",
+    "React",
+    "Tailwind CSS",
+    "Server Components",
+    "Radix UI",
   ],
   authors: [
     {
-      name: 'balance8',
-      url: 'https://google.com',
+      name: "balance8",
+      url: "https://google.com",
     },
   ],
-  creator: 'balance8',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  creator: "balance8",
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
+    type: "website",
+    locale: "en_US",
     url: siteConfig.url,
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
     images: [`${siteConfig.url}/og.jpg`],
-    creator: '@balance__8',
+    creator: "@balance__8",
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
-};
+}
+
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+}
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -77,7 +81,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
           fontHeading.variable
         )}
@@ -89,5 +93,5 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
