@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../wundergraph.server.ts"],
+  "sourcesContent": ["import { configureWunderGraphServer } from '@wundergraph/sdk/server';\n\nexport default configureWunderGraphServer(() => ({\n  hooks: {\n    queries: {\n      Countries: {\n        preResolve: async ({ operations }) => {},\n      },\n    },\n    mutations: {},\n  },\n}));\n"],
+  "mappings": "yaAAA,IAAAA,EAAA,GAAAC,EAAAD,EAAA,aAAAE,IAAA,eAAAC,EAAAH,GAAA,IAAAI,EAA2C,mCAEpCF,KAAQ,8BAA2B,KAAO,CAC/C,MAAO,CACL,QAAS,CACP,UAAW,CACT,WAAY,MAAO,CAAE,WAAAG,CAAW,IAAM,CAAC,CACzC,CACF,EACA,UAAW,CAAC,CACd,CACF,EAAE",
+  "names": ["wundergraph_server_exports", "__export", "wundergraph_server_default", "__toCommonJS", "import_server", "operations"]
+}

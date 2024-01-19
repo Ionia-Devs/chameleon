@@ -31,6 +31,9 @@
     "generate": {
       "cache": true
     },
+    "deploy": {
+      "cache": true
+    },
     "@nx/jest:jest": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true,

@@ -4,8 +4,8 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "apps/web-app/tailwind.config.js",
-    "css": "apps/web-app/app/global.css",
+    "config": "apps/chameleon/tailwind.config.js",
+    "css": "apps/chameleon/app/global.css",
     "baseColor": "slate",
     "cssVariables": true
   },
