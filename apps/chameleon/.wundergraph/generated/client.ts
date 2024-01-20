@@ -65,9 +65,9 @@ export const WUNDERGRAPH_S3_ENABLED = false;
 export const WUNDERGRAPH_AUTH_ENABLED = false;
 
 export const defaultClientConfig: ClientConfig = {
-	applicationHash: "d29d47f7",
+	applicationHash: "9f761fa4",
 	baseURL: "https://your-public-url.com",
-	sdkVersion: "0.170.1",
+	sdkVersion: "0.182.1",
 };
 
 export const operationMetadata: OperationMetadata = {
@@ -146,6 +146,12 @@ export class WunderGraphClient extends Client {
 	public async fetchUser<TUser extends PublicUser = PublicUser>(options?: FetchUserRequestOptions) {
 		return super.fetchUser<TUser>(options);
 	}
+	public withHeaders = (headers: { [key: string]: string }) => {
+		return new WunderGraphClient({
+			...this.options,
+			extraHeaders: headers,
+		});
+	};
 }
 
 export const createClient = (config?: CreateClientConfig) => {

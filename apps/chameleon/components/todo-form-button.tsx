@@ -1,10 +1,6 @@
-'use client';
-
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+"use client"
 
 export default function TodoFormButton() {
-  const { pending } = useFormStatus();
-
   return (
     <button
       type="submit"
@@ -12,5 +8,5 @@ export default function TodoFormButton() {
     >
       Add Todo
     </button>
-  );
+  )
 }

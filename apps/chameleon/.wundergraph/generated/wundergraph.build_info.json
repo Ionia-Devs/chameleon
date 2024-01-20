@@ -1,10 +1,10 @@
 {
   "success": true,
   "sdk": {
-    "version": "0.170.1"
+    "version": "0.182.1"
   },
   "wunderctl": {
-    "version": "0.166.1"
+    "version": "0.177.0"
   },
   "node": {
     "version": "v20.6.1"

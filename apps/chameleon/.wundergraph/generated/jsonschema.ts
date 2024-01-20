@@ -3,6 +3,13 @@
 // @ts-ignore: no-types available
 import type { JSONSchema7 } from "json-schema";
 
+// @ts-ignore: module unavailable
+declare module "json-schema" {
+	export interface JSONSchema7 {
+		"x-graphql-enum-name"?: string;
+	}
+}
+
 export interface Queries {
 	"countries/CountryByCode": {
 		input: JSONSchema7;
@@ -160,7 +167,22 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: {
+				data: {
+					type: "object",
+					properties: {
+						title: { type: "string" },
+						h1: { type: "string" },
+						summary: { type: "string" },
+						description: { type: "string" },
+						links: { type: "array", items: { type: "string" } },
+					},
+					required: ["description", "h1", "links", "summary", "title"],
+				},
+			},
+		},
 		operationType: "QUERY",
 		description: "Load metadata like title, description, social media images, headlines, and summary from a website",
 	},
@@ -172,7 +194,10 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: { data: { type: "object", properties: { content: { type: "string" } }, required: ["content"] } },
+		},
 		operationType: "QUERY",
 		description: "Load the content of a url",
 	},
@@ -184,7 +209,10 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: { data: { type: "object", properties: { summary: { type: "string" } }, required: ["summary"] } },
+		},
 		operationType: "QUERY",
 		description: "Summarize the content of a URL",
 	},
@@ -196,7 +224,10 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: { data: { type: "object", properties: { summary: { type: "string" } }, required: ["summary"] } },
+		},
 		operationType: "QUERY",
 		description: "Summarize the content of a URL",
 	},
@@ -208,7 +239,47 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: {
+				data: {
+					type: "object",
+					properties: {
+						structuredOutput: { $ref: "#/definitions/{country:string;city:string;temperature:number;}" },
+						messages: { type: "array", items: { $ref: "#/definitions/ChatCompletionRequestMessage" } },
+					},
+					required: ["messages", "structuredOutput"],
+					definitions: {
+						"{country:string;city:string;temperature:number;}": {
+							type: "object",
+							properties: { country: { type: "string" }, city: { type: "string" }, temperature: { type: "number" } },
+							required: ["city", "country", "temperature"],
+						},
+						ChatCompletionRequestMessage: {
+							type: "object",
+							properties: {
+								role: {
+									description: "The role of the messages author. One of `system`, `user`, `assistant`, or `function`.",
+									type: "{string}",
+								},
+								content: {
+									description:
+										"The contents of the message. `content` is required for all messages except assistant messages with function calls.",
+									type: "{string}",
+								},
+								name: {
+									description:
+										"The name of the author of this message. `name` is required if role is `function`, and it should be the name of the function whose response is in the `content`. May contain a-z, A-Z, 0-9, and underscores, with a maximum length of 64 characters.",
+									type: "{string}",
+								},
+								function_call: { type: "{ChatCompletionRequestMessageFunctionCall}" },
+							},
+							required: ["role"],
+						},
+					},
+				},
+			},
+		},
 		operationType: "QUERY",
 		description: "This operation returns the weather of the capital of the given country",
 	},
@@ -220,7 +291,20 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: {
+				data: {
+					type: "object",
+					properties: {
+						id: { type: "string" },
+						name: { type: "string", default: "Jens" },
+						bio: { type: "string", default: "Founder of WunderGraph" },
+					},
+					required: ["bio", "id", "name"],
+				},
+			},
+		},
 		operationType: "QUERY",
 		description: "generated/bundle/operations/users/get",
 	},
@@ -297,7 +381,16 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: {
+				data: {
+					type: "object",
+					properties: { name: { type: "string" }, id: { type: "string" }, bio: { type: "string" } },
+					required: ["bio", "id", "name"],
+				},
+			},
+		},
 		operationType: "MUTATION",
 		description: "generated/bundle/operations/users/update",
 	},
@@ -309,7 +402,21 @@ const jsonSchema: Schema = {
 			additionalProperties: false,
 			$schema: "http://json-schema.org/draft-07/schema#",
 		},
-		response: { type: "object", properties: { data: {} } },
+		response: {
+			type: "object",
+			properties: {
+				data: {
+					type: "object",
+					properties: {
+						id: { type: "string" },
+						name: { type: "string", default: "Jens" },
+						bio: { type: "string", default: "Founder of WunderGraph" },
+						time: { type: "string" },
+					},
+					required: ["bio", "id", "name", "time"],
+				},
+			},
+		},
 		operationType: "SUBSCRIPTION",
 		description: "generated/bundle/operations/users/subscribe",
 	},

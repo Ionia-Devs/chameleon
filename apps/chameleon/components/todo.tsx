@@ -1,26 +1,26 @@
-'use client';
+"use client"
 
-import { experimental_useOptimistic as useOptimistic } from 'react';
-import { TodosGetAllTodosForCurrentUserResponseData } from '@/.wundergraph/generated/models';
+import { useOptimistic } from "react"
+import { TodosGetAllTodosForCurrentUserResponseData } from "@/.wundergraph/generated/models"
 
-import { toggleTodo } from '@/app/actions';
+import { toggleTodo } from "@/app/actions"
 
 export const Todo = ({
   data,
 }: {
   data: NonNullable<
-    TodosGetAllTodosForCurrentUserResponseData['db_findManyTodo']
-  >[0];
+    TodosGetAllTodosForCurrentUserResponseData["db_findManyTodo"]
+  >[0]
 }) => {
   const [optimisticIsCompleted, setOptimisticIsCompleted] = useOptimistic(
     data?.isCompleted,
     (state, newIsCompleted: boolean) => newIsCompleted
-  );
+  )
 
   const handleCheckboxChange = () => {
-    setOptimisticIsCompleted(!data.isCompleted);
-    toggleTodo(data);
-  };
+    setOptimisticIsCompleted(!data.isCompleted)
+    toggleTodo(data)
+  }
 
   return (
     <div className="mb-4" key={data.id}>
@@ -36,5 +36,5 @@ export const Todo = ({
         </label>
       </form>
     </div>
-  );
-};
+  )
+}

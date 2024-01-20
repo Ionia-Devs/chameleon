@@ -23,10 +23,7 @@ import {
   Twitter,
   User,
   X,
-  type Icon as LucideIcon,
-} from 'lucide-react';
-
-export type Icon = LucideIcon;
+} from "lucide-react"
 
 export const Icons = {
   logo: SwitchCamera,
@@ -69,4 +66,4 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
-};
+}

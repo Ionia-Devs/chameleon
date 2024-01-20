@@ -10,7 +10,8 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils"
+    "components": "apps/chameleon/components",
+    "utils": "@/lib/utils",
+    "ui": "apps/chameleon/components/ui/"
   }
 }

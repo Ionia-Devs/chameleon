@@ -365,32 +365,37 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "h1": {
-                      "type": "string"
-                    },
-                    "summary": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "links": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "h1": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "h1",
+                        "links",
+                        "summary",
+                        "title"
+                      ]
                     }
-                  },
-                  "required": [
-                    "description",
-                    "h1",
-                    "links",
-                    "summary",
-                    "title"
-                  ]
+                  }
                 }
               }
             }
@@ -434,13 +439,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "content": {
-                      "type": "string"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "content"
+                      ]
                     }
-                  },
-                  "required": [
-                    "content"
-                  ]
+                  }
                 }
               }
             }
@@ -484,13 +494,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "summary": {
-                      "type": "string"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summary": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "summary"
+                      ]
                     }
-                  },
-                  "required": [
-                    "summary"
-                  ]
+                  }
                 }
               }
             }
@@ -534,13 +549,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "summary": {
-                      "type": "string"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "summary": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "summary"
+                      ]
                     }
-                  },
-                  "required": [
-                    "summary"
-                  ]
+                  }
                 }
               }
             }
@@ -584,20 +604,25 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "structuredOutput": {
-                      "$ref": "#/components/schemas/8c71da61a2019e240cfce16b6043fb2f1f5ebf5e"
-                    },
-                    "messages": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ChatCompletionRequestMessage"
-                      }
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "structuredOutput": {
+                          "$ref": "#/components/schemas/8c71da61a2019e240cfce16b6043fb2f1f5ebf5e"
+                        },
+                        "messages": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ChatCompletionRequestMessage"
+                          }
+                        }
+                      },
+                      "required": [
+                        "messages",
+                        "structuredOutput"
+                      ]
                     }
-                  },
-                  "required": [
-                    "messages",
-                    "structuredOutput"
-                  ]
+                  }
                 }
               }
             }
@@ -641,23 +666,28 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string",
-                      "default": "Jens"
-                    },
-                    "bio": {
-                      "type": "string",
-                      "default": "Founder of WunderGraph"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string",
+                          "default": "Jens"
+                        },
+                        "bio": {
+                          "type": "string",
+                          "default": "Founder of WunderGraph"
+                        }
+                      },
+                      "required": [
+                        "bio",
+                        "id",
+                        "name"
+                      ]
                     }
-                  },
-                  "required": [
-                    "bio",
-                    "id",
-                    "name"
-                  ]
+                  }
                 }
               }
             }
@@ -701,27 +731,32 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string",
-                      "default": "Jens"
-                    },
-                    "bio": {
-                      "type": "string",
-                      "default": "Founder of WunderGraph"
-                    },
-                    "time": {
-                      "type": "string"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string",
+                          "default": "Jens"
+                        },
+                        "bio": {
+                          "type": "string",
+                          "default": "Founder of WunderGraph"
+                        },
+                        "time": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "bio",
+                        "id",
+                        "name",
+                        "time"
+                      ]
                     }
-                  },
-                  "required": [
-                    "bio",
-                    "id",
-                    "name",
-                    "time"
-                  ]
+                  }
                 }
               }
             }
@@ -781,21 +816,26 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "bio": {
-                      "type": "string"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "bio": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "bio",
+                        "id",
+                        "name"
+                      ]
                     }
-                  },
-                  "required": [
-                    "bio",
-                    "id",
-                    "name"
-                  ]
+                  }
                 }
               }
             }
