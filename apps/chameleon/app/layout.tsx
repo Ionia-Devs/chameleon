@@ -25,7 +25,7 @@ interface RootLayoutProps {
 }
 
 export const metadata = {
-  metadataBase: process.env.NEXT_PUBLIC_VERCEL_URL,
+  metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
