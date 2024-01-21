@@ -1,22 +1,22 @@
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'
 
-import { authOptions } from '@/lib/auth';
-import { getCurrentUser } from '@/lib/session';
-import { client } from '@/lib/wundergraph';
-import { DashboardHeader } from '@/components/header';
-import { DashboardShell } from '@/components/shell';
-import Todoform from '@/components/todo-form';
+import { authOptions } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/session'
+import { client } from '@/lib/wundergraph'
+import { DashboardHeader } from '@/components/header'
+import { DashboardShell } from '@/components/shell'
+import Todoform from '@/components/todo-form'
 
 export const metadata = {
   title: 'Settings',
   description: 'Manage account and website settings.',
-};
+}
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser()
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn || '/login');
+    redirect(authOptions?.pages?.signIn || '/login')
   }
 
   const todos = await client.query({
@@ -24,7 +24,7 @@ export default async function SettingsPage() {
     input: {
       userId: user.id,
     },
-  });
+  })
 
   return (
     <DashboardShell>
@@ -47,5 +47,5 @@ export default async function SettingsPage() {
         </main>
       </div>
     </DashboardShell>
-  );
+  )
 }

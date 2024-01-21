@@ -1,14 +1,14 @@
-import { notFound } from "next/navigation"
-import { allPages } from "contentlayer/generated"
+import { notFound } from 'next/navigation'
+import { allPages } from 'contentlayer/generated'
 
-import { Mdx } from "@/components/mdx-components"
+import { Mdx } from '@/components/mdx-components'
 
-import "@/styles/mdx.css"
-import { Metadata } from "next"
+import '@/styles/mdx.css'
+import { Metadata } from 'next'
 
-import { env } from "@/env.mjs"
-import { siteConfig } from "@/config/site"
-import { absoluteUrl } from "@/lib/utils"
+import { env } from '@/env.mjs'
+import { siteConfig } from '@/config/site'
+import { absoluteUrl } from '@/lib/utils'
 
 interface PageProps {
   params: {
@@ -16,8 +16,8 @@ interface PageProps {
   }
 }
 
-async function getPageFromParams(params: PageProps["params"]) {
-  const slug = params?.slug?.join("/")
+async function getPageFromParams(params: PageProps['params']) {
+  const slug = params?.slug?.join('/')
   const page = allPages.find((page) => page.slugAsParams === slug)
 
   if (!page) {
@@ -36,14 +36,14 @@ export async function generateMetadata({
     return {}
   }
 
-  const url = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${
+  const url = `${process.env.NODE_ENV === 'production' ? 'https' : 'http'}://${
     env.NEXT_PUBLIC_VERCEL_URL
   }`
 
   const ogUrl = new URL(`${url}/api/og`)
-  ogUrl.searchParams.set("heading", page.title)
-  ogUrl.searchParams.set("type", siteConfig.name)
-  ogUrl.searchParams.set("mode", "light")
+  ogUrl.searchParams.set('heading', page.title)
+  ogUrl.searchParams.set('type', siteConfig.name)
+  ogUrl.searchParams.set('mode', 'light')
 
   return {
     title: page.title,
@@ -51,7 +51,7 @@ export async function generateMetadata({
     openGraph: {
       title: page.title,
       description: page.description,
-      type: "article",
+      type: 'article',
       url: absoluteUrl(page.slug),
       images: [
         {
@@ -63,7 +63,7 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: page.title,
       description: page.description,
       images: [ogUrl.toString()],
@@ -71,9 +71,9 @@ export async function generateMetadata({
   }
 }
 
-export async function generateStaticParams(): Promise<PageProps["params"][]> {
+export async function generateStaticParams(): Promise<PageProps['params'][]> {
   return allPages.map((page) => ({
-    slug: page.slugAsParams.split("/"),
+    slug: page.slugAsParams.split('/'),
   }))
 }
 

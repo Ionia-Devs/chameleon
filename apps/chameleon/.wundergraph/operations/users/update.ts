@@ -1,4 +1,4 @@
-import { createOperation, z } from '../../generated/wundergraph.factory';
+import { createOperation, z } from '../../generated/wundergraph.factory'
 
 export default createOperation.mutation({
   input: z.object({
@@ -9,6 +9,6 @@ export default createOperation.mutation({
   handler: async ({ input }) => {
     return {
       ...input,
-    };
+    }
   },
-});
+})

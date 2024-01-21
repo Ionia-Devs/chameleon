@@ -1,5 +1,5 @@
 // .wundergraph/operations/openai/summary.ts
-import { createOperation, z } from '../../generated/wundergraph.factory';
+import { createOperation, z } from '../../generated/wundergraph.factory'
 
 export default createOperation.query({
   input: z.object({
@@ -24,7 +24,7 @@ export default createOperation.query({
       structuredOutputSchema: z.object({
         summary: z.string(),
       }),
-    });
+    })
     const out = await agent.execWithPrompt({
       prompt: `Load the content of the URL: ${input.url}
 			Summarize the content of the website.
@@ -32,9 +32,9 @@ export default createOperation.query({
       outPrompt:
         'Do a summary of all the results and return it as a single string in the out function',
       debug: true,
-    });
+    })
     return {
       summary: out.structuredOutput.summary,
-    };
+    }
   },
-});
+})

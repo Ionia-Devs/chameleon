@@ -1,3 +1,3 @@
-import { createClient } from '@/.wundergraph/generated/client';
+import { createClient } from '@/.wundergraph/generated/client'
 
-export const client = createClient();
+export const client = createClient()

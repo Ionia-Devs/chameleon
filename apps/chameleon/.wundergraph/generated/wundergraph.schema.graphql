@@ -5,7 +5,10 @@ schema {
   mutation: Mutation
 }
 
-directive @weather_cacheControl(maxAge: Int, scope: weather_CacheControlScope) on FIELD_DEFINITION | INTERFACE | OBJECT
+directive @weather_cacheControl(
+  maxAge: Int
+  scope: weather_CacheControlScope
+) on FIELD_DEFINITION | INTERFACE | OBJECT
 
 """
 The @removeNullVariables directive allows you to remove variables with null value from your GraphQL Query or Mutation Operations.
@@ -31,7 +34,7 @@ directive @hooksVariable on VARIABLE_DEFINITION
 directive @jsonSchema(
   """
   The value of both of these keywords MUST be a string.
-  
+
   Both of these keywords can be used to decorate a user interface with
   information about the data produced by this user interface.  A title
   will preferably be short, whereas a description will provide
@@ -41,7 +44,7 @@ directive @jsonSchema(
   title: String
   """
   The value of both of these keywords MUST be a string.
-  
+
   Both of these keywords can be used to decorate a user interface with
   information about the data produced by this user interface.  A title
   will preferably be short, whereas a description will provide
@@ -51,7 +54,7 @@ directive @jsonSchema(
   description: String
   """
   The value of "multipleOf" MUST be a number, strictly greater than 0.
-  
+
   A numeric instance is valid only if division by this keyword's value
   results in an integer.
   """
@@ -59,7 +62,7 @@ directive @jsonSchema(
   """
   The value of "maximum" MUST be a number, representing an inclusive
   upper limit for a numeric instance.
-  
+
   If the instance is a number, then this keyword validates only if the
   instance is less than or exactly equal to "maximum".
   """
@@ -67,7 +70,7 @@ directive @jsonSchema(
   """
   The value of "exclusiveMaximum" MUST be number, representing an
   exclusive upper limit for a numeric instance.
-  
+
   If the instance is a number, then the instance is valid only if it
   has a value strictly less than (not equal to) "exclusiveMaximum".
   """
@@ -75,7 +78,7 @@ directive @jsonSchema(
   """
   The value of "minimum" MUST be a number, representing an inclusive
   lower limit for a numeric instance.
-  
+
   If the instance is a number, then this keyword validates only if the
   instance is greater than or exactly equal to "minimum".
   """
@@ -83,30 +86,30 @@ directive @jsonSchema(
   """
   The value of "exclusiveMinimum" MUST be number, representing an
   exclusive lower limit for a numeric instance.
-  
+
   If the instance is a number, then the instance is valid only if it
   has a value strictly greater than (not equal to) "exclusiveMinimum".
   """
   exclusiveMinimum: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   A string instance is valid against this keyword if its length is less
   than, or equal to, the value of this keyword.
-  
+
   The length of a string instance is defined as the number of its
   characters as defined by RFC 7159 [RFC7159].
   """
   maxLength: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   A string instance is valid against this keyword if its length is
   greater than, or equal to, the value of this keyword.
-  
+
   The length of a string instance is defined as the number of its
   characters as defined by RFC 7159 [RFC7159].
-  
+
   Omitting this keyword has the same behavior as a value of 0.
   """
   minLength: Int
@@ -114,7 +117,7 @@ directive @jsonSchema(
   The value of this keyword MUST be a string.  This string SHOULD be a
   valid regular expression, according to the ECMA 262 regular
   expression dialect.
-  
+
   A string instance is considered valid if the regular expression
   matches the instance successfully.  Recall: regular expressions are
   not implicitly anchored.
@@ -122,32 +125,34 @@ directive @jsonSchema(
   pattern: String
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   An array instance is valid against "maxItems" if its size is less
   than, or equal to, the value of this keyword.
   """
   maxItems: Int
   """
   The value of this keyword MUST be a non-negative integer.
-  
+
   An array instance is valid against "minItems" if its size is greater
   than, or equal to, the value of this keyword.
-  
+
   Omitting this keyword has the same behavior as a value of 0.
   """
   minItems: Int
   """
   The value of this keyword MUST be a boolean.
-  
+
   If this keyword has boolean value false, the instance validates
   successfully.  If it has boolean value true, the instance validates
   successfully if all of its elements are unique.
-  
+
   Omitting this keyword has the same behavior as a value of false.
   """
   uniqueItems: Boolean
   commonPattern: COMMON_REGEX_PATTERN
-  """Optional field to apply the JSON schema to"""
+  """
+  Optional field to apply the JSON schema to
+  """
   on: String
 ) repeatable on VARIABLE_DEFINITION
 
@@ -166,11 +171,14 @@ directive @rbac(
 The @fromClaim directive sets the variable to the value retrieved from the given a claim.
 Adding this directive makes the operation require authentication.
 """
-directive @fromClaim(name: WG_CLAIM, on: String = "") repeatable on VARIABLE_DEFINITION
+directive @fromClaim(
+  name: WG_CLAIM
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The directive @injectCurrentDateTime injects a DateTime string of the current date and time into the variable.
-This variable MUST be a string compatible scalar. 
+This variable MUST be a string compatible scalar.
 
 The default format, is: ISO 8601
 If no format is chosen, the default format is used.
@@ -193,7 +201,9 @@ disallowing the user to supply it.
 
 This means, the UUID is 100% generated server-side and can be considered untempered.
 """
-directive @injectGeneratedUUID(on: String = "") repeatable on VARIABLE_DEFINITION
+directive @injectGeneratedUUID(
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The @internalOperation Directive marks an Operation as internal.
@@ -205,7 +215,10 @@ directive @internalOperation on QUERY | MUTATION | SUBSCRIPTION
 """
 The directive @injectEnvironmentVariable allows you to inject an environment variable into the variable definition.
 """
-directive @injectEnvironmentVariable(name: String!, on: String = "") repeatable on VARIABLE_DEFINITION
+directive @injectEnvironmentVariable(
+  name: String!
+  on: String = ""
+) repeatable on VARIABLE_DEFINITION
 
 """
 The @export directive instructs the Execution Planner to export the field during the execution into the variable of the 'as' argument.
@@ -217,7 +230,9 @@ Note that the @export directive only works on fields that return a single value.
 It's not possible to export a list or object field.
 """
 directive @export(
-  """The argument 'as' is the name of the variable to export the field to."""
+  """
+  The argument 'as' is the name of the variable to export the field to.
+  """
   as: String!
 ) on FIELD
 
@@ -238,9 +253,9 @@ directive @transform(
   """
   Using the 'get' transformation allows you to extract a nested field using a JSON path.
   This is useful to unnest data, e.g. when using the '_join' field, which adds an extra layer of nesting.
-  
+
   Example:
-  
+
   query GetName {
       name: me @transform(get: "info.name") {
           info {
@@ -248,9 +263,9 @@ directive @transform(
           }
       }
   }
-  
+
   Before the transformation, the resolve looks like this:
-  
+
   {
       "name": {
           "info": {
@@ -258,9 +273,9 @@ directive @transform(
           }
       }
   }
-  
+
   With the transformation applied, the response will be reshaped like this:
-  
+
   {
       "name": "John Doe"
   }
@@ -325,99 +340,530 @@ input countries_LanguageFilterInput {
 
 type Query {
   countries_continent(code: ID!): countries_Continent
-  countries_continents(filter: countries_ContinentFilterInput = {}): [countries_Continent!]!
-  countries_countries(filter: countries_CountryFilterInput = {}): [countries_Country!]!
+  countries_continents(
+    filter: countries_ContinentFilterInput = {}
+  ): [countries_Continent!]!
+  countries_countries(
+    filter: countries_CountryFilterInput = {}
+  ): [countries_Country!]!
   countries_country(code: ID!): countries_Country
   countries_language(code: ID!): countries_Language
-  countries_languages(filter: countries_LanguageFilterInput = {}): [countries_Language!]!
-  db_findFirstAccount(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithRelationInput], cursor: db_AccountWhereUniqueInput, take: Int, skip: Int, distinct: [db_AccountScalarFieldEnum]): db_Account
-  db_findFirstAccountOrThrow(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithRelationInput], cursor: db_AccountWhereUniqueInput, take: Int, skip: Int, distinct: [db_AccountScalarFieldEnum]): db_Account
-  db_findManyAccount(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithRelationInput], cursor: db_AccountWhereUniqueInput, take: Int, skip: Int, distinct: [db_AccountScalarFieldEnum]): [db_Account]!
-  db_aggregateAccount(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithRelationInput], cursor: db_AccountWhereUniqueInput, take: Int, skip: Int): db_AggregateAccount!
-  db_groupByAccount(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithAggregationInput], by: [db_AccountScalarFieldEnum]!, having: db_AccountScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_AccountGroupByOutputType]!
+  countries_languages(
+    filter: countries_LanguageFilterInput = {}
+  ): [countries_Language!]!
+  db_findFirstAccount(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithRelationInput]
+    cursor: db_AccountWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_AccountScalarFieldEnum]
+  ): db_Account
+  db_findFirstAccountOrThrow(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithRelationInput]
+    cursor: db_AccountWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_AccountScalarFieldEnum]
+  ): db_Account
+  db_findManyAccount(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithRelationInput]
+    cursor: db_AccountWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_AccountScalarFieldEnum]
+  ): [db_Account]!
+  db_aggregateAccount(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithRelationInput]
+    cursor: db_AccountWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateAccount!
+  db_groupByAccount(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithAggregationInput]
+    by: [db_AccountScalarFieldEnum]!
+    having: db_AccountScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_AccountGroupByOutputType]!
   db_findUniqueAccount(where: db_AccountWhereUniqueInput!): db_Account
   db_findUniqueAccountOrThrow(where: db_AccountWhereUniqueInput!): db_Account
-  db_findFirstSession(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithRelationInput], cursor: db_SessionWhereUniqueInput, take: Int, skip: Int, distinct: [db_SessionScalarFieldEnum]): db_Session
-  db_findFirstSessionOrThrow(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithRelationInput], cursor: db_SessionWhereUniqueInput, take: Int, skip: Int, distinct: [db_SessionScalarFieldEnum]): db_Session
-  db_findManySession(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithRelationInput], cursor: db_SessionWhereUniqueInput, take: Int, skip: Int, distinct: [db_SessionScalarFieldEnum]): [db_Session]!
-  db_aggregateSession(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithRelationInput], cursor: db_SessionWhereUniqueInput, take: Int, skip: Int): db_AggregateSession!
-  db_groupBySession(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithAggregationInput], by: [db_SessionScalarFieldEnum]!, having: db_SessionScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_SessionGroupByOutputType]!
+  db_findFirstSession(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithRelationInput]
+    cursor: db_SessionWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_SessionScalarFieldEnum]
+  ): db_Session
+  db_findFirstSessionOrThrow(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithRelationInput]
+    cursor: db_SessionWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_SessionScalarFieldEnum]
+  ): db_Session
+  db_findManySession(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithRelationInput]
+    cursor: db_SessionWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_SessionScalarFieldEnum]
+  ): [db_Session]!
+  db_aggregateSession(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithRelationInput]
+    cursor: db_SessionWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateSession!
+  db_groupBySession(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithAggregationInput]
+    by: [db_SessionScalarFieldEnum]!
+    having: db_SessionScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_SessionGroupByOutputType]!
   db_findUniqueSession(where: db_SessionWhereUniqueInput!): db_Session
   db_findUniqueSessionOrThrow(where: db_SessionWhereUniqueInput!): db_Session
-  db_findFirstVerificationToken(where: db_VerificationTokenWhereInput, orderBy: [db_VerificationTokenOrderByWithRelationInput], cursor: db_VerificationTokenWhereUniqueInput, take: Int, skip: Int, distinct: [db_VerificationTokenScalarFieldEnum]): db_VerificationToken
-  db_findFirstVerificationTokenOrThrow(where: db_VerificationTokenWhereInput, orderBy: [db_VerificationTokenOrderByWithRelationInput], cursor: db_VerificationTokenWhereUniqueInput, take: Int, skip: Int, distinct: [db_VerificationTokenScalarFieldEnum]): db_VerificationToken
-  db_findManyVerificationToken(where: db_VerificationTokenWhereInput, orderBy: [db_VerificationTokenOrderByWithRelationInput], cursor: db_VerificationTokenWhereUniqueInput, take: Int, skip: Int, distinct: [db_VerificationTokenScalarFieldEnum]): [db_VerificationToken]!
-  db_aggregateVerificationToken(where: db_VerificationTokenWhereInput, orderBy: [db_VerificationTokenOrderByWithRelationInput], cursor: db_VerificationTokenWhereUniqueInput, take: Int, skip: Int): db_AggregateVerificationToken!
-  db_groupByVerificationToken(where: db_VerificationTokenWhereInput, orderBy: [db_VerificationTokenOrderByWithAggregationInput], by: [db_VerificationTokenScalarFieldEnum]!, having: db_VerificationTokenScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_VerificationTokenGroupByOutputType]!
-  db_findUniqueVerificationToken(where: db_VerificationTokenWhereUniqueInput!): db_VerificationToken
-  db_findUniqueVerificationTokenOrThrow(where: db_VerificationTokenWhereUniqueInput!): db_VerificationToken
-  db_findFirstUser(where: db_UserWhereInput, orderBy: [db_UserOrderByWithRelationInput], cursor: db_UserWhereUniqueInput, take: Int, skip: Int, distinct: [db_UserScalarFieldEnum]): db_User
-  db_findFirstUserOrThrow(where: db_UserWhereInput, orderBy: [db_UserOrderByWithRelationInput], cursor: db_UserWhereUniqueInput, take: Int, skip: Int, distinct: [db_UserScalarFieldEnum]): db_User
-  db_findManyUser(where: db_UserWhereInput, orderBy: [db_UserOrderByWithRelationInput], cursor: db_UserWhereUniqueInput, take: Int, skip: Int, distinct: [db_UserScalarFieldEnum]): [db_User]!
-  db_aggregateUser(where: db_UserWhereInput, orderBy: [db_UserOrderByWithRelationInput], cursor: db_UserWhereUniqueInput, take: Int, skip: Int): db_AggregateUser!
-  db_groupByUser(where: db_UserWhereInput, orderBy: [db_UserOrderByWithAggregationInput], by: [db_UserScalarFieldEnum]!, having: db_UserScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_UserGroupByOutputType]!
+  db_findFirstVerificationToken(
+    where: db_VerificationTokenWhereInput
+    orderBy: [db_VerificationTokenOrderByWithRelationInput]
+    cursor: db_VerificationTokenWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_VerificationTokenScalarFieldEnum]
+  ): db_VerificationToken
+  db_findFirstVerificationTokenOrThrow(
+    where: db_VerificationTokenWhereInput
+    orderBy: [db_VerificationTokenOrderByWithRelationInput]
+    cursor: db_VerificationTokenWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_VerificationTokenScalarFieldEnum]
+  ): db_VerificationToken
+  db_findManyVerificationToken(
+    where: db_VerificationTokenWhereInput
+    orderBy: [db_VerificationTokenOrderByWithRelationInput]
+    cursor: db_VerificationTokenWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_VerificationTokenScalarFieldEnum]
+  ): [db_VerificationToken]!
+  db_aggregateVerificationToken(
+    where: db_VerificationTokenWhereInput
+    orderBy: [db_VerificationTokenOrderByWithRelationInput]
+    cursor: db_VerificationTokenWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateVerificationToken!
+  db_groupByVerificationToken(
+    where: db_VerificationTokenWhereInput
+    orderBy: [db_VerificationTokenOrderByWithAggregationInput]
+    by: [db_VerificationTokenScalarFieldEnum]!
+    having: db_VerificationTokenScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_VerificationTokenGroupByOutputType]!
+  db_findUniqueVerificationToken(
+    where: db_VerificationTokenWhereUniqueInput!
+  ): db_VerificationToken
+  db_findUniqueVerificationTokenOrThrow(
+    where: db_VerificationTokenWhereUniqueInput!
+  ): db_VerificationToken
+  db_findFirstUser(
+    where: db_UserWhereInput
+    orderBy: [db_UserOrderByWithRelationInput]
+    cursor: db_UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_UserScalarFieldEnum]
+  ): db_User
+  db_findFirstUserOrThrow(
+    where: db_UserWhereInput
+    orderBy: [db_UserOrderByWithRelationInput]
+    cursor: db_UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_UserScalarFieldEnum]
+  ): db_User
+  db_findManyUser(
+    where: db_UserWhereInput
+    orderBy: [db_UserOrderByWithRelationInput]
+    cursor: db_UserWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_UserScalarFieldEnum]
+  ): [db_User]!
+  db_aggregateUser(
+    where: db_UserWhereInput
+    orderBy: [db_UserOrderByWithRelationInput]
+    cursor: db_UserWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateUser!
+  db_groupByUser(
+    where: db_UserWhereInput
+    orderBy: [db_UserOrderByWithAggregationInput]
+    by: [db_UserScalarFieldEnum]!
+    having: db_UserScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_UserGroupByOutputType]!
   db_findUniqueUser(where: db_UserWhereUniqueInput!): db_User
   db_findUniqueUserOrThrow(where: db_UserWhereUniqueInput!): db_User
-  db_findFirstMatch(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): db_Match
-  db_findFirstMatchOrThrow(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): db_Match
-  db_findManyMatch(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): [db_Match]!
-  db_aggregateMatch(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int): db_AggregateMatch!
-  db_groupByMatch(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithAggregationInput], by: [db_MatchScalarFieldEnum]!, having: db_MatchScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_MatchGroupByOutputType]!
+  db_findFirstMatch(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): db_Match
+  db_findFirstMatchOrThrow(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): db_Match
+  db_findManyMatch(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): [db_Match]!
+  db_aggregateMatch(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateMatch!
+  db_groupByMatch(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithAggregationInput]
+    by: [db_MatchScalarFieldEnum]!
+    having: db_MatchScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_MatchGroupByOutputType]!
   db_findUniqueMatch(where: db_MatchWhereUniqueInput!): db_Match
   db_findUniqueMatchOrThrow(where: db_MatchWhereUniqueInput!): db_Match
-  db_findFirstSchedule(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int, distinct: [db_ScheduleScalarFieldEnum]): db_Schedule
-  db_findFirstScheduleOrThrow(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int, distinct: [db_ScheduleScalarFieldEnum]): db_Schedule
-  db_findManySchedule(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int, distinct: [db_ScheduleScalarFieldEnum]): [db_Schedule]!
-  db_aggregateSchedule(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int): db_AggregateSchedule!
-  db_groupBySchedule(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithAggregationInput], by: [db_ScheduleScalarFieldEnum]!, having: db_ScheduleScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_ScheduleGroupByOutputType]!
+  db_findFirstSchedule(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ScheduleScalarFieldEnum]
+  ): db_Schedule
+  db_findFirstScheduleOrThrow(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ScheduleScalarFieldEnum]
+  ): db_Schedule
+  db_findManySchedule(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ScheduleScalarFieldEnum]
+  ): [db_Schedule]!
+  db_aggregateSchedule(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateSchedule!
+  db_groupBySchedule(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithAggregationInput]
+    by: [db_ScheduleScalarFieldEnum]!
+    having: db_ScheduleScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_ScheduleGroupByOutputType]!
   db_findUniqueSchedule(where: db_ScheduleWhereUniqueInput!): db_Schedule
   db_findUniqueScheduleOrThrow(where: db_ScheduleWhereUniqueInput!): db_Schedule
-  db_findFirstReview(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): db_Review
-  db_findFirstReviewOrThrow(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): db_Review
-  db_findManyReview(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): [db_Review]!
-  db_aggregateReview(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int): db_AggregateReview!
-  db_groupByReview(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithAggregationInput], by: [db_ReviewScalarFieldEnum]!, having: db_ReviewScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_ReviewGroupByOutputType]!
+  db_findFirstReview(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): db_Review
+  db_findFirstReviewOrThrow(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): db_Review
+  db_findManyReview(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): [db_Review]!
+  db_aggregateReview(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateReview!
+  db_groupByReview(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithAggregationInput]
+    by: [db_ReviewScalarFieldEnum]!
+    having: db_ReviewScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_ReviewGroupByOutputType]!
   db_findUniqueReview(where: db_ReviewWhereUniqueInput!): db_Review
   db_findUniqueReviewOrThrow(where: db_ReviewWhereUniqueInput!): db_Review
-  db_findFirstMessage(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): db_Message
-  db_findFirstMessageOrThrow(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): db_Message
-  db_findManyMessage(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): [db_Message]!
-  db_aggregateMessage(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int): db_AggregateMessage!
-  db_groupByMessage(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithAggregationInput], by: [db_MessageScalarFieldEnum]!, having: db_MessageScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_MessageGroupByOutputType]!
+  db_findFirstMessage(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): db_Message
+  db_findFirstMessageOrThrow(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): db_Message
+  db_findManyMessage(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): [db_Message]!
+  db_aggregateMessage(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateMessage!
+  db_groupByMessage(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithAggregationInput]
+    by: [db_MessageScalarFieldEnum]!
+    having: db_MessageScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_MessageGroupByOutputType]!
   db_findUniqueMessage(where: db_MessageWhereUniqueInput!): db_Message
   db_findUniqueMessageOrThrow(where: db_MessageWhereUniqueInput!): db_Message
-  db_findFirstNotification(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithRelationInput], cursor: db_NotificationWhereUniqueInput, take: Int, skip: Int, distinct: [db_NotificationScalarFieldEnum]): db_Notification
-  db_findFirstNotificationOrThrow(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithRelationInput], cursor: db_NotificationWhereUniqueInput, take: Int, skip: Int, distinct: [db_NotificationScalarFieldEnum]): db_Notification
-  db_findManyNotification(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithRelationInput], cursor: db_NotificationWhereUniqueInput, take: Int, skip: Int, distinct: [db_NotificationScalarFieldEnum]): [db_Notification]!
-  db_aggregateNotification(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithRelationInput], cursor: db_NotificationWhereUniqueInput, take: Int, skip: Int): db_AggregateNotification!
-  db_groupByNotification(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithAggregationInput], by: [db_NotificationScalarFieldEnum]!, having: db_NotificationScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_NotificationGroupByOutputType]!
-  db_findUniqueNotification(where: db_NotificationWhereUniqueInput!): db_Notification
-  db_findUniqueNotificationOrThrow(where: db_NotificationWhereUniqueInput!): db_Notification
-  db_findFirstInvitation(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithRelationInput], cursor: db_InvitationWhereUniqueInput, take: Int, skip: Int, distinct: [db_InvitationScalarFieldEnum]): db_Invitation
-  db_findFirstInvitationOrThrow(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithRelationInput], cursor: db_InvitationWhereUniqueInput, take: Int, skip: Int, distinct: [db_InvitationScalarFieldEnum]): db_Invitation
-  db_findManyInvitation(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithRelationInput], cursor: db_InvitationWhereUniqueInput, take: Int, skip: Int, distinct: [db_InvitationScalarFieldEnum]): [db_Invitation]!
-  db_aggregateInvitation(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithRelationInput], cursor: db_InvitationWhereUniqueInput, take: Int, skip: Int): db_AggregateInvitation!
-  db_groupByInvitation(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithAggregationInput], by: [db_InvitationScalarFieldEnum]!, having: db_InvitationScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_InvitationGroupByOutputType]!
+  db_findFirstNotification(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithRelationInput]
+    cursor: db_NotificationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_NotificationScalarFieldEnum]
+  ): db_Notification
+  db_findFirstNotificationOrThrow(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithRelationInput]
+    cursor: db_NotificationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_NotificationScalarFieldEnum]
+  ): db_Notification
+  db_findManyNotification(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithRelationInput]
+    cursor: db_NotificationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_NotificationScalarFieldEnum]
+  ): [db_Notification]!
+  db_aggregateNotification(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithRelationInput]
+    cursor: db_NotificationWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateNotification!
+  db_groupByNotification(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithAggregationInput]
+    by: [db_NotificationScalarFieldEnum]!
+    having: db_NotificationScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_NotificationGroupByOutputType]!
+  db_findUniqueNotification(
+    where: db_NotificationWhereUniqueInput!
+  ): db_Notification
+  db_findUniqueNotificationOrThrow(
+    where: db_NotificationWhereUniqueInput!
+  ): db_Notification
+  db_findFirstInvitation(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithRelationInput]
+    cursor: db_InvitationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_InvitationScalarFieldEnum]
+  ): db_Invitation
+  db_findFirstInvitationOrThrow(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithRelationInput]
+    cursor: db_InvitationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_InvitationScalarFieldEnum]
+  ): db_Invitation
+  db_findManyInvitation(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithRelationInput]
+    cursor: db_InvitationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_InvitationScalarFieldEnum]
+  ): [db_Invitation]!
+  db_aggregateInvitation(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithRelationInput]
+    cursor: db_InvitationWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateInvitation!
+  db_groupByInvitation(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithAggregationInput]
+    by: [db_InvitationScalarFieldEnum]!
+    having: db_InvitationScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_InvitationGroupByOutputType]!
   db_findUniqueInvitation(where: db_InvitationWhereUniqueInput!): db_Invitation
-  db_findUniqueInvitationOrThrow(where: db_InvitationWhereUniqueInput!): db_Invitation
-  db_findFirstTodo(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithRelationInput], cursor: db_TodoWhereUniqueInput, take: Int, skip: Int, distinct: [db_TodoScalarFieldEnum]): db_Todo
-  db_findFirstTodoOrThrow(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithRelationInput], cursor: db_TodoWhereUniqueInput, take: Int, skip: Int, distinct: [db_TodoScalarFieldEnum]): db_Todo
-  db_findManyTodo(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithRelationInput], cursor: db_TodoWhereUniqueInput, take: Int, skip: Int, distinct: [db_TodoScalarFieldEnum]): [db_Todo]!
-  db_aggregateTodo(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithRelationInput], cursor: db_TodoWhereUniqueInput, take: Int, skip: Int): db_AggregateTodo!
-  db_groupByTodo(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithAggregationInput], by: [db_TodoScalarFieldEnum]!, having: db_TodoScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_TodoGroupByOutputType]!
+  db_findUniqueInvitationOrThrow(
+    where: db_InvitationWhereUniqueInput!
+  ): db_Invitation
+  db_findFirstTodo(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithRelationInput]
+    cursor: db_TodoWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_TodoScalarFieldEnum]
+  ): db_Todo
+  db_findFirstTodoOrThrow(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithRelationInput]
+    cursor: db_TodoWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_TodoScalarFieldEnum]
+  ): db_Todo
+  db_findManyTodo(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithRelationInput]
+    cursor: db_TodoWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_TodoScalarFieldEnum]
+  ): [db_Todo]!
+  db_aggregateTodo(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithRelationInput]
+    cursor: db_TodoWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregateTodo!
+  db_groupByTodo(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithAggregationInput]
+    by: [db_TodoScalarFieldEnum]!
+    having: db_TodoScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_TodoGroupByOutputType]!
   db_findUniqueTodo(where: db_TodoWhereUniqueInput!): db_Todo
   db_findUniqueTodoOrThrow(where: db_TodoWhereUniqueInput!): db_Todo
-  db_findFirstPost(where: db_PostWhereInput, orderBy: [db_PostOrderByWithRelationInput], cursor: db_PostWhereUniqueInput, take: Int, skip: Int, distinct: [db_PostScalarFieldEnum]): db_Post
-  db_findFirstPostOrThrow(where: db_PostWhereInput, orderBy: [db_PostOrderByWithRelationInput], cursor: db_PostWhereUniqueInput, take: Int, skip: Int, distinct: [db_PostScalarFieldEnum]): db_Post
-  db_findManyPost(where: db_PostWhereInput, orderBy: [db_PostOrderByWithRelationInput], cursor: db_PostWhereUniqueInput, take: Int, skip: Int, distinct: [db_PostScalarFieldEnum]): [db_Post]!
-  db_aggregatePost(where: db_PostWhereInput, orderBy: [db_PostOrderByWithRelationInput], cursor: db_PostWhereUniqueInput, take: Int, skip: Int): db_AggregatePost!
-  db_groupByPost(where: db_PostWhereInput, orderBy: [db_PostOrderByWithAggregationInput], by: [db_PostScalarFieldEnum]!, having: db_PostScalarWhereWithAggregatesInput, take: Int, skip: Int): [db_PostGroupByOutputType]!
+  db_findFirstPost(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithRelationInput]
+    cursor: db_PostWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_PostScalarFieldEnum]
+  ): db_Post
+  db_findFirstPostOrThrow(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithRelationInput]
+    cursor: db_PostWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_PostScalarFieldEnum]
+  ): db_Post
+  db_findManyPost(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithRelationInput]
+    cursor: db_PostWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_PostScalarFieldEnum]
+  ): [db_Post]!
+  db_aggregatePost(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithRelationInput]
+    cursor: db_PostWhereUniqueInput
+    take: Int
+    skip: Int
+  ): db_AggregatePost!
+  db_groupByPost(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithAggregationInput]
+    by: [db_PostScalarFieldEnum]!
+    having: db_PostScalarWhereWithAggregatesInput
+    take: Int
+    skip: Int
+  ): [db_PostGroupByOutputType]!
   db_findUniquePost(where: db_PostWhereUniqueInput!): db_Post
   db_findUniquePostOrThrow(where: db_PostWhereUniqueInput!): db_Post
   db_queryRaw(query: String!, parameters: [String]): [_Row!]!
   db_queryRawJSON(query: String!, parameters: [String]): JSON
-  weather_getCityById(config: weather_ConfigInput, id: [String!]): [weather_City]
-  weather_getCityByName(config: weather_ConfigInput, country: String, name: String!): weather_City
+  weather_getCityById(
+    config: weather_ConfigInput
+    id: [String!]
+  ): [weather_City]
+  weather_getCityByName(
+    config: weather_ConfigInput
+    country: String
+    name: String!
+  ): weather_City
 }
 
 type countries_State {
@@ -1081,7 +1527,14 @@ type db_Match {
   cosplayer: db_User!
   photographer: db_User!
   User: db_User
-  Schedule(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int, distinct: [db_ScheduleScalarFieldEnum]): [db_Schedule]
+  Schedule(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ScheduleScalarFieldEnum]
+  ): [db_Schedule]
   _count: db_MatchCountOutputType!
   _join: Query!
 }
@@ -1364,22 +1817,134 @@ type db_User {
   stripeSubscriptionId: String
   stripePriceId: String
   stripeCurrentPeriodEnd: DateTime
-  cosplayerMatches(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): [db_Match]
-  photographerMatches(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): [db_Match]
-  schedules(where: db_ScheduleWhereInput, orderBy: [db_ScheduleOrderByWithRelationInput], cursor: db_ScheduleWhereUniqueInput, take: Int, skip: Int, distinct: [db_ScheduleScalarFieldEnum]): [db_Schedule]
-  givenReviews(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): [db_Review]
-  receivedReviews(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): [db_Review]
-  sentMessages(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): [db_Message]
-  receivedMessages(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): [db_Message]
-  notifications(where: db_NotificationWhereInput, orderBy: [db_NotificationOrderByWithRelationInput], cursor: db_NotificationWhereUniqueInput, take: Int, skip: Int, distinct: [db_NotificationScalarFieldEnum]): [db_Notification]
-  invitations(where: db_InvitationWhereInput, orderBy: [db_InvitationOrderByWithRelationInput], cursor: db_InvitationWhereUniqueInput, take: Int, skip: Int, distinct: [db_InvitationScalarFieldEnum]): [db_Invitation]
-  Match(where: db_MatchWhereInput, orderBy: [db_MatchOrderByWithRelationInput], cursor: db_MatchWhereUniqueInput, take: Int, skip: Int, distinct: [db_MatchScalarFieldEnum]): [db_Match]
-  Review(where: db_ReviewWhereInput, orderBy: [db_ReviewOrderByWithRelationInput], cursor: db_ReviewWhereUniqueInput, take: Int, skip: Int, distinct: [db_ReviewScalarFieldEnum]): [db_Review]
-  Message(where: db_MessageWhereInput, orderBy: [db_MessageOrderByWithRelationInput], cursor: db_MessageWhereUniqueInput, take: Int, skip: Int, distinct: [db_MessageScalarFieldEnum]): [db_Message]
-  Account(where: db_AccountWhereInput, orderBy: [db_AccountOrderByWithRelationInput], cursor: db_AccountWhereUniqueInput, take: Int, skip: Int, distinct: [db_AccountScalarFieldEnum]): [db_Account]
-  Session(where: db_SessionWhereInput, orderBy: [db_SessionOrderByWithRelationInput], cursor: db_SessionWhereUniqueInput, take: Int, skip: Int, distinct: [db_SessionScalarFieldEnum]): [db_Session]
-  Todo(where: db_TodoWhereInput, orderBy: [db_TodoOrderByWithRelationInput], cursor: db_TodoWhereUniqueInput, take: Int, skip: Int, distinct: [db_TodoScalarFieldEnum]): [db_Todo]
-  Post(where: db_PostWhereInput, orderBy: [db_PostOrderByWithRelationInput], cursor: db_PostWhereUniqueInput, take: Int, skip: Int, distinct: [db_PostScalarFieldEnum]): [db_Post]
+  cosplayerMatches(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): [db_Match]
+  photographerMatches(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): [db_Match]
+  schedules(
+    where: db_ScheduleWhereInput
+    orderBy: [db_ScheduleOrderByWithRelationInput]
+    cursor: db_ScheduleWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ScheduleScalarFieldEnum]
+  ): [db_Schedule]
+  givenReviews(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): [db_Review]
+  receivedReviews(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): [db_Review]
+  sentMessages(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): [db_Message]
+  receivedMessages(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): [db_Message]
+  notifications(
+    where: db_NotificationWhereInput
+    orderBy: [db_NotificationOrderByWithRelationInput]
+    cursor: db_NotificationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_NotificationScalarFieldEnum]
+  ): [db_Notification]
+  invitations(
+    where: db_InvitationWhereInput
+    orderBy: [db_InvitationOrderByWithRelationInput]
+    cursor: db_InvitationWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_InvitationScalarFieldEnum]
+  ): [db_Invitation]
+  Match(
+    where: db_MatchWhereInput
+    orderBy: [db_MatchOrderByWithRelationInput]
+    cursor: db_MatchWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MatchScalarFieldEnum]
+  ): [db_Match]
+  Review(
+    where: db_ReviewWhereInput
+    orderBy: [db_ReviewOrderByWithRelationInput]
+    cursor: db_ReviewWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_ReviewScalarFieldEnum]
+  ): [db_Review]
+  Message(
+    where: db_MessageWhereInput
+    orderBy: [db_MessageOrderByWithRelationInput]
+    cursor: db_MessageWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_MessageScalarFieldEnum]
+  ): [db_Message]
+  Account(
+    where: db_AccountWhereInput
+    orderBy: [db_AccountOrderByWithRelationInput]
+    cursor: db_AccountWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_AccountScalarFieldEnum]
+  ): [db_Account]
+  Session(
+    where: db_SessionWhereInput
+    orderBy: [db_SessionOrderByWithRelationInput]
+    cursor: db_SessionWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_SessionScalarFieldEnum]
+  ): [db_Session]
+  Todo(
+    where: db_TodoWhereInput
+    orderBy: [db_TodoOrderByWithRelationInput]
+    cursor: db_TodoWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_TodoScalarFieldEnum]
+  ): [db_Todo]
+  Post(
+    where: db_PostWhereInput
+    orderBy: [db_PostOrderByWithRelationInput]
+    cursor: db_PostWhereUniqueInput
+    take: Int
+    skip: Int
+    distinct: [db_PostScalarFieldEnum]
+  ): [db_Post]
   _count: db_UserCountOutputType!
   _join: Query!
 }
@@ -6512,88 +7077,254 @@ input db_PostCreateManyInput {
 
 type Mutation {
   db_createOneAccount(data: db_AccountCreateInput!): db_Account
-  db_upsertOneAccount(where: db_AccountWhereUniqueInput!, create: db_AccountCreateInput!, update: db_AccountUpdateInput!): db_Account
-  db_createManyAccount(data: [db_AccountCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneAccount(
+    where: db_AccountWhereUniqueInput!
+    create: db_AccountCreateInput!
+    update: db_AccountUpdateInput!
+  ): db_Account
+  db_createManyAccount(
+    data: [db_AccountCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneAccount(where: db_AccountWhereUniqueInput!): db_Account
-  db_updateOneAccount(data: db_AccountUpdateInput!, where: db_AccountWhereUniqueInput!): db_Account
-  db_updateManyAccount(data: db_AccountUpdateManyMutationInput!, where: db_AccountWhereInput): db_AffectedRowsOutput
+  db_updateOneAccount(
+    data: db_AccountUpdateInput!
+    where: db_AccountWhereUniqueInput!
+  ): db_Account
+  db_updateManyAccount(
+    data: db_AccountUpdateManyMutationInput!
+    where: db_AccountWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyAccount(where: db_AccountWhereInput): db_AffectedRowsOutput
   db_createOneSession(data: db_SessionCreateInput!): db_Session
-  db_upsertOneSession(where: db_SessionWhereUniqueInput!, create: db_SessionCreateInput!, update: db_SessionUpdateInput!): db_Session
-  db_createManySession(data: [db_SessionCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneSession(
+    where: db_SessionWhereUniqueInput!
+    create: db_SessionCreateInput!
+    update: db_SessionUpdateInput!
+  ): db_Session
+  db_createManySession(
+    data: [db_SessionCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneSession(where: db_SessionWhereUniqueInput!): db_Session
-  db_updateOneSession(data: db_SessionUpdateInput!, where: db_SessionWhereUniqueInput!): db_Session
-  db_updateManySession(data: db_SessionUpdateManyMutationInput!, where: db_SessionWhereInput): db_AffectedRowsOutput
+  db_updateOneSession(
+    data: db_SessionUpdateInput!
+    where: db_SessionWhereUniqueInput!
+  ): db_Session
+  db_updateManySession(
+    data: db_SessionUpdateManyMutationInput!
+    where: db_SessionWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManySession(where: db_SessionWhereInput): db_AffectedRowsOutput
-  db_createOneVerificationToken(data: db_VerificationTokenCreateInput!): db_VerificationToken
-  db_upsertOneVerificationToken(where: db_VerificationTokenWhereUniqueInput!, create: db_VerificationTokenCreateInput!, update: db_VerificationTokenUpdateInput!): db_VerificationToken
-  db_createManyVerificationToken(data: [db_VerificationTokenCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
-  db_deleteOneVerificationToken(where: db_VerificationTokenWhereUniqueInput!): db_VerificationToken
-  db_updateOneVerificationToken(data: db_VerificationTokenUpdateInput!, where: db_VerificationTokenWhereUniqueInput!): db_VerificationToken
-  db_updateManyVerificationToken(data: db_VerificationTokenUpdateManyMutationInput!, where: db_VerificationTokenWhereInput): db_AffectedRowsOutput
-  db_deleteManyVerificationToken(where: db_VerificationTokenWhereInput): db_AffectedRowsOutput
+  db_createOneVerificationToken(
+    data: db_VerificationTokenCreateInput!
+  ): db_VerificationToken
+  db_upsertOneVerificationToken(
+    where: db_VerificationTokenWhereUniqueInput!
+    create: db_VerificationTokenCreateInput!
+    update: db_VerificationTokenUpdateInput!
+  ): db_VerificationToken
+  db_createManyVerificationToken(
+    data: [db_VerificationTokenCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
+  db_deleteOneVerificationToken(
+    where: db_VerificationTokenWhereUniqueInput!
+  ): db_VerificationToken
+  db_updateOneVerificationToken(
+    data: db_VerificationTokenUpdateInput!
+    where: db_VerificationTokenWhereUniqueInput!
+  ): db_VerificationToken
+  db_updateManyVerificationToken(
+    data: db_VerificationTokenUpdateManyMutationInput!
+    where: db_VerificationTokenWhereInput
+  ): db_AffectedRowsOutput
+  db_deleteManyVerificationToken(
+    where: db_VerificationTokenWhereInput
+  ): db_AffectedRowsOutput
   db_createOneUser(data: db_UserCreateInput!): db_User
-  db_upsertOneUser(where: db_UserWhereUniqueInput!, create: db_UserCreateInput!, update: db_UserUpdateInput!): db_User
-  db_createManyUser(data: [db_UserCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneUser(
+    where: db_UserWhereUniqueInput!
+    create: db_UserCreateInput!
+    update: db_UserUpdateInput!
+  ): db_User
+  db_createManyUser(
+    data: [db_UserCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneUser(where: db_UserWhereUniqueInput!): db_User
-  db_updateOneUser(data: db_UserUpdateInput!, where: db_UserWhereUniqueInput!): db_User
-  db_updateManyUser(data: db_UserUpdateManyMutationInput!, where: db_UserWhereInput): db_AffectedRowsOutput
+  db_updateOneUser(
+    data: db_UserUpdateInput!
+    where: db_UserWhereUniqueInput!
+  ): db_User
+  db_updateManyUser(
+    data: db_UserUpdateManyMutationInput!
+    where: db_UserWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyUser(where: db_UserWhereInput): db_AffectedRowsOutput
   db_createOneMatch(data: db_MatchCreateInput!): db_Match
-  db_upsertOneMatch(where: db_MatchWhereUniqueInput!, create: db_MatchCreateInput!, update: db_MatchUpdateInput!): db_Match
-  db_createManyMatch(data: [db_MatchCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneMatch(
+    where: db_MatchWhereUniqueInput!
+    create: db_MatchCreateInput!
+    update: db_MatchUpdateInput!
+  ): db_Match
+  db_createManyMatch(
+    data: [db_MatchCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneMatch(where: db_MatchWhereUniqueInput!): db_Match
-  db_updateOneMatch(data: db_MatchUpdateInput!, where: db_MatchWhereUniqueInput!): db_Match
-  db_updateManyMatch(data: db_MatchUpdateManyMutationInput!, where: db_MatchWhereInput): db_AffectedRowsOutput
+  db_updateOneMatch(
+    data: db_MatchUpdateInput!
+    where: db_MatchWhereUniqueInput!
+  ): db_Match
+  db_updateManyMatch(
+    data: db_MatchUpdateManyMutationInput!
+    where: db_MatchWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyMatch(where: db_MatchWhereInput): db_AffectedRowsOutput
   db_createOneSchedule(data: db_ScheduleCreateInput!): db_Schedule
-  db_upsertOneSchedule(where: db_ScheduleWhereUniqueInput!, create: db_ScheduleCreateInput!, update: db_ScheduleUpdateInput!): db_Schedule
-  db_createManySchedule(data: [db_ScheduleCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneSchedule(
+    where: db_ScheduleWhereUniqueInput!
+    create: db_ScheduleCreateInput!
+    update: db_ScheduleUpdateInput!
+  ): db_Schedule
+  db_createManySchedule(
+    data: [db_ScheduleCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneSchedule(where: db_ScheduleWhereUniqueInput!): db_Schedule
-  db_updateOneSchedule(data: db_ScheduleUpdateInput!, where: db_ScheduleWhereUniqueInput!): db_Schedule
-  db_updateManySchedule(data: db_ScheduleUpdateManyMutationInput!, where: db_ScheduleWhereInput): db_AffectedRowsOutput
+  db_updateOneSchedule(
+    data: db_ScheduleUpdateInput!
+    where: db_ScheduleWhereUniqueInput!
+  ): db_Schedule
+  db_updateManySchedule(
+    data: db_ScheduleUpdateManyMutationInput!
+    where: db_ScheduleWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManySchedule(where: db_ScheduleWhereInput): db_AffectedRowsOutput
   db_createOneReview(data: db_ReviewCreateInput!): db_Review
-  db_upsertOneReview(where: db_ReviewWhereUniqueInput!, create: db_ReviewCreateInput!, update: db_ReviewUpdateInput!): db_Review
-  db_createManyReview(data: [db_ReviewCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneReview(
+    where: db_ReviewWhereUniqueInput!
+    create: db_ReviewCreateInput!
+    update: db_ReviewUpdateInput!
+  ): db_Review
+  db_createManyReview(
+    data: [db_ReviewCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneReview(where: db_ReviewWhereUniqueInput!): db_Review
-  db_updateOneReview(data: db_ReviewUpdateInput!, where: db_ReviewWhereUniqueInput!): db_Review
-  db_updateManyReview(data: db_ReviewUpdateManyMutationInput!, where: db_ReviewWhereInput): db_AffectedRowsOutput
+  db_updateOneReview(
+    data: db_ReviewUpdateInput!
+    where: db_ReviewWhereUniqueInput!
+  ): db_Review
+  db_updateManyReview(
+    data: db_ReviewUpdateManyMutationInput!
+    where: db_ReviewWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyReview(where: db_ReviewWhereInput): db_AffectedRowsOutput
   db_createOneMessage(data: db_MessageCreateInput!): db_Message
-  db_upsertOneMessage(where: db_MessageWhereUniqueInput!, create: db_MessageCreateInput!, update: db_MessageUpdateInput!): db_Message
-  db_createManyMessage(data: [db_MessageCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneMessage(
+    where: db_MessageWhereUniqueInput!
+    create: db_MessageCreateInput!
+    update: db_MessageUpdateInput!
+  ): db_Message
+  db_createManyMessage(
+    data: [db_MessageCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneMessage(where: db_MessageWhereUniqueInput!): db_Message
-  db_updateOneMessage(data: db_MessageUpdateInput!, where: db_MessageWhereUniqueInput!): db_Message
-  db_updateManyMessage(data: db_MessageUpdateManyMutationInput!, where: db_MessageWhereInput): db_AffectedRowsOutput
+  db_updateOneMessage(
+    data: db_MessageUpdateInput!
+    where: db_MessageWhereUniqueInput!
+  ): db_Message
+  db_updateManyMessage(
+    data: db_MessageUpdateManyMutationInput!
+    where: db_MessageWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyMessage(where: db_MessageWhereInput): db_AffectedRowsOutput
   db_createOneNotification(data: db_NotificationCreateInput!): db_Notification
-  db_upsertOneNotification(where: db_NotificationWhereUniqueInput!, create: db_NotificationCreateInput!, update: db_NotificationUpdateInput!): db_Notification
-  db_createManyNotification(data: [db_NotificationCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
-  db_deleteOneNotification(where: db_NotificationWhereUniqueInput!): db_Notification
-  db_updateOneNotification(data: db_NotificationUpdateInput!, where: db_NotificationWhereUniqueInput!): db_Notification
-  db_updateManyNotification(data: db_NotificationUpdateManyMutationInput!, where: db_NotificationWhereInput): db_AffectedRowsOutput
-  db_deleteManyNotification(where: db_NotificationWhereInput): db_AffectedRowsOutput
+  db_upsertOneNotification(
+    where: db_NotificationWhereUniqueInput!
+    create: db_NotificationCreateInput!
+    update: db_NotificationUpdateInput!
+  ): db_Notification
+  db_createManyNotification(
+    data: [db_NotificationCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
+  db_deleteOneNotification(
+    where: db_NotificationWhereUniqueInput!
+  ): db_Notification
+  db_updateOneNotification(
+    data: db_NotificationUpdateInput!
+    where: db_NotificationWhereUniqueInput!
+  ): db_Notification
+  db_updateManyNotification(
+    data: db_NotificationUpdateManyMutationInput!
+    where: db_NotificationWhereInput
+  ): db_AffectedRowsOutput
+  db_deleteManyNotification(
+    where: db_NotificationWhereInput
+  ): db_AffectedRowsOutput
   db_createOneInvitation(data: db_InvitationCreateInput!): db_Invitation
-  db_upsertOneInvitation(where: db_InvitationWhereUniqueInput!, create: db_InvitationCreateInput!, update: db_InvitationUpdateInput!): db_Invitation
-  db_createManyInvitation(data: [db_InvitationCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneInvitation(
+    where: db_InvitationWhereUniqueInput!
+    create: db_InvitationCreateInput!
+    update: db_InvitationUpdateInput!
+  ): db_Invitation
+  db_createManyInvitation(
+    data: [db_InvitationCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneInvitation(where: db_InvitationWhereUniqueInput!): db_Invitation
-  db_updateOneInvitation(data: db_InvitationUpdateInput!, where: db_InvitationWhereUniqueInput!): db_Invitation
-  db_updateManyInvitation(data: db_InvitationUpdateManyMutationInput!, where: db_InvitationWhereInput): db_AffectedRowsOutput
+  db_updateOneInvitation(
+    data: db_InvitationUpdateInput!
+    where: db_InvitationWhereUniqueInput!
+  ): db_Invitation
+  db_updateManyInvitation(
+    data: db_InvitationUpdateManyMutationInput!
+    where: db_InvitationWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyInvitation(where: db_InvitationWhereInput): db_AffectedRowsOutput
   db_createOneTodo(data: db_TodoCreateInput!): db_Todo
-  db_upsertOneTodo(where: db_TodoWhereUniqueInput!, create: db_TodoCreateInput!, update: db_TodoUpdateInput!): db_Todo
-  db_createManyTodo(data: [db_TodoCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOneTodo(
+    where: db_TodoWhereUniqueInput!
+    create: db_TodoCreateInput!
+    update: db_TodoUpdateInput!
+  ): db_Todo
+  db_createManyTodo(
+    data: [db_TodoCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOneTodo(where: db_TodoWhereUniqueInput!): db_Todo
-  db_updateOneTodo(data: db_TodoUpdateInput!, where: db_TodoWhereUniqueInput!): db_Todo
-  db_updateManyTodo(data: db_TodoUpdateManyMutationInput!, where: db_TodoWhereInput): db_AffectedRowsOutput
+  db_updateOneTodo(
+    data: db_TodoUpdateInput!
+    where: db_TodoWhereUniqueInput!
+  ): db_Todo
+  db_updateManyTodo(
+    data: db_TodoUpdateManyMutationInput!
+    where: db_TodoWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyTodo(where: db_TodoWhereInput): db_AffectedRowsOutput
   db_createOnePost(data: db_PostCreateInput!): db_Post
-  db_upsertOnePost(where: db_PostWhereUniqueInput!, create: db_PostCreateInput!, update: db_PostUpdateInput!): db_Post
-  db_createManyPost(data: [db_PostCreateManyInput]!, skipDuplicates: Boolean): db_AffectedRowsOutput
+  db_upsertOnePost(
+    where: db_PostWhereUniqueInput!
+    create: db_PostCreateInput!
+    update: db_PostUpdateInput!
+  ): db_Post
+  db_createManyPost(
+    data: [db_PostCreateManyInput]!
+    skipDuplicates: Boolean
+  ): db_AffectedRowsOutput
   db_deleteOnePost(where: db_PostWhereUniqueInput!): db_Post
-  db_updateOnePost(data: db_PostUpdateInput!, where: db_PostWhereUniqueInput!): db_Post
-  db_updateManyPost(data: db_PostUpdateManyMutationInput!, where: db_PostWhereInput): db_AffectedRowsOutput
+  db_updateOnePost(
+    data: db_PostUpdateInput!
+    where: db_PostWhereUniqueInput!
+  ): db_Post
+  db_updateManyPost(
+    data: db_PostUpdateManyMutationInput!
+    where: db_PostWhereInput
+  ): db_AffectedRowsOutput
   db_deleteManyPost(where: db_PostWhereInput): db_AffectedRowsOutput
   db_executeRaw(query: String!, parameters: [String]): Int!
 }
@@ -6735,7 +7466,9 @@ enum weather_Unit {
   metric
 }
 
-"""The `Upload` scalar type represents a file upload."""
+"""
+The `Upload` scalar type represents a file upload.
+"""
 scalar weather_Upload
 
 type weather_Weather {
@@ -6763,47 +7496,89 @@ enum WG_ROLE {
   user
 }
 
-"""Well known claims - https://www.iana.org/assignments/jwt/jwt.xhtml"""
+"""
+Well known claims - https://www.iana.org/assignments/jwt/jwt.xhtml
+"""
 enum WG_CLAIM {
-  """iss"""
+  """
+  iss
+  """
   ISSUER
-  """deprecated alias for ISSUER"""
+  """
+  deprecated alias for ISSUER
+  """
   PROVIDER
-  """sub"""
+  """
+  sub
+  """
   SUBJECT
-  """alias for sub"""
+  """
+  alias for sub
+  """
   USERID
-  """name"""
+  """
+  name
+  """
   NAME
-  """given_name"""
+  """
+  given_name
+  """
   GIVEN_NAME
-  """family_name"""
+  """
+  family_name
+  """
   FAMILY_NAME
-  """middle_name"""
+  """
+  middle_name
+  """
   MIDDLE_NAME
-  """nickname"""
+  """
+  nickname
+  """
   NICKNAME
-  """preferred_username"""
+  """
+  preferred_username
+  """
   PREFERRED_USERNAME
-  """profile"""
+  """
+  profile
+  """
   PROFILE
-  """picture"""
+  """
+  picture
+  """
   PICTURE
-  """website"""
+  """
+  website
+  """
   WEBSITE
-  """email"""
+  """
+  email
+  """
   EMAIL
-  """email_verified"""
+  """
+  email_verified
+  """
   EMAIL_VERIFIED
-  """gender"""
+  """
+  gender
+  """
   GENDER
-  """birthdate"""
+  """
+  birthdate
+  """
   BIRTH_DATE
-  """zoneinfo"""
+  """
+  zoneinfo
+  """
   ZONE_INFO
-  """locale"""
+  """
+  locale
+  """
   LOCALE
-  """location"""
+  """
+  location
+  """
   LOCATION
 }
 
