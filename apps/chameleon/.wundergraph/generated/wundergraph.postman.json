@@ -19,14 +19,8 @@
               "name": "addTodo",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "todos",
-                    "addTodo"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "todos", "addTodo"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [],
                   "variable": []
                 },
@@ -63,14 +57,8 @@
               "name": "getAllTodosForCurrentUser",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "todos",
-                    "getAllTodosForCurrentUser"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "todos", "getAllTodosForCurrentUser"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -100,14 +88,8 @@
               "name": "updateTodo",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "todos",
-                    "updateTodo"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "todos", "updateTodo"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [],
                   "variable": []
                 },
@@ -163,14 +145,8 @@
               "name": "get",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "users",
-                    "get"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "users", "get"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -200,14 +176,8 @@
               "name": "subscribe",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "users",
-                    "subscribe"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "users", "subscribe"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -237,14 +207,8 @@
               "name": "update",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "users",
-                    "update"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "users", "update"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [],
                   "variable": []
                 },
@@ -300,14 +264,8 @@
               "name": "extract-website-metadata",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "openai",
-                    "extract-website-metadata"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "openai", "extract-website-metadata"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -337,14 +295,8 @@
               "name": "load-url",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "openai",
-                    "load-url"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "openai", "load-url"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -374,14 +326,8 @@
               "name": "summarize-url-content",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "openai",
-                    "summarize-url-content"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "openai", "summarize-url-content"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -411,14 +357,8 @@
               "name": "summary",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "openai",
-                    "summary"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "openai", "summary"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -448,14 +388,8 @@
               "name": "weather",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "openai",
-                    "weather"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "openai", "weather"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,
@@ -495,14 +429,8 @@
               "name": "CountryByCode",
               "request": {
                 "url": {
-                  "path": [
-                    "operations",
-                    "countries",
-                    "CountryByCode"
-                  ],
-                  "host": [
-                    "{{apiBaseUrl}}"
-                  ],
+                  "path": ["operations", "countries", "CountryByCode"],
+                  "host": ["{{apiBaseUrl}}"],
                   "query": [
                     {
                       "disabled": true,

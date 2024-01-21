@@ -1,19 +1,19 @@
-import Link from "next/link"
-import { notFound } from "next/navigation"
-import { allGuides } from "contentlayer/generated"
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { allGuides } from 'contentlayer/generated'
 
-import { getTableOfContents } from "@/lib/toc"
-import { Icons } from "@/components/icons"
-import { Mdx } from "@/components/mdx-components"
-import { DocsPageHeader } from "@/components/page-header"
-import { DashboardTableOfContents } from "@/components/toc"
+import { getTableOfContents } from '@/lib/toc'
+import { Icons } from '@/components/icons'
+import { Mdx } from '@/components/mdx-components'
+import { DocsPageHeader } from '@/components/page-header'
+import { DashboardTableOfContents } from '@/components/toc'
 
-import "@/styles/mdx.css"
-import { Metadata } from "next"
+import '@/styles/mdx.css'
+import { Metadata } from 'next'
 
-import { env } from "@/env.mjs"
-import { absoluteUrl, cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { env } from '@/env.mjs'
+import { absoluteUrl, cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 
 interface GuidePageProps {
   params: {
@@ -21,8 +21,8 @@ interface GuidePageProps {
   }
 }
 
-async function getGuideFromParams(params: GuidePageProps["params"]) {
-  const slug = params?.slug?.join("/")
+async function getGuideFromParams(params: GuidePageProps['params']) {
+  const slug = params?.slug?.join('/')
   const guide = allGuides.find((guide) => guide.slugAsParams === slug)
 
   if (!guide) {
@@ -41,14 +41,14 @@ export async function generateMetadata({
     return {}
   }
 
-  const url = `${process.env.NODE_ENV === "production" ? "https" : "http"}://${
+  const url = `${process.env.NODE_ENV === 'production' ? 'https' : 'http'}://${
     env.NEXT_PUBLIC_VERCEL_URL
   }`
 
   const ogUrl = new URL(`${url}/api/og`)
-  ogUrl.searchParams.set("heading", guide.title)
-  ogUrl.searchParams.set("type", "Guide")
-  ogUrl.searchParams.set("mode", "dark")
+  ogUrl.searchParams.set('heading', guide.title)
+  ogUrl.searchParams.set('type', 'Guide')
+  ogUrl.searchParams.set('mode', 'dark')
 
   return {
     title: guide.title,
@@ -56,7 +56,7 @@ export async function generateMetadata({
     openGraph: {
       title: guide.title,
       description: guide.description,
-      type: "article",
+      type: 'article',
       url: absoluteUrl(guide.slug),
       images: [
         {
@@ -68,7 +68,7 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: guide.title,
       description: guide.description,
       images: [ogUrl.toString()],
@@ -77,10 +77,10 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams(): Promise<
-  GuidePageProps["params"][]
+  GuidePageProps['params'][]
 > {
   return allGuides.map((guide) => ({
-    slug: guide.slugAsParams.split("/"),
+    slug: guide.slugAsParams.split('/'),
   }))
 }
 
@@ -102,7 +102,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <div className="flex justify-center py-6 lg:py-10">
           <Link
             href="/guides"
-            className={cn(buttonVariants({ variant: "ghost" }))}
+            className={cn(buttonVariants({ variant: 'ghost' }))}
           >
             <Icons.chevronLeft className="mr-2 h-4 w-4" />
             See all guides

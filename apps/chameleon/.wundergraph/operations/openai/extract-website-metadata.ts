@@ -2,7 +2,7 @@ import {
   OpenApiAgentFactory,
   createOperation,
   z,
-} from '../../generated/wundergraph.factory';
+} from '../../generated/wundergraph.factory'
 
 export default createOperation.query({
   input: z.object({
@@ -11,14 +11,14 @@ export default createOperation.query({
   description:
     'Load metadata like title, description, social media images, headlines, and summary from a website',
   handler: async ({ operations, input, openAI }) => {
-    const metaData = await getMetaData(openAI, input.url);
-    const links = await getLinks(openAI, input.url);
+    const metaData = await getMetaData(openAI, input.url)
+    const links = await getLinks(openAI, input.url)
     return {
       links,
       ...metaData,
-    };
+    }
   },
-});
+})
 
 const getMetaData = async (openAI: OpenApiAgentFactory, url: string) => {
   const agent = openAI.createAgent({
@@ -41,7 +41,7 @@ const getMetaData = async (openAI: OpenApiAgentFactory, url: string) => {
       h1: z.string(),
       summary: z.string(),
     }),
-  });
+  })
   const out = await agent.execWithPrompt({
     prompt: `Load the content of the URL: ${url}
 		You're a HTML parser. Your job is to extract the title, description and h1 from the HTML.
@@ -52,9 +52,9 @@ const getMetaData = async (openAI: OpenApiAgentFactory, url: string) => {
 		`,
     outPrompt: 'Set the result to the out function in a structured way',
     debug: true,
-  });
-  return out.structuredOutput;
-};
+  })
+  return out.structuredOutput
+}
 
 const getLinks = async (openAI: OpenApiAgentFactory, url: string) => {
   const agent = openAI.createAgent({
@@ -71,7 +71,7 @@ const getLinks = async (openAI: OpenApiAgentFactory, url: string) => {
     structuredOutputSchema: z.object({
       links: z.array(z.string()),
     }),
-  });
+  })
   const out = await agent.execWithPrompt({
     prompt: `Load the content of the URL: ${url}
 		You're a HTML parser. Your job is to extract links from the HTML.
@@ -82,6 +82,6 @@ const getLinks = async (openAI: OpenApiAgentFactory, url: string) => {
 		`,
     outPrompt: 'Set the result to the out function in a structured way',
     debug: true,
-  });
-  return out.structuredOutput.links;
-};
+  })
+  return out.structuredOutput.links
+}

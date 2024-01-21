@@ -1,27 +1,30 @@
 import {
-	ServerOptions,
-	WunderGraphTestServer,
-	WunderGraphMockServer,
-	WunderGraphTestServers,
-} from "@wundergraph/sdk/testing";
-import { createClient, WunderGraphClient } from "./client";
+  ServerOptions,
+  WunderGraphMockServer,
+  WunderGraphTestServer,
+  WunderGraphTestServers,
+} from '@wundergraph/sdk/testing'
+
+import { WunderGraphClient, createClient } from './client'
 
 /**
  * Encapsulates the WunderGraphTestServers with the generated client types.
  */
-export type TestServers = WunderGraphTestServers<WunderGraphClient>;
+export type TestServers = WunderGraphTestServers<WunderGraphClient>
 
 /**
  * Create a test server with the given options.
  * The test server will be started on a random port.
  * You can use the `client()` method to make requests against the test server.
  */
-export const createTestServer = (opts?: Partial<ServerOptions<WunderGraphClient>>) => {
-	return new WunderGraphTestServer({
-		...opts,
-		createClient: opts?.createClient ?? createClient,
-	});
-};
+export const createTestServer = (
+  opts?: Partial<ServerOptions<WunderGraphClient>>
+) => {
+  return new WunderGraphTestServer({
+    ...opts,
+    createClient: opts?.createClient ?? createClient,
+  })
+}
 
 /**
  * Create a mock server with the given options.
@@ -29,16 +32,18 @@ export const createTestServer = (opts?: Partial<ServerOptions<WunderGraphClient>
  * You can use the `mock()` method to make requests against the mock server.
  */
 export const createMockServer = () => {
-	return new WunderGraphMockServer();
-};
+  return new WunderGraphMockServer()
+}
 
 /**
  * Create a mock and test server with the given options.
  * All servers will be started on a random port.
  * You can use the `testServer.client()` method to make requests against the test server.
  */
-export const createTestAndMockServer = (opts?: Partial<ServerOptions<WunderGraphClient>>) => {
-	const ts = createTestServer(opts);
-	const ms = createMockServer();
-	return new WunderGraphTestServers<WunderGraphClient>(ms, ts);
-};
+export const createTestAndMockServer = (
+  opts?: Partial<ServerOptions<WunderGraphClient>>
+) => {
+  const ts = createTestServer(opts)
+  const ms = createMockServer()
+  return new WunderGraphTestServers<WunderGraphClient>(ms, ts)
+}

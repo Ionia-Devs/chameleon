@@ -58,11 +58,7 @@
                             }
                           },
                           "additionalProperties": false,
-                          "required": [
-                            "code",
-                            "name",
-                            "currencies"
-                          ]
+                          "required": ["code", "name", "currencies"]
                         }
                       },
                       "additionalProperties": false
@@ -105,10 +101,7 @@
                   }
                 },
                 "additionalProperties": false,
-                "required": [
-                  "text",
-                  "userId"
-                ]
+                "required": ["text", "userId"]
               }
             }
           },
@@ -145,17 +138,11 @@
                                 }
                               },
                               "additionalProperties": false,
-                              "required": [
-                                "id"
-                              ]
+                              "required": ["id"]
                             }
                           },
                           "additionalProperties": false,
-                          "required": [
-                            "id",
-                            "text",
-                            "user"
-                          ]
+                          "required": ["id", "text", "user"]
                         }
                       },
                       "additionalProperties": false
@@ -223,18 +210,12 @@
                               }
                             },
                             "additionalProperties": false,
-                            "required": [
-                              "id",
-                              "text",
-                              "isCompleted"
-                            ]
+                            "required": ["id", "text", "isCompleted"]
                           }
                         }
                       },
                       "additionalProperties": false,
-                      "required": [
-                        "db_findManyTodo"
-                      ]
+                      "required": ["db_findManyTodo"]
                     }
                   },
                   "additionalProperties": false
@@ -277,11 +258,7 @@
                   }
                 },
                 "additionalProperties": false,
-                "required": [
-                  "id",
-                  "text",
-                  "isCompleted"
-                ]
+                "required": ["id", "text", "isCompleted"]
               }
             }
           },
@@ -312,11 +289,7 @@
                             }
                           },
                           "additionalProperties": false,
-                          "required": [
-                            "id",
-                            "text",
-                            "isCompleted"
-                          ]
+                          "required": ["id", "text", "isCompleted"]
                         }
                       },
                       "additionalProperties": false
@@ -446,9 +419,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "content"
-                      ]
+                      "required": ["content"]
                     }
                   }
                 }
@@ -501,9 +472,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "summary"
-                      ]
+                      "required": ["summary"]
                     }
                   }
                 }
@@ -556,9 +525,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "summary"
-                      ]
+                      "required": ["summary"]
                     }
                   }
                 }
@@ -617,10 +584,7 @@
                           }
                         }
                       },
-                      "required": [
-                        "messages",
-                        "structuredOutput"
-                      ]
+                      "required": ["messages", "structuredOutput"]
                     }
                   }
                 }
@@ -681,11 +645,7 @@
                           "default": "Founder of WunderGraph"
                         }
                       },
-                      "required": [
-                        "bio",
-                        "id",
-                        "name"
-                      ]
+                      "required": ["bio", "id", "name"]
                     }
                   }
                 }
@@ -749,12 +709,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "bio",
-                        "id",
-                        "name",
-                        "time"
-                      ]
+                      "required": ["bio", "id", "name", "time"]
                     }
                   }
                 }
@@ -796,11 +751,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "id",
-                  "name",
-                  "bio"
-                ],
+                "required": ["id", "name", "bio"],
                 "additionalProperties": false,
                 "$schema": "http://json-schema.org/draft-07/schema#"
               }
@@ -829,11 +780,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "bio",
-                        "id",
-                        "name"
-                      ]
+                      "required": ["bio", "id", "name"]
                     }
                   }
                 }
@@ -877,19 +824,11 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "propertyPath",
-                "invalidValue",
-                "message"
-              ]
+              "required": ["propertyPath", "invalidValue", "message"]
             }
           }
         },
-        "required": [
-          "message",
-          "input",
-          "errors"
-        ]
+        "required": ["message", "input", "errors"]
       },
       "8c71da61a2019e240cfce16b6043fb2f1f5ebf5e": {
         "type": "object",
@@ -904,11 +843,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "city",
-          "country",
-          "temperature"
-        ]
+        "required": ["city", "country", "temperature"]
       },
       "ChatCompletionRequestMessage": {
         "type": "object",
@@ -929,9 +864,7 @@
             "type": "{ChatCompletionRequestMessageFunctionCall}"
           }
         },
-        "required": [
-          "role"
-        ]
+        "required": ["role"]
       }
     }
   }

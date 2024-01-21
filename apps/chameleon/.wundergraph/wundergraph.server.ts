@@ -1,4 +1,4 @@
-import { configureWunderGraphServer } from '@wundergraph/sdk/server';
+import { configureWunderGraphServer } from '@wundergraph/sdk/server'
 
 export default configureWunderGraphServer(() => ({
   hooks: {
@@ -9,4 +9,4 @@ export default configureWunderGraphServer(() => ({
     },
     mutations: {},
   },
-}));
+}))

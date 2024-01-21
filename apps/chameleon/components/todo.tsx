@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import { useOptimistic } from "react"
-import { TodosGetAllTodosForCurrentUserResponseData } from "@/.wundergraph/generated/models"
+import { useOptimistic } from 'react'
+import { TodosGetAllTodosForCurrentUserResponseData } from '@/.wundergraph/generated/models'
 
-import { toggleTodo } from "@/app/actions"
+import { toggleTodo } from '@/app/actions'
 
 export const Todo = ({
   data,
 }: {
   data: NonNullable<
-    TodosGetAllTodosForCurrentUserResponseData["db_findManyTodo"]
+    TodosGetAllTodosForCurrentUserResponseData['db_findManyTodo']
   >[0]
 }) => {
   const [optimisticIsCompleted, setOptimisticIsCompleted] = useOptimistic(

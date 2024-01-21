@@ -1,4 +1,4 @@
-import { createOperation, z } from '../../generated/wundergraph.factory';
+import { createOperation, z } from '../../generated/wundergraph.factory'
 
 export default createOperation.query({
   input: z.object({
@@ -9,11 +9,11 @@ export default createOperation.query({
   }),
   description: 'Load the content of a url',
   handler: async ({ input, log }) => {
-    log.debug('Loading url', input.url);
-    const data = await fetch(input.url).then((res) => res.text());
-    log.debug('Loaded url', input.url);
+    log.debug('Loading url', input.url)
+    const data = await fetch(input.url).then((res) => res.text())
+    log.debug('Loaded url', input.url)
     return {
       content: data,
-    };
+    }
   },
-});
+})
