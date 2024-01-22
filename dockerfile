@@ -16,8 +16,8 @@ COPY apps/chameleon apps/chameleon
 COPY data-access/db data-access/db
 COPY nx.json tsconfig.base.json ./
 
-ARG wg_public_node_url
 ARG DATABASE_URL
+ARG wg_public_node_url
 
 RUN pnpm exec nx run chameleon:wunderctl-generate
 RUN pnpm exec nx run data-access/db:generate
@@ -27,7 +27,8 @@ FROM base
 
 ENV DATABASE_URL=$DATABASE_URL
 ENV CI=true WG_COPY_BIN_PATH=/usr/bin/wunderctl
-ENV WG_NODE_HOST=0.0.0.0 WG_PUBLIC_NODE_URL=${wg_public_node_url}
+ENV WG_NODE_URL=http://127.0.0.1:9991 WG_NODE_INTERNAL_URL=http://127.0.0.1:9993 WG_NODE_HOST=0.0.0.0 WG_NODE_PORT=9991 WG_NODE_INTERNAL_PORT=9993 WG_SERVER_URL=http://127.0.0.1:9992 WG_SERVER_HOST=127.0.0.1 WG_SERVER_PORT=9992
+ENV WG_PUBLIC_NODE_URL=${wg_public_node_url}
 
 # Install only @wundergraph/sdk
 RUN pnpm install @wundergraph/sdk

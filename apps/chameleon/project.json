@@ -87,7 +87,7 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run data-access/db:generate && nx run chameleon:build"
+        "command": "nx run data-access/db:generate && nx run chameleon:wunderctl-generate && nx run chameleon:build"
       }
     }
   },

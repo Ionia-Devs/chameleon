@@ -45,10 +45,7 @@ configureWunderGraphApplication({
             'https://chameleon-sandy.vercel.app/',
             'https://chameleon-production.up.railway.app/',
           ]
-        : [
-            'http://localhost:3000',
-            new EnvironmentVariable('WG_ALLOWED_ORIGIN'),
-          ],
+        : ['http://localhost:3000'],
   },
   security: {
     enableGraphQLEndpoint:
