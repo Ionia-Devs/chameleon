@@ -4,6 +4,12 @@
   "sourceRoot": "apps/chameleon",
   "projectType": "application",
   "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx run chameleon:serve", "nx run chameleon:wunderctl-up"]
+      }
+    },
     "build": {
       "executor": "@nx/next:build",
       "outputs": ["{options.outputPath}"],
@@ -11,7 +17,7 @@
       "options": {
         "outputPath": "dist/apps/chameleon"
       },
-      "dependsOn": ["contentlayer"],
+      "dependsOn": ["^generate", "contentlayer", "wunderctl-generate"],
       "configurations": {
         "development": {
           "outputPath": "apps/chameleon"
@@ -27,6 +33,7 @@
         "dev": true,
         "port": 3000
       },
+      "dependsOn": ["^generate", "contentlayer"],
       "configurations": {
         "development": {
           "buildTarget": "chameleon:build:development",
@@ -72,6 +79,7 @@
     },
     "wunderctl-generate": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^generate"],
       "options": {
         "command": "wunderctl generate",
         "cwd": "apps/chameleon"
@@ -79,15 +87,10 @@
     },
     "wunderctl-up": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^generate"],
       "options": {
         "command": "wunderctl up",
         "cwd": "apps/chameleon"
-      }
-    },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "nx run data-access/db:generate && nx run chameleon:wunderctl-generate && nx run chameleon:build"
       }
     }
   },
