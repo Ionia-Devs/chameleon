@@ -1,11 +1,11 @@
 'use client'
 
 import * as React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { MainNavItem } from '@/types'
 
-import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 import { Icons } from '@/components/icons'
 import { MobileNav } from '@/components/mobile-nav'
@@ -22,10 +22,13 @@ export function MainNav({ items, children }: MainNavProps) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="hidden items-center space-x-2 md:flex">
-        <Icons.logo />
-        <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
-        </span>
+        <Image
+          className="pb-2"
+          src="/images/chameleon-color.png"
+          alt="chameleon logo"
+          width={150}
+          height={50}
+        />
       </Link>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
