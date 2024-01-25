@@ -27,7 +27,7 @@ jobs:
           ORG_NAME: ${{ secrets.ORG_NAME }}
         run: |
           set +e
-          pscale branch show ${{secrets.ORG_NAME}} ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
+          pscale branch show --org ${{secrets.ORG_NAME}} ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
           exit_code=$?
           set -e
 
