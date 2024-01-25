@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - develop
+    paths:
+      - 'data-access/db/prisma/schema.prisma'
   pull_request:
     branches:
       - main
       - develop
+    paths:
+      - 'data-access/db/prisma/schema.prisma'
 
 permissions:
   actions: read
@@ -46,29 +50,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      # Set the BASE and HEAD SHA for Nx
-      - uses: nrwl/nx-set-shas@v3
+      - name: Install dependencies
+        run: pnpm install
 
-      # Optionally track the main branch if running on a PR
-      - run: git branch --track main origin/main
-
-      # Determine affected projects
-      - name: Determine affected projects
-        run: |
-          result=$(pnpm exec nx show projects --affected --json)
-          echo "$result"
-
-      # Conditional steps based on the affected projects
-      - if: contains(env.projects, 'data-access/db')
-        name: Setup pscale
+      - name: Setup pscale
         uses: planetscale/setup-pscale-action@v1
 
-      - if: contains(env.projects, 'data-access/db')
-        name: Set PlanetScale branch name
+      - name: Set PlanetScale branch name
         run: echo "PSCALE_BRANCH_NAME=$(echo ${{ github.head_ref }} | tr -cd '[:alnum:]-'| tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - if: contains(env.projects, 'data-access/db')
-        name: Handle PlanetScale branch
+      - name: Handle PlanetScale branch
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
@@ -81,8 +72,7 @@ jobs:
             pscale branch create ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --org ${{ secrets.PLANETSCALE_ORG_NAME }} --wait
           fi
 
-      - if: contains(env.projects, 'data-access/db')
-        name: Submit deploy request
+      - name: Submit deploy request
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
