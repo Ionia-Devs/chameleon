@@ -55,11 +55,8 @@ jobs:
       # Determine affected projects
       - name: Determine affected projects
         run: |
-          raw_output=$(pnpm exec nx show projects --affected --json --base=$NX_BASE --head=$NX_HEAD)
-          echo "Raw output: $raw_output"
-          projects=$(echo $raw_output | jq -r 'join(",")')
-          echo "Affected projects: $projects"
-          echo "projects=$projects" >> $GITHUB_ENV
+          result=$(pnpm exec nx show projects --affected --json)
+          echo "$result"
 
       # Conditional steps based on the affected projects
       - if: contains(env.projects, 'data-access/db')
