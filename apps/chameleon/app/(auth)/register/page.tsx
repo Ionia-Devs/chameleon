@@ -4,18 +4,11 @@ import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel'
+import CarouselRegister from '@/components/signuppage/carouselregister'
 import TypeWritterEffect from '@/components/signuppage/typing'
 import { UserAuthForm } from '@/components/user-auth-form'
 
 import chameleon from '../../../public/icons/chameleon-logo-transparent-bg.png'
-import cosplayer2 from '../../../public/stock/cosplayer2.jpg'
-import cosplayer3 from '../../../public/stock/cosplayer3.jpg'
 
 export const metadata = {
   title: 'Create an account',
@@ -36,13 +29,38 @@ export default function RegisterPage() {
       </Link>
 
       <div className="relative hidden h-full bg-muted lg:block">
-        <Carousel className="bg-white w-full h-full">
+        <CarouselRegister />
+        {/* <Carousel plugins={[plugin.current]} className="bg-white w-full h-full">
           <CarouselContent className="w-full h-full">
             <CarouselItem className="basis-full">
               <Card>
-                <CardContent className="h-full w-full">
-                  <span>1</span>
+                <CardContent className="h-full w-full relative">
+                  <Image
+                    alt="Photo of Cosplayer"
+                    className="p-8"
+                    layout="fill"
+                    src={cosplayer1}
+                  />
+                </CardContent>
+              </Card>
+            </CarouselItem>
 
+            <CarouselItem className="basis-full relative">
+              <Card>
+                <CardContent>
+                  <Image
+                    alt="Photo of Cosplayer"
+                    className="p-8"
+                    layout="fill"
+                    src={photographer1}
+                  />
+                </CardContent>
+              </Card>
+            </CarouselItem>
+
+            <CarouselItem className="basis-full relative">
+              <Card>
+                <CardContent>
                   <Image
                     alt="Photo of Cosplayer"
                     className="p-8"
@@ -53,7 +71,20 @@ export default function RegisterPage() {
               </Card>
             </CarouselItem>
 
-            <CarouselItem className="basis-full">
+            <CarouselItem className="basis-full relative">
+              <Card>
+                <CardContent>
+                  <Image
+                    alt="Photo of Cosplayer"
+                    className="p-8"
+                    layout="fill"
+                    src={photographer2}
+                  />
+                </CardContent>
+              </Card>
+            </CarouselItem>
+
+            <CarouselItem className="basis-full relative">
               <Card>
                 <CardContent>
                   <Image
@@ -65,22 +96,8 @@ export default function RegisterPage() {
                 </CardContent>
               </Card>
             </CarouselItem>
-
-            <CarouselItem className="basis-full">
-              <Card>
-                <CardContent>
-                  <span>3</span>
-                  {/* <Image
-                    alt="Photo of Cosplayer"
-                    className="p-8"
-                    layout="fill"
-                    src={cosplayer2}
-                  /> */}
-                </CardContent>
-              </Card>
-            </CarouselItem>
           </CarouselContent>
-        </Carousel>
+        </Carousel> */}
       </div>
 
       <div className="lg:p-8">
@@ -98,7 +115,8 @@ export default function RegisterPage() {
             <h1 className="font-kanit mb-3 text-6xl font-bold">Chameleon</h1>
             <div className="animate-cursorBlink relative flex border-r-[3px] pr-[1px]">
               <h2 className="font-roboto text-xl font-bold flex">
-                Find your next <span className="mr-1" /> <TypeWritterEffect />
+                Find your next <span className="mr-[5px]" />{' '}
+                <TypeWritterEffect />
               </h2>
             </div>
 
