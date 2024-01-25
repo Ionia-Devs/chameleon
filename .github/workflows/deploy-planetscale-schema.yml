@@ -35,5 +35,5 @@ jobs:
             echo "Branch exists. Skipping branch creation."
           else
             echo "Branch does not exist. Creating."
-            pscale branch create ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --wait
+            pscale branch create --org ${{secrets.ORG_NAME}} ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --wait
           fi
