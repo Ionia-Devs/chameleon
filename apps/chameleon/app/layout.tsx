@@ -1,4 +1,8 @@
-import { Inter as FontSans } from 'next/font/google'
+import {
+  Kanit as FontKanit,
+  Roboto as FontRoboto,
+  Inter as FontSans,
+} from 'next/font/google'
 import localFont from 'next/font/local'
 
 import { siteConfig } from '@/config/site'
@@ -12,6 +16,18 @@ import '@/styles/globals.css'
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
+})
+
+const fontRoboto = FontRoboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  variable: '--font-roboto',
+})
+
+const fontKanit = FontKanit({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  variable: '--font-kanit',
 })
 
 // Font files can be colocated inside of `pages`
@@ -83,7 +99,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable,
-          fontHeading.variable
+          fontHeading.variable,
+          fontRoboto.variable,
+          fontKanit.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

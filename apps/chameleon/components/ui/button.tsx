@@ -17,6 +17,8 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
+        aware: 'bg-white text-[#191919] hover:bg-[#e5e5e5]',
+        signup: "",
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {

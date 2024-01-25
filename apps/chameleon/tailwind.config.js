@@ -6,7 +6,7 @@ module.exports = {
   content: [
     join(
       __dirname,
-      '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}',
+      '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}'
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
@@ -60,6 +60,10 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        kanit: ['Kanit', 'sans-serif'],
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
@@ -69,10 +73,28 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        scroll: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100%, 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        cursorBlink: {
+          '0%': {
+            borderColor: 'transparent',
+          },
+          '100%': {
+            borderColor: 'black',
+          },
+        },
+      },
+      transitionProperty: {
+        height: 'height',
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        scroll: 'scroll 5s ease-in-out infinite',
+        cursorBlink: 'cursorBlink 1.3s infinite',
       },
     },
   },
