@@ -24,9 +24,10 @@ jobs:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
           DB_NAME: ${{ secrets.DB_NAME }}
+          ORG_NAME: ${{ secrets.ORG_NAME }}
         run: |
           set +e
-          pscale branch show ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
+          pscale branch show ${{secrets.ORG_NAME}} ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
           exit_code=$?
           set -e
 
