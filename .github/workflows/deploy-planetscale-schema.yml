@@ -23,7 +23,7 @@ jobs:
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
         run: |
           set +e
-          pscale branch show ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
+          pscale branch show ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
           exit_code=$?
           set -e
 
@@ -31,5 +31,5 @@ jobs:
             echo "Branch exists. Skipping branch creation."
           else
             echo "Branch does not exist. Creating."
-            pscale branch create ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --wait
+            pscale branch create ${{ secrets.DB_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --wait
           fi
