@@ -1,82 +1,35 @@
-name: PlanetScale Database Deployment
-
+name: Run database migrations
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'data-access/db/prisma/schema.prisma'
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [main]
     paths:
       - 'data-access/db/prisma/schema.prisma'
-
-permissions:
-  actions: read
-  contents: read
 
 jobs:
-  deploy-schema:
+  planetscale:
+    permissions:
+      pull-requests: write
+      contents: read
+
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # Setup Node.js version 18.19.0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.19.0'
-
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Setup pscale
-        uses: planetscale/setup-pscale-action@v1
-
-      - name: Set PlanetScale branch name
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Set branch name
         run: echo "PSCALE_BRANCH_NAME=$(echo ${{ github.head_ref }} | tr -cd '[:alnum:]-'| tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      - name: Handle PlanetScale branch
+      - name: Create branch
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
         run: |
           set +e
-          pscale branch show ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --org ${{ secrets.PLANETSCALE_ORG_NAME }}
+          pscale branch show ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }}
           exit_code=$?
           set -e
-          if [ $exit_code -ne 0 ]; then
-            pscale branch create ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --org ${{ secrets.PLANETSCALE_ORG_NAME }} --wait
+
+          if [ $exit_code -eq 0 ]; then
+            echo "Branch exists. Skipping branch creation."
+          else
+            echo "Branch does not exist. Creating."
+            pscale branch create ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --wait
           fi
-
-      - name: Submit deploy request
-        env:
-          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
-          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
-        run: |
-          pscale deploy-request create ${{ secrets.PLANETSCALE_DATABASE_NAME }} ${{ env.PSCALE_BRANCH_NAME }} --org ${{ secrets.PLANETSCALE_ORG_NAME }}
-
-      # Optional: Additional steps like notifying team members, logging, etc.
