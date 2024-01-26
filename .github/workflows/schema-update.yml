@@ -15,11 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
-        id: extract_branch
-
       - name: Create a new database branch
         if: github.event.action == 'opened'
         uses: planetscale/create-branch-action@v1
