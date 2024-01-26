@@ -1,0 +1,77 @@
+name: Prisma Schema Update on PlanetScale
+
+on:
+  pull_request:
+    paths:
+      - 'data-access/db/prisma/schema.prisma'
+    types: [opened, closed, synchronize]
+
+jobs:
+  update_schema:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.state == 'open'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create a new database branch
+        if: github.event.action == 'opened'
+        uses: planetscale/create-branch-action@v1
+        with:
+          org_name: ${{ secrets.ORG_NAME }}
+          database_name: ${{ secrets.DB_NAME }}
+          branch_name: ${{ github.head_ref }}
+        env:
+          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
+          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+
+      - name: Create a password
+        uses: planetscale/create-branch-password-action@v1
+        with:
+          org_name: ${{ secrets.ORG_NAME }}
+          database_name: ${{ secrets.DB_NAME }}
+          branch_name: ${{ github.head_ref }}
+          name: 'pass_${{ github.head_ref }}'
+        env:
+          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
+          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+        id: create_password
+
+      - name: Override DATABASE_URL
+        run: echo "DATABASE_URL=${{ steps.create_password.outputs.connection_string }}" >> $GITHUB_ENV
+
+      - name: Push schema changes to database
+        run: npx prisma db push
+        env:
+          DATABASE_URL: ${{ steps.create_password.outputs.connection_string }}
+
+  merge_changes:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.state == 'closed' && github.event.pull_request.merged == true
+    needs: update_schema
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create a deploy request
+        uses: planetscale/create-deploy-request-action@v1
+        with:
+          org_name: ${{ secrets.ORG_NAME }}
+          database_name: ${{ secrets.DB_NAME }}
+          branch_name: ${{ github.head_ref }}
+        env:
+          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
+          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
+
+      - name: Deploy the deploy request
+        uses: planetscale/deploy-deploy-request-action@v1
+        with:
+          org_name: ${{ secrets.ORG_NAME }}
+          database_name: ${{ secrets.DB_NAME }}
+          number: ${{ steps.create_deploy_request.outputs.number }}
+          wait: true
+        env:
+          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
+          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
