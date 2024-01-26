@@ -36,8 +36,7 @@ jobs:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
           branch_name: ${{ env.PSCALE_BRANCH_NAME }}
-          name: 'pass-${{ env.PSCALE_BRANCH_NAME }}'
-        continue-on-error: true
+          name: 'pass-${{ env.PSCALE_BRANCH_NAME }}-${{ github.run_id }}'
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
