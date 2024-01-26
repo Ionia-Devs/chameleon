@@ -43,12 +43,13 @@ jobs:
         id: create_password
 
       - name: Override DATABASE_URL
-        run: echo "DATABASE_URL=${{ steps.create_password.outputs.connection_string }}" >> $GITHUB_ENV
+        run: |
+          echo "DATABASE_URL=mysql://${{ steps.create_password.outputs.username }}:${{ steps.create_password.outputs.password }}@${{ steps.create_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict" >> $GITHUB_ENV
 
       - name: Push schema changes to database
         run: npx prisma db push --schema=./data-access/db/prisma/schema.prisma
         env:
-          DATABASE_URL: ${{ steps.create_password.outputs.connection_string }}
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
   merge_changes:
     runs-on: ubuntu-latest
