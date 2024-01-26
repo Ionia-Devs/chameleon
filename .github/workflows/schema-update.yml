@@ -44,7 +44,12 @@ jobs:
 
       - name: Override DATABASE_URL
         run: |
-          echo "DATABASE_URL=mysql://${{ steps.create_password.outputs.username }}:${{ steps.create_password.outputs.password }}@${{ steps.create_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict" >> $GITHUB_ENV
+          DATABASE_URL_VALUE="mysql://${{ steps.create_password.outputs.username }}:${{ steps.create_password.outputs.password }}@${{ steps.create_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict"
+          echo "Constructed DATABASE_URL: $DATABASE_URL_VALUE"
+          echo "DATABASE_URL=$DATABASE_URL_VALUE" >> $GITHUB_ENV
+
+      - name: Echo DATABASE_URL
+        run: echo "DATABASE_URL is set to '$DATABASE_URL'"
 
       - name: Push schema changes to database
         run: npx prisma db push --schema=./data-access/db/prisma/schema.prisma
