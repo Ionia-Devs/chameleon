@@ -17,7 +17,7 @@ jobs:
 
       - name: Create a new database branch
         if: github.event.action == 'opened'
-        uses: planetscale/create-branch-action@v1
+        uses: planetscale/create-branch-action@v4
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
@@ -29,7 +29,7 @@ jobs:
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
 
       - name: Create a password
-        uses: planetscale/create-branch-password-action@v1
+        uses: planetscale/create-branch-password-action@v3
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create a deploy request
-        uses: planetscale/create-deploy-request-action@v1
+        uses: planetscale/create-deploy-request-action@v2
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
@@ -68,7 +68,7 @@ jobs:
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
 
       - name: Deploy the deploy request
-        uses: planetscale/deploy-deploy-request-action@v1
+        uses: planetscale/deploy-deploy-request-action@v4
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
