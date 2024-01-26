@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Check permissions and PR ref
         id: prechecks
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -68,7 +68,7 @@ jobs:
       - name: Pre-Check-Failed
         id: precheck-failed
         if: failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           message: ${{steps.prechecks.outputs.error}}
         with:
@@ -127,7 +127,7 @@ jobs:
           ORG_NAME: ${{ steps.get-ps-env.outputs.ORG_NAME }}
           REF: ${{ needs.prechecks.outputs.ref }}
           SHA: ${{ needs.prechecks.outputs.sha }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -198,7 +198,7 @@ jobs:
       - name: Schema change merge succeeded
         id: merging-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.get-ps-env.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.get-ps-env.outputs.BRANCH_NAME }}
@@ -270,7 +270,7 @@ jobs:
       - name: Merging schema change failed
         id: merging-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.get-ps-env.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.get-ps-env.outputs.BRANCH_NAME }}
@@ -334,7 +334,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{env.pscale_base_directory}}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -457,7 +457,7 @@ jobs:
       - name: Database branch and DR creation succeeded
         id: ps-create-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.create-db-branch-and-dr.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.create-db-branch-and-dr.outputs.BRANCH_NAME }}
@@ -521,7 +521,7 @@ jobs:
       - name: /ps-create failed
         id: ps-create-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           REF: ${{ needs.prechecks.outputs.ref }}
           message: ${{steps.validate_params.outputs.error}}
@@ -573,7 +573,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{env.pscale_base_directory}}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -658,7 +658,7 @@ jobs:
       - name: Database branch and DR update succeeded
         id: ps-update-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.update-db-branch.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.update-db-branch.outputs.BRANCH_NAME }}
@@ -719,7 +719,7 @@ jobs:
       - name: /ps-update failed
         id: ps-update-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           REF: ${{ needs.prechecks.outputs.ref }}
           message: ${{steps.validate_params.outputs.error}}
@@ -771,7 +771,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{env.pscale_base_directory}}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -853,7 +853,7 @@ jobs:
       - name: Approved deploy request
         id: ps-approve-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.approve-deploy-request.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.approve-deploy-request.outputs.BRANCH_NAME }}
@@ -896,7 +896,7 @@ jobs:
       - name: /ps-approve failed
         id: ps-approve-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           REF: ${{ needs.prechecks.outputs.ref }}
           message: ${{steps.validate_params.outputs.error}}
@@ -947,7 +947,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{ env.pscale_base_directory }}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -1017,7 +1017,7 @@ jobs:
       - name: Database branch deleted
         id: ps-delete-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           BRANCH_NAME: ${{ steps.delete-db-branch.outputs.BRANCH_NAME }}
         with:
@@ -1053,7 +1053,7 @@ jobs:
       - name: /ps-delete failed
         id: ps-delete-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           REF: ${{ needs.prechecks.outputs.ref }}
           message: ${{steps.validate_params.outputs.error}}
@@ -1104,7 +1104,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{env.pscale_base_directory}}
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -1222,7 +1222,7 @@ jobs:
       - name: PS Attach Deploy Request succeeded
         id: ps-attach-succeeded
         if: success()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           DEPLOY_REQUEST_URL: ${{ steps.retrieve-attached-info.outputs.DEPLOY_REQUEST_URL }}
           BRANCH_NAME: ${{ steps.retrieve-attached-info.outputs.BRANCH_NAME }}
@@ -1285,7 +1285,7 @@ jobs:
       - name: /ps-attach failed
         id: ps-attach-failed
         if: cancelled() || failure()
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           REF: ${{ needs.prechecks.outputs.ref }}
           message: ${{steps.validate_params.outputs.error}}

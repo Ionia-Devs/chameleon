@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Validate parameters
         id: validate_params
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7.0.1
         env:
           BRANCH_NAME: ${{ github.event.inputs.branch }}
           DDL_STATEMENTS: ${{ github.event.inputs.ddl_statements }}
