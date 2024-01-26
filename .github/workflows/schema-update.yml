@@ -15,12 +15,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set branch name
+        run: echo "PSCALE_BRANCH_NAME=$(echo ${{ github.head_ref }} | tr -cd '[:alnum:]-'| tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Create a new database branch
         uses: planetscale/create-branch-action@v4
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
-          branch_name: ${{ github.head_ref }}
+          branch_name: ${{ secrets.PSCALE_BRANCH_NAME }}
           check_exists: true
           wait: true
         env:
@@ -32,8 +35,8 @@ jobs:
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
-          branch_name: ${{ github.head_ref }}
-          name: 'pass_${{ github.head_ref }}'
+          branch_name: ${{ secrets.PSCALE_BRANCH_NAME }}
+          name: 'pass_${{ secrets.PSCALE_BRANCH_NAME }}'
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
