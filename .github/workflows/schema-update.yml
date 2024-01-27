@@ -30,13 +30,17 @@ jobs:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
 
+      - name: Generate unique suffix
+        id: random
+        run: echo "::set-output name=suffix::$(openssl rand -hex 6)"
+
       - name: Create a password
         uses: planetscale/create-branch-password-action@v3
         with:
           org_name: ${{ secrets.ORG_NAME }}
           database_name: ${{ secrets.DB_NAME }}
           branch_name: ${{ env.PSCALE_BRANCH_NAME }}
-          name: 'pass-${{ env.PSCALE_BRANCH_NAME }}-${{ github.run_id }}'
+          name: 'pass-${{ env.PSCALE_BRANCH_NAME }}-${{ steps.random.outputs.suffix }}'
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
