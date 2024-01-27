@@ -30,9 +30,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const searchParams = useSearchParams()
-  const variantType: string = props.styleVariant
-    ? props.styleVariant
-    : 'default'
 
   async function onSubmit(data: FormData) {
     setIsLoading(true)
@@ -84,10 +81,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
 
-          <button
-            className={cn(buttonVariants(variantType))}
-            disabled={isLoading}
-          >
+          <button className={cn(buttonVariants())} disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -97,19 +91,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </form>
 
       <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          {/* <span className="w-full border-t" /> */}
-        </div>
+        <div className="absolute inset-0 flex items-center"></div>
         <div className="relative flex justify-center text-xs font-bold uppercase items-center">
           <span className="w-[30%] border-t"></span>
-          <span className="px-2 text-[#191919]">Or continue with</span>
+          <span className="px-2 text-dimBlack">Or continue with</span>
           <span className="w-[30%] border-t"></span>
         </div>
       </div>
 
       <button
         type="button"
-        className={cn(buttonVariants({ variant: 'aware' }))}
+        className={cn(buttonVariants({ variant: 'outline' }))}
         onClick={() => {
           setIsGitHubLoading(true)
           signIn('github')
