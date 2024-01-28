@@ -21,8 +21,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        dimBlack: '#191919',
-        dimWhite: '#e5e5e5',
+        'dim-black': '#191919',
+        'neutral-200': '#e5e5e5',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

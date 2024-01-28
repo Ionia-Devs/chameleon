@@ -21,7 +21,7 @@ export default function RegisterPage() {
         href="/login"
         className={cn(
           buttonVariants({ variant: 'default' }),
-          'absolute right-4 top-4 md:right-8 md:top-8 bg-white text-dimBlack hover:bg-dimWhite'
+          'absolute right-4 top-4 md:right-8 md:top-8 bg-white text-dim-black hover:bg-neutral-200'
         )}
       >
         Login
@@ -32,7 +32,7 @@ export default function RegisterPage() {
       </div>
 
       <div className="">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] text-dimBlack">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] text-dim-black">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Image
               src={chameleon}
@@ -55,7 +55,7 @@ export default function RegisterPage() {
             <UserAuthForm />
           </Suspense>
 
-          <p className="px-8 text-center text-sm text-dimBlack">
+          <p className="px-8 text-center text-sm text-dim-black">
             By clicking continue, you agree to our
             <br></br>
             <Link
