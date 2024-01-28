@@ -27,13 +27,11 @@ export default function RegisterPage() {
         Login
       </Link>
 
-      <div className="relative hidden h-full  bg-muted lg:block">
-        {/* <div className="relative flex w-full h-full overflow-hidden bg-white border-black"> */}
+      <div className="relative hidden h-full bg-muted lg:block">
         <CarouselRegister />
-        {/* </div> */}
       </div>
 
-      <div className="lg:p-8">
+      <div className="">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] text-dimBlack">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Image
@@ -54,21 +52,22 @@ export default function RegisterPage() {
           </div>
 
           <Suspense>
-            <UserAuthForm styleVariant={{ styleVariant: 'Signup' }} />
+            <UserAuthForm />
           </Suspense>
 
-          <p className="px-8 text-center text-sm text-[#191919]">
+          <p className="px-8 text-center text-sm text-dimBlack">
             By clicking continue, you agree to our
+            <br></br>
             <Link
               href="/terms"
-              className="hover:text-brand underline underline-offset-4"
+              className="ml-1 hover:text-brand underline underline-offset-4"
             >
               Terms of Service
-            </Link>{' '}
-            and{' '}
+            </Link>
+            <span className="ml-1">and</span>
             <Link
               href="/privacy"
-              className="hover:text-brand underline underline-offset-4"
+              className="ml-1 hover:text-brand underline underline-offset-4"
             >
               Privacy Policy
             </Link>

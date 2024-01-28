@@ -65,6 +65,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               Email
             </Label>
             <Input
+              className="text-dimWhite"
               id="email"
               placeholder="name@example.com"
               type="email"
@@ -101,7 +102,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
       <button
         type="button"
-        className={cn(buttonVariants({ variant: 'outline' }))}
+        className={cn(
+          buttonVariants({ variant: 'outline' }),
+          'bg-white hover:bg-dimWhite hover:text-dimBlack border-none'
+        )}
         onClick={() => {
           setIsGitHubLoading(true)
           signIn('github')
@@ -112,7 +116,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{' '}
+        )}
         Github
       </button>
     </div>
