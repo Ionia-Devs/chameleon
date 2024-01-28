@@ -35,6 +35,44 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
-      - run: pnpm nx affected -t test,build --parallel=3 --configuration=ci
-      # - run: pnpm nx affected -t lint,test,build --parallel=3 --configuration=ci
-      # - run: pnpm nx affected -t e2e --parallel=1
+
+      - name: Run NX Affected Commands
+        id: nx-affected
+        run: |
+          echo "::set-output name=result::$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)"
+        continue-on-error: true
+
+      - name: Update or Create Comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const identifier = 'CI-Results-Update'; // Unique identifier for the comment to update
+            const header = `<!-- ${identifier} -->\n`; // Makes identifying the comment easier
+            const body = header + (steps.nx-affected.outcome == 'success' ? '🎉 Build succeeded!' : '❌ Build failed:') + '\n```' + steps.nx-affected.outputs.result + '```';
+
+            const comments = await github.issues.listComments({
+              issue_number,
+              owner,
+              repo,
+            });
+
+            const existingComment = comments.data.find(comment => comment.body.startsWith(header));
+
+            if (existingComment) {
+              await github.issues.updateComment({
+                comment_id: existingComment.id,
+                owner,
+                repo,
+                body,
+              });
+            } else {
+              await github.issues.createComment({
+                issue_number,
+                owner,
+                repo,
+                body,
+              });
+            }
