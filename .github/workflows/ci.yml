@@ -109,15 +109,11 @@ jobs:
             const buildOutputFile = process.env.BUILD_OUTPUT_FILE;
             let buildOutput = fs.readFileSync(buildOutputFile, { encoding: 'utf8' });
 
-            // Remove ANSI escape codes but not within code blocks
-            buildOutput = buildOutput.split('\n').map((line) => {
-              // Check if the line is part of a code block
-              if (line.match(/^\s*```/)) {
-                return line; // Return the line unchanged if it's part of a code block
-              }
-              // Otherwise, remove ANSI escape codes
-              return line.replace(/\033\[[0-9;]*m/g, '');
-            }).join('\n');
+            // Remove ANSI escape codes for color
+            buildOutput = buildOutput.replace(/\033\[[0-9;]*m/g, '');
+
+            // Escape backticks to prevent breaking out of the code block
+            buildOutput = buildOutput.replace(/`/g, '`\u200B');
 
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
@@ -132,8 +128,8 @@ jobs:
               statusMessage = `Build succeeded`;
             } else {
               statusEmoji = '❌ Failed';
-              // Use "plaintext" for syntax highlighting to maintain the original output
-              statusMessage = `Build failed:\n\`\`\`plaintext\n${buildOutput}\n\`\`\``;
+              // Use shell for syntax highlighting and escape triple backticks
+              statusMessage = `Build failed:\n\`\`\`shell\n${buildOutput}\n\`\`\``;
             }
 
             const body = `
