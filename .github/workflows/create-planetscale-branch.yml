@@ -34,7 +34,7 @@ jobs:
           org_name: ${{secrets.ORG_NAME}}
           database_name: ${{secrets.DB_NAME}}
           branch_name: ${{ steps.extract_branch.outputs.branch }}
-          name: 'pass-${{ steps.extract_branch.outputs.branch }}'
+          name: 'pass-testbranch'
       - name: Get the new credentials
         run: |
           echo "Hostname: ${{ steps.create_branch_password.outputs.hostname}}"
