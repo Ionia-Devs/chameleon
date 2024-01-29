@@ -36,36 +36,23 @@ jobs:
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
 
-      - name: Run NX Affected Commands
-        id: nx-affected
-        run: |
-          echo "::set-output name=result::$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)"
-          echo "NX_RESULT<<EOF" # Start multi-line output
-          pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1
-          echo "EOF" # End multi-line output
-        continue-on-error: true
-
-      - name: Update or Create Comment
+      - name: Post Initial Comment
+        id: initial-comment
         uses: actions/github-script@v6
-        env: # Use environment variables to pass data
-          NX_RESULT: ${{ steps.nx-affected.outputs.result }}
-          NX_OUTCOME: ${{ job.status }} # This can be 'success', 'failure', or 'cancelled'
         with:
           script: |
-            const result = process.env.NX_RESULT;
-            const outcome = process.env.NX_OUTCOME;
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const identifier = 'CI-Results-Update'; // Unique identifier for the comment
-            const header = `<!-- ${identifier} -->\n`;
-
-            let body = header;
-            if (outcome === 'success') {
-              body += '🎉 Build succeeded!';
-            } else {
-              body += '❌ Build failed:\n' + '```' + result + '```';
-            }
+            const commit_sha = context.sha.substring(0, 7);
+            const header = `<!-- CI-Results-Update -->\n`;
+            const body = `
+              ${header}
+              ### The latest updates on your build
+              | Name | Status | Preview | Comments | Updated (UTC) |
+              | --- | --- | --- | --- | --- |
+              | ${commit_sha} | 🔄 Building | ${new Date().toUTCString()} |
+              `;
 
             const comments = await github.rest.issues.listComments({
               issue_number,
@@ -73,7 +60,7 @@ jobs:
               repo,
             });
 
-            const existingComment = comments.data.find(comment => comment.body.startsWith(header));
+            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
 
             if (existingComment) {
               await github.rest.issues.updateComment({
@@ -89,4 +76,72 @@ jobs:
                 repo,
                 body,
               });
+            }
+
+            // Output the ID of the comment so we can update it later
+            if (existingComment) {
+              console.log('Comment updated');
+            } else {
+              console.log('Comment created');
+            }
+
+      - name: Run Build and Tests
+        id: build
+        run: |
+          output=$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)
+          echo "::set-output name=result::$output"
+        continue-on-error: true
+
+      - name: Update Comment with Build Result
+        if: always() # Ensures this step runs whether the build succeeds or fails
+        uses: actions/github-script@v6
+        env:
+          BUILD_STATUS: ${{ job.status }}
+          BUILD_OUTPUT: ${{ steps.build.outputs.result }}
+        with:
+          script: |
+            const buildStatus = process.env.BUILD_STATUS;
+            const buildOutput = process.env.BUILD_OUTPUT;
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const commit_sha = context.sha.substring(0, 7);
+            const header = `<!-- CI-Results-Update -->\n`;
+            let statusEmoji;
+            let statusMessage;
+
+            if (buildStatus === 'success') {
+              statusEmoji = '✅ Succeeded';
+              statusMessage = `Build succeeded`;
+            } else {
+              statusEmoji = '❌ Failed';
+              statusMessage = `Build failed:\n\`\`\`${buildOutput}\`\`\``; // Include build output only on failure
+            }
+
+            const body = `
+              ${header}
+              ### The latest updates on your build
+              | Name | Status | Preview | Comments | Updated (UTC) |
+              | --- | --- | --- | --- | --- |
+              | ${commit_sha} | ${statusEmoji} | ${new Date().toUTCString()} |
+              \n${statusMessage}
+              `;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number,
+              owner,
+              repo,
+            });
+
+            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner,
+                repo,
+                body,
+              });
+            } else {
+              console.log('No initial comment found to update.');
             }
