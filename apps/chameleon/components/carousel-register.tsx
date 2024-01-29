@@ -28,15 +28,15 @@ export default function CarouselRegister() {
   )
 
   return (
-    <Carousel plugins={[plugin.current]} className="bg-black w-full h-full">
-      <CarouselContent className="w-full h-screen ml-0">
+    <Carousel plugins={[plugin.current]} className="bg-black">
+      <CarouselContent className="h-screen ml-0">
         {imageArray.map((imgSrc, index) => (
           <CarouselItem key={index} className="basis-full pl-0 relative">
             <Card className="rounded-none h-full">
               <CardContent className="flex p-6 h-full w-full aspect-square items-center justify-center">
                 <Image
                   alt="Photo of Cosplayer"
-                  className="p-8 h-full w-full"
+                  className="p-8"
                   layout="responsive"
                   src={imgSrc}
                 />
