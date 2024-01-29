@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - 'data-access/db/prisma/schema.prisma'
-    types: [opened, synchronize, closed]
+    types: [opened, closed]
 
 jobs:
   Create_DB:
