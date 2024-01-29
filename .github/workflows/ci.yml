@@ -49,7 +49,7 @@ jobs:
             const body = `
               ${header}
               ### The latest updates on your build
-              | Name | Status | Preview | Comments | Updated (UTC) |
+              | Name | Status | Updated (UTC) |
               | --- | --- | --- | --- | --- |
               | ${commit_sha} | 🔄 Building | ${new Date().toUTCString()} |
               `;
@@ -90,17 +90,16 @@ jobs:
         run: |
           output=$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)
           echo "::set-output name=result::$output"
-        continue-on-error: true
 
       - name: Update Comment with Build Result
-        if: always() # Ensures this step runs whether the build succeeds or fails
+        if: always()
         uses: actions/github-script@v6
         env:
-          BUILD_STATUS: ${{ job.status }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }} # This is the outcome of the "Run Build and Tests" step
           BUILD_OUTPUT: ${{ steps.build.outputs.result }}
         with:
           script: |
-            const buildStatus = process.env.BUILD_STATUS;
+            const buildOutcome = process.env.BUILD_OUTCOME;
             const buildOutput = process.env.BUILD_OUTPUT;
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
@@ -110,19 +109,22 @@ jobs:
             let statusEmoji;
             let statusMessage;
 
-            if (buildStatus === 'success') {
+            if (buildOutcome === 'success') {
               statusEmoji = '✅ Succeeded';
               statusMessage = `Build succeeded`;
-            } else {
+            } else if (buildOutcome === 'failure') {
               statusEmoji = '❌ Failed';
               statusMessage = `Build failed:\n\`\`\`${buildOutput}\`\`\``; // Include build output only on failure
+            } else {
+              statusEmoji = '⚠️ Cancelled';
+              statusMessage = `Build cancelled`;
             }
 
             const body = `
               ${header}
               ### The latest updates on your build
-              | Name | Status | Preview | Comments | Updated (UTC) |
-              | --- | --- | --- | --- | --- |
+              | Name | Status | Updated (UTC) |
+              | --- | --- | --- |
               | ${commit_sha} | ${statusEmoji} | ${new Date().toUTCString()} |
               \n${statusMessage}
               `;
