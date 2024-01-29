@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation'
 
-import { authOptions } from '@/lib/auth'
-import { getCurrentUser } from '@/lib/session'
-import { client } from '@/lib/wundergraph'
 import { DashboardHeader } from '@/components/header'
 import { DashboardShell } from '@/components/shell'
 import Todoform from '@/components/todo-form'
+import { authOptions } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/session'
+import { client } from '@/lib/wundergraph'
 
 export const metadata = {
   title: 'Settings',
@@ -20,7 +20,7 @@ export default async function SettingsPage() {
   }
 
   const todos = await client.query({
-    operationName: 'todos/getAllTodosForCurrentUser',
+    operationName: "todos/getAllTodosForCurrentUser",
     input: {
       userId: user.id,
     },
