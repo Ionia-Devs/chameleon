@@ -45,7 +45,7 @@ jobs:
           echo "EOF" # End multi-line output
         continue-on-error: true
 
-        - name: Update or Create Comment
+      - name: Update or Create Comment
         uses: actions/github-script@v6
         env: # Use environment variables to pass data
           NX_RESULT: ${{ steps.nx-affected.outputs.result }}
