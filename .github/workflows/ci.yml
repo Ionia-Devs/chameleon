@@ -45,7 +45,7 @@ jobs:
           echo "EOF" # End multi-line output
         continue-on-error: true
 
-      - name: Update or Create Comment
+        - name: Update or Create Comment
         uses: actions/github-script@v6
         env: # Use environment variables to pass data
           NX_RESULT: ${{ steps.nx-affected.outputs.result }}
@@ -58,8 +58,14 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const identifier = 'CI-Results-Update'; // Unique identifier for the comment
-            const header = `<!-- ${identifier} -->\n`; // Makes identifying the comment easier
-            const body = header + (outcome === 'success' ? '🎉 Build succeeded!' : '❌ Build failed:') + '\n```' + result + '```';
+            const header = `<!-- ${identifier} -->\n`;
+
+            let body = header;
+            if (outcome === 'success') {
+              body += '🎉 Build succeeded!';
+            } else {
+              body += '❌ Build failed:\n' + '```' + result + '```';
+            }
 
             const comments = await github.rest.issues.listComments({
               issue_number,
