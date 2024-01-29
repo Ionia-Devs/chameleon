@@ -112,9 +112,6 @@ jobs:
             // Remove ANSI escape codes for color
             buildOutput = buildOutput.replace(/\033\[[0-9;]*m/g, '');
 
-            // Escape backticks to prevent breaking out of the code block
-            buildOutput = buildOutput.replace(/`/g, '`\u200B');
-
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
@@ -128,8 +125,8 @@ jobs:
               statusMessage = `Build succeeded`;
             } else {
               statusEmoji = '❌ Failed';
-              // Use shell for syntax highlighting and escape triple backticks
-              statusMessage = `Build failed:\n\`\`\`shell\n${buildOutput}\n\`\`\``;
+              // Use quadruple backticks to ensure any backticks in the output are displayed correctly
+              statusMessage = `Build failed:\n\`\`\`\`\n${buildOutput}\n\`\`\`\``;
             }
 
             const body = `
@@ -147,7 +144,7 @@ jobs:
               repo,
             });
 
-            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
+            const existingComment = comments.data.find(comment to include build output and ensure proper rendering of backticks in GitHub comment.body.includes(header.trim()));
 
             if (existingComment) {
               await github.rest.issues.updateComment({
