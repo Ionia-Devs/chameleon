@@ -45,7 +45,7 @@ jobs:
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{secrets.PLANETSCALE_SERVICE_TOKEN_ID}}
           DB_NAME: ${{secrets.DB_NAME}}
-          BRANCH_NAME: testbranch
+          BRANCH_NAME: testbranch 
           ORG_NAME: ${{secrets.ORG_NAME}}
 
   merge_changes:
