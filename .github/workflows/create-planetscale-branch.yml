@@ -1,6 +1,8 @@
-name: Create a branch
+name: Create a Branch
 on:
   pull_request:
+    paths:
+      - 'data-access/db/prisma/schema.prisma'
     types: [opened]
 
 jobs:

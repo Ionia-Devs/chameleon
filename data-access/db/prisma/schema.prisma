@@ -78,7 +78,7 @@ model Todo {
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
   userId      String
-
+  testWorkflow String?
   user User @relation(fields: [userId], references: [id])
 }
 

@@ -1,10 +1,11 @@
 name: Prisma Schema Update on PlanetScale
 
 on:
-  pull_request:
-    paths:
-      - 'data-access/db/prisma/schema.prisma'
-    types: [opened]
+  workflow_dispatch:
+  # pull_request:
+    # paths:
+    #   - 'data-access/db/prisma/schema.prisma'
+    # types: [opened]
 
 jobs:
   update_schema:
