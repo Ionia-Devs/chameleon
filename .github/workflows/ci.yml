@@ -1,9 +1,8 @@
 name: CI
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
 
 jobs:
   main:
@@ -35,6 +34,126 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
-      - run: pnpm nx affected -t test,build --parallel=3 --configuration=ci
-      # - run: pnpm nx affected -t lint,test,build --parallel=3 --configuration=ci
-      # - run: pnpm nx affected -t e2e --parallel=1
+
+      - name: Post Initial Comment
+        id: initial-comment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const commit_sha = context.sha.substring(0, 7);
+            const header = `<!-- CI-Results-Update -->\n`;
+            const body = `
+              ${header}
+              ### The latest updates on your build
+              | Name | Status | Updated (UTC) |
+              | --- | --- | --- |
+              | ${commit_sha} | 🔄 Building | ${new Date().toUTCString()} |
+              `;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number,
+              owner,
+              repo,
+            });
+
+            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner,
+                repo,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number,
+                owner,
+                repo,
+                body,
+              });
+            }
+
+            // Output the ID of the comment so we can update it later
+            if (existingComment) {
+              console.log('Comment updated');
+            } else {
+              console.log('Comment created');
+            }
+
+      - name: Run Build and Tests
+        id: build
+        run: |
+          pnpm nx affected -t test,build --parallel=3 --configuration=ci > build-output.txt 2>&1 || echo "BUILD_FAILED" >> build-output.txt
+          echo "::set-output name=result::$(cat build-output.txt)"
+          if grep -q "BUILD_FAILED" build-output.txt; then
+            echo "build_failed=true" >> $GITHUB_ENV
+          else
+            echo "build_failed=false" >> $GITHUB_ENV
+          fi
+
+      - name: Update Comment with Build Result
+        if: always()
+        uses: actions/github-script@v6
+        env:
+          BUILD_FAILED: ${{ env.build_failed }}
+          BUILD_OUTPUT_FILE: build-output.txt
+        with:
+          script: |
+            const fs = require('fs');
+            const buildFailed = process.env.BUILD_FAILED === 'true';
+            const buildOutputFile = process.env.BUILD_OUTPUT_FILE;
+            let buildOutput = fs.readFileSync(buildOutputFile, { encoding: 'utf8' });
+
+            // Remove ANSI escape codes for color
+            buildOutput = buildOutput.replace(/\033\[[0-9;]*m/g, '');
+
+            // Replace single backticks with grave accent character to avoid Markdown issues
+            buildOutput = buildOutput.replace(/`/g, '\u0300');
+
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const commit_sha = context.sha.substring(0, 7);
+            const header = `<!-- CI-Results-Update -->\n`;
+            let statusEmoji;
+            let statusMessage;
+
+            if (!buildFailed) {
+              statusEmoji = '✅ Succeeded';
+              statusMessage = `Build succeeded`;
+            } else {
+              statusEmoji = '❌ Failed';
+              statusMessage = `Build failed:\n\`\`\`plaintext\n${buildOutput}\n\`\`\``; // Using plaintext for generic code blocks
+            }
+
+            const body = `
+              ${header}
+              ### The latest updates on your build
+              | Name | Status | Updated (UTC) |
+              | --- | --- | --- |
+              | ${commit_sha} | ${statusEmoji} | ${new Date().toUTCString()} |
+              \n${statusMessage}
+              `;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number,
+              owner,
+              repo,
+            });
+
+            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner,
+                repo,
+                body,
+              });
+            } else {
+              console.log('No initial comment found to update.');
+            }
