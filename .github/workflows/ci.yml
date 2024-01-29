@@ -125,8 +125,8 @@ jobs:
               statusMessage = `Build succeeded`;
             } else {
               statusEmoji = '❌ Failed';
-              // Use quadruple backticks to ensure any backticks in the output are displayed correctly
-              statusMessage = `Build failed:\n\`\`\`\`\n${buildOutput}\n\`\`\`\``;
+              // Use shell for syntax highlighting and escape triple backticks
+              statusMessage = `Build failed:\n\`\`\`shell\n${buildOutput}\n\`\`\``;
             }
 
             const body = `
@@ -144,7 +144,7 @@ jobs:
               repo,
             });
 
-            const existingComment = comments.data.find(comment to include build output and ensure proper rendering of backticks in GitHub comment.body.includes(header.trim()));
+            const existingComment = comments.data.find(comment => comment.body.includes(header.trim()));
 
             if (existingComment) {
               await github.rest.issues.updateComment({
