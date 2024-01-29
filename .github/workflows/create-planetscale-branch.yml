@@ -41,7 +41,7 @@ jobs:
           echo "Password: ${{ steps.create_branch_password.outputs.password}}"
       - name: Override DATABASE_URL
         run: |
-            DATABASE_URL_VALUE="mysql://${{ steps.create_password.outputs.username }}:${{ steps.create_password.outputs.password }}@${{ steps.create_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict"
+            DATABASE_URL_VALUE="mysql://${{ steps.create_branch_password.outputs.username }}:${{ steps.create_branch_password.outputs.password }}@${{ steps.create_branch_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict"
             echo "Constructed DATABASE_URL: $DATABASE_URL_VALUE"
             echo "DATABASE_URL=$DATABASE_URL_VALUE" >> $GITHUB_ENV
   
