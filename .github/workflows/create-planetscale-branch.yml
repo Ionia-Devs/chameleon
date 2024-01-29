@@ -20,6 +20,8 @@ jobs:
           database_name: ${{secrets.DB_NAME}}
           branch_name: testbranch
           from: main
+          check_exists: true
+          wait: true
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
           PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
@@ -50,7 +52,6 @@ jobs:
         run: echo "DATABASE_URL is set to '$DATABASE_URL'"
       - name: Push schema changes to database
         run: npx prisma db push --schema=./data-access/db/prisma/schema.prisma --skip-generate
-        timeout-minutes: 1
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
 
