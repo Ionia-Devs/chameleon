@@ -24,7 +24,7 @@ jobs:
           BRANCH_NAME: testbranch
         working-directory: ${{env.pscale_base_directory}}/cli-helper-scripts/
         run: | 
-          ./create-db-branch-dr-and-connection.sh "$BRANCH_NAME" "$DDL_STATEMENTS"
+          ./create-db-branch-dr-and-connection.sh "testbranch" ""
 
   merge_changes:
     runs-on: ubuntu-latest
