@@ -40,18 +40,26 @@ jobs:
         id: nx-affected
         run: |
           echo "::set-output name=result::$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)"
+          echo "NX_RESULT<<EOF" # Start multi-line output
+          pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1
+          echo "EOF" # End multi-line output
         continue-on-error: true
 
       - name: Update or Create Comment
         uses: actions/github-script@v6
+        env: # Use environment variables to pass data
+          NX_RESULT: ${{ steps.nx-affected.outputs.result }}
+          NX_OUTCOME: ${{ job.status }} # This can be 'success', 'failure', or 'cancelled'
         with:
           script: |
+            const result = process.env.NX_RESULT;
+            const outcome = process.env.NX_OUTCOME;
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const identifier = 'CI-Results-Update'; // Unique identifier for the comment to update
+            const identifier = 'CI-Results-Update'; // Unique identifier for the comment
             const header = `<!-- ${identifier} -->\n`; // Makes identifying the comment easier
-            const body = header + (steps.nx-affected.outcome == 'success' ? '🎉 Build succeeded!' : '❌ Build failed:') + '\n```' + steps.nx-affected.outputs.result + '```';
+            const body = header + (outcome === 'success' ? '🎉 Build succeeded!' : '❌ Build failed:') + '\n```' + result + '```';
 
             const comments = await github.issues.listComments({
               issue_number,
