@@ -33,7 +33,7 @@ jobs:
         with:
           org_name: ${{secrets.ORG_NAME}}
           database_name: ${{secrets.DB_NAME}}
-          branch_name: ${{ steps.extract_branch.outputs.branch }}
+          branch_name: testbranch
           name: 'pass-testbranch'
       - name: Get the new credentials
         run: |
