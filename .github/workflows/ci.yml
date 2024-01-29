@@ -128,8 +128,7 @@ jobs:
               statusMessage = `Build succeeded`;
             } else {
               statusEmoji = '❌ Failed';
-              // Use shell for syntax highlighting and escape triple backticks
-              statusMessage = `Build failed:\n\`\`\`shell\n${buildOutput}\n\`\`\``;
+              statusMessage = `Build failed:\n\`\`\`plaintext\n${buildOutput}\n\`\`\``; // Using plaintext for generic code blocks
             }
 
             const body = `
