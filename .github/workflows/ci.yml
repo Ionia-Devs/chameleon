@@ -112,6 +112,9 @@ jobs:
             // Remove ANSI escape codes for color
             buildOutput = buildOutput.replace(/\033\[[0-9;]*m/g, '');
 
+            // Replace single backticks with grave accent character to avoid Markdown issues
+            buildOutput = buildOutput.replace(/`/g, '\u0300');
+
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
