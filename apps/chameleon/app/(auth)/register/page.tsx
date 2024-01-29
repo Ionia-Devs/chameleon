@@ -6,7 +6,7 @@ import chameleon from '@/public/icons/chameleon-logo-transparent-bg.png'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import CarouselRegister from '@/components/carousel-register'
-import TypeWritterEffect from '@/components/signuppage/typing'
+import TypeWritterEffect from '@/components/typing'
 import { UserAuthForm } from '@/components/user-auth-form'
 
 export const metadata = {
