@@ -77,6 +77,7 @@ model Todo {
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
+  testworkflow String?
   userId      String
   user User @relation(fields: [userId], references: [id])
 }

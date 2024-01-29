@@ -39,21 +39,18 @@ jobs:
           echo "Hostname: ${{ steps.create_branch_password.outputs.hostname}}"
           echo "Username: ${{ steps.create_branch_password.outputs.username}}"
           echo "Password: ${{ steps.create_branch_password.outputs.password}}"
-      - name: Create Branch Connection String
-        id: branch_connections_string
-        working-directory: .pscale/cli-helper-scripts/
-        run: ./create-branch-connection-string.sh
-        env:
-          PLANETSCALE_SERVICE_TOKEN_ID: ${{secrets.PLANETSCALE_SERVICE_TOKEN_ID}}
-          DB_NAME: ${{secrets.DB_NAME}}
-          BRANCH_NAME: testbranch 
-          ORG_NAME: ${{secrets.ORG_NAME}}
-          CREDS: creds-testbranch
-
-      - name: what is this
+      - name: Override DATABASE_URL
         run: |
-         echo ${{steps.branch_connections_string.outputs.DATABASE_URL}}
-         echo ${{steps.branch_connections_string.outcome.GENERAL}}
+            DATABASE_URL_VALUE="mysql://${{ steps.create_password.outputs.username }}:${{ steps.create_password.outputs.password }}@${{ steps.create_password.outputs.hostname }}/${{ secrets.DB_NAME }}?sslaccept=strict"
+            echo "Constructed DATABASE_URL: $DATABASE_URL_VALUE"
+            echo "DATABASE_URL=$DATABASE_URL_VALUE" >> $GITHUB_ENV
+  
+      - name: Echo DATABASE_URL
+        run: echo "DATABASE_URL is set to '$DATABASE_URL'"
+      - name: Push schema changes to database
+        run: npx prisma db push --schema=./data-access/db/prisma/schema.prisma --skip-generate
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
   merge_changes:
     runs-on: ubuntu-latest
