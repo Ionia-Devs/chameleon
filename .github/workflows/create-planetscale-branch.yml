@@ -41,7 +41,7 @@ jobs:
           echo "Password: ${{ steps.create_branch_password.outputs.password}}"
       - name: Create Branch Connection String
         id: branch_connections_string
-        working-directory: ${{env.pscale_base_directory}}/cli-helper-scripts/
+        working-directory: .pscale/cli-helper-scripts/
         run: ./create-branch-connection-string.sh
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{secrets.PLANETSCALE_SERVICE_TOKEN_ID}}
