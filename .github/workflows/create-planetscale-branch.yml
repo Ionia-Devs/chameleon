@@ -1,11 +1,14 @@
 name: Create a Branch
+env:
+  pscale_base_directory: .pscale
 on:
   pull_request:
     paths:
       - 'data-access/db/prisma/schema.prisma'
-    types: [opened, synchronize, closed]
+    types: [opened, closed]
 
 jobs:
+  
   create_a_branch:
     runs-on: ubuntu-latest
     if: github.event.pull_request.state == 'open' || github.event.pull_request.state == 'synchronize'
