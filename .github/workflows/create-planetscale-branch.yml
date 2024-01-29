@@ -35,6 +35,9 @@ jobs:
           database_name: ${{secrets.DB_NAME}}
           branch_name: testbranch
           name: 'pass-testbranch'
+        env:
+          PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
+          PLANETSCALE_SERVICE_TOKEN: ${{ secrets.PLANETSCALE_SERVICE_TOKEN }}
       - name: Get the new credentials
         run: |
           echo "Hostname: ${{ steps.create_branch_password.outputs.hostname}}"
