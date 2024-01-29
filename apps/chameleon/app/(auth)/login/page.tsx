@@ -27,7 +27,7 @@ export default function LoginPage() {
           href="/"
           className={cn(
             buttonVariants({ variant: 'default' }),
-            'absolute left-4 top-4 md:top-8 md:left-8 bg-white text-dim-black hover:bg-neutral-200'
+            'absolute left-4 top-4 md:top-8 md:left-8 bg-white text-neutral-900 hover:bg-neutral-200'
           )}
         >
           <>
@@ -35,7 +35,7 @@ export default function LoginPage() {
             Back
           </>
         </Link>
-        <div className="text-dim-black mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
+        <div className="text-neutral-900 mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
           <div className="flex flex-col items-center space-y-2 text-center">
             <Image
               src={chameleon}
@@ -56,7 +56,7 @@ export default function LoginPage() {
             <UserAuthForm />
           </Suspense>
 
-          <p className="px-8 text-center text-sm text-dim-black font-semibold">
+          <p className="px-8 text-center text-sm text-neutral-900 font-semibold">
             <Link
               href="/register"
               className="hover:text-brand underline underline-offset-4"

@@ -60,23 +60,26 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     <div className={cn('grid gap-6', className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
-          <div className="grid gap-1 rounded-lg bg-black">
+          <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
-            <Input
-              className="text-neutral-200"
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading || isGitHubLoading}
-              {...register('email')}
-            />
+            <div className="bg-black rounded-lg">
+              <Input
+                className="text-neutral-200"
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                disabled={isLoading || isGitHubLoading}
+                {...register('email')}
+              />
+            </div>
+
             {errors?.email && (
-              <p className="px-1 text-xs text-dim-black font-bold">
+              <p className="px-1 text-xs text-neutral-900 font-bold">
                 {errors.email.message}
               </p>
             )}
@@ -94,9 +97,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       <div className="relative">
         <div className="absolute inset-0 flex items-center"></div>
         <div className="relative flex justify-center text-xs font-bold uppercase items-center">
-          <span className="w-[30%] border-t"></span>
-          <span className="px-2 text-dim-black">Or continue with</span>
-          <span className="w-[30%] border-t"></span>
+          <span className="w-1/3 border-t"></span>
+          <span className="px-2 text-neutral-900">Or continue with</span>
+          <span className="w-1/3 border-t"></span>
         </div>
       </div>
 
@@ -104,7 +107,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         type="button"
         className={cn(
           buttonVariants({ variant: 'outline' }),
-          'bg-white hover:bg-neutral-200 hover:text-dim-black border-none'
+          'bg-white hover:bg-neutral-200 hover:text-neutral-900 border-none'
         )}
         onClick={() => {
           setIsGitHubLoading(true)
