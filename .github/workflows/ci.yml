@@ -50,7 +50,7 @@ jobs:
               ${header}
               ### The latest updates on your build
               | Name | Status | Updated (UTC) |
-              | --- | --- | --- | --- | --- |
+              | --- | --- | --- |
               | ${commit_sha} | 🔄 Building | ${new Date().toUTCString()} |
               `;
 
@@ -88,19 +88,26 @@ jobs:
       - name: Run Build and Tests
         id: build
         run: |
-          output=$(pnpm nx affected -t test,build --parallel=3 --configuration=ci 2>&1)
-          echo "::set-output name=result::$output"
+          pnpm nx affected -t test,build --parallel=3 --configuration=ci > build-output.txt 2>&1 || echo "BUILD_FAILED" >> build-output.txt
+          echo "::set-output name=result::$(cat build-output.txt)"
+          if grep -q "BUILD_FAILED" build-output.txt; then
+            echo "build_failed=true" >> $GITHUB_ENV
+          else
+            echo "build_failed=false" >> $GITHUB_ENV
+          fi
 
       - name: Update Comment with Build Result
         if: always()
         uses: actions/github-script@v6
         env:
-          BUILD_OUTCOME: ${{ steps.build.outcome }} # This is the outcome of the "Run Build and Tests" step
-          BUILD_OUTPUT: ${{ steps.build.outputs.result }}
+          BUILD_FAILED: ${{ env.build_failed }}
+          BUILD_OUTPUT_FILE: build-output.txt
         with:
           script: |
-            const buildOutcome = process.env.BUILD_OUTCOME;
-            const buildOutput = process.env.BUILD_OUTPUT;
+            const fs = require('fs');
+            const buildFailed = process.env.BUILD_FAILED === 'true';
+            const buildOutputFile = process.env.BUILD_OUTPUT_FILE;
+            const buildOutput = fs.readFileSync(buildOutputFile, { encoding: 'utf8' });
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
@@ -109,15 +116,12 @@ jobs:
             let statusEmoji;
             let statusMessage;
 
-            if (buildOutcome === 'success') {
+            if (!buildFailed) {
               statusEmoji = '✅ Succeeded';
               statusMessage = `Build succeeded`;
-            } else if (buildOutcome === 'failure') {
-              statusEmoji = '❌ Failed';
-              statusMessage = `Build failed:\n\`\`\`${buildOutput}\`\`\``; // Include build output only on failure
             } else {
-              statusEmoji = '⚠️ Cancelled';
-              statusMessage = `Build cancelled`;
+              statusEmoji = '❌ Failed';
+              statusMessage = `Build failed:\n\`\`\`${buildOutput}\`\`\``;
             }
 
             const body = `
