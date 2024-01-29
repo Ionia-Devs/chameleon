@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'data-access/db/prisma/schema.prisma'
-    types: [opened, synchronize]
+    types: [opened, synchronize] 
 
 jobs:
   create_a_branch:
