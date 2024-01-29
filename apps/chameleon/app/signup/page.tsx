@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import appleLogo from '@/public/icons/apple-logo.png'
 import chameleon from '@/public/icons/chameleon-logo-transparent-bg.png'
 
 export default function Signup() {
