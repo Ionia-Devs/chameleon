@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'data-access/db/prisma/schema.prisma'
-    types: [opened, synchronize] 
+    types: [opened, synchronize]
 
 jobs:
   create_a_branch:
@@ -22,7 +22,7 @@ jobs:
         with:
           org_name: ${{secrets.ORG_NAME}}
           database_name: ${{secrets.DB_NAME}}
-          branch_name: ${{ steps.extract_branch.outputs.branch}}
+          branch_name: testbranch
           from: main
         env:
           PLANETSCALE_SERVICE_TOKEN_ID: ${{ secrets.PLANETSCALE_SERVICE_TOKEN_ID }}
