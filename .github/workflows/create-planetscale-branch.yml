@@ -51,7 +51,9 @@ jobs:
           CREDS: creds-testbranch
 
       - name: what is this
-        run: echo ${{steps.branch_connections_string.outputs}}
+        run: |
+         echo ${{steps.branch_connections_string.outputs.DATABASE_URL}}
+         echo ${{steps.branch_connections_string.outcome.GENERAL}}
 
   merge_changes:
     runs-on: ubuntu-latest
