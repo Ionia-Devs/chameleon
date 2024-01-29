@@ -107,7 +107,11 @@ jobs:
             const fs = require('fs');
             const buildFailed = process.env.BUILD_FAILED === 'true';
             const buildOutputFile = process.env.BUILD_OUTPUT_FILE;
-            const buildOutput = fs.readFileSync(buildOutputFile, { encoding: 'utf8' });
+            let buildOutput = fs.readFileSync(buildOutputFile, { encoding: 'utf8' });
+
+            // Remove ANSI escape codes for color
+            buildOutput = buildOutput.replace(/\033\[[0-9;]*m/g, '');
+
             const issue_number = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
@@ -121,7 +125,7 @@ jobs:
               statusMessage = `Build succeeded`;
             } else {
               statusEmoji = '❌ Failed';
-              statusMessage = `Build failed:\n\`\`\`${buildOutput}\`\`\``;
+              statusMessage = `Build failed:\n\`\`\`shell\n${buildOutput}\n\`\`\``;
             }
 
             const body = `
