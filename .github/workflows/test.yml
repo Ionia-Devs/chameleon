@@ -22,7 +22,7 @@ jobs:
           GITHUB_USER: ${{github.actor}}
           DDL_STATEMENTS: ""
           BRANCH_NAME: testbranch
-        working-directory: ${{env.pscale_base_directory}}/cli-helper-scripts/
+        working-directory: .pscale/cli-helper-scripts/
         run: | 
           ./create-db-branch-dr-and-connection.sh "testbranch" ""
 
