@@ -11,13 +11,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v2.4.0
+        name: Install pnpm
         with:
           version: 8
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Set NX SHAs
         uses: nrwl/nx-set-shas@v3
@@ -26,7 +30,7 @@ jobs:
         run: git branch --track main origin/main
 
       - name: Run nx format:write
-        run: pnpm exec nx format:write
+        run: pnpm nx format:write
 
       - name: Check for modifications
         id: git-check

@@ -19,19 +19,14 @@ jobs:
           node-version: '18'
           cache: 'pnpm'
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Set NX SHAs
         uses: nrwl/nx-set-shas@v3
 
       - name: Track main branch
         run: git branch --track main origin/main
-
-      - uses: nrwl/nx-set-shas@v3
-
-      - run: git branch --track main origin/main
 
       - name: Post Initial Comment
         id: initial-comment
