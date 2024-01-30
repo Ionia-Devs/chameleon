@@ -7,21 +7,19 @@ interface RequestBody {
   email: string;
   name: string;
   message: string;
-  phone: number;
   subject: string;
 }
 
 export async function POST(request: Request) {
   try {
     const body: RequestBody = await request.json()
-    const {email, name, message, phone, subject} = body
+    const {email, name, message, subject} = body
     const data = await resend.emails.send({
-      from: `${name} <devscape.gg>`,
+      from: `${name ? name : "name"} <resendEmail@devscape.gg>`,
       to: [email],
       subject: subject,
-      react: EmailTemplate({ name, message, phone }) as React.ReactElement,
+      react: EmailTemplate({ name, message }) as React.ReactElement,
     });
-
     return Response.json(data);
   } catch (error) {
     return Response.json({ error });
