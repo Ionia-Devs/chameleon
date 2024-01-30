@@ -28,7 +28,9 @@
     "../../dist/apps/chameleon/.next/types/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    "../../dist/apps/chameleon/.next/types/**/*.ts"
+    "../../dist/apps/chameleon/.next/types/**/*.ts",
+    "../../shadcn-chat/src/app/chat.tsx",
+    "../../shadcn-chat/src/app/data.tsx"
   ],
   "exclude": [
     "node_modules",
