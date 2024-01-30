@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       from: `${name ? name : "name"} <resendEmail@devscape.gg>`,
       to: [...emails],
       subject: subject,
-      react: EmailTemplate({ name, message }) as React.ReactElement,
+      react: EmailTemplate({ name, message, emails, subject }) as React.ReactElement,
     });
     return Response.json(data);
   } catch (error) {
