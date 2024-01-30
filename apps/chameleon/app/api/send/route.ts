@@ -11,7 +11,7 @@ interface RequestBody {
   subject: string
 }
 
-export async function POST(request: Request) {
+export async function POST(request: Request) { 
   try {
     const body: RequestBody = await request.json()
     const { emails, name, message, subject } = body
