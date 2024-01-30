@@ -9,7 +9,7 @@ interface RequestBody {
   name: string
   message: string
   subject: string
-}
+} 
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const { emails, name, message, subject } = body
     const data = await resend.emails.send({
       from: `${name ? name : 'name'} <resendEmail@devscape.gg>`,
-      to: [...emails],
+      to: emails,
       subject: subject,
       react: EmailTemplate({
         name,
