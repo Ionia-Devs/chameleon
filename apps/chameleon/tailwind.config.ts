@@ -1,5 +1,5 @@
-const { createGlobPatternsForDependencies } = require('@nx/react/tailwind')
-const { join } = require('path')
+import { join } from 'path'
+import { createGlobPatternsForDependencies } from '@nx/react/tailwind'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -65,6 +65,14 @@ module.exports = {
         kanit: ['Kanit', 'sans-serif'],
       },
       keyframes: {
+        meteor: {
+          '0%': { transform: 'rotate(215deg) translateX(0)', opacity: 1 },
+          '70%': { opacity: 1 },
+          '100%': {
+            transform: 'rotate(215deg) translateX(-500px)',
+            opacity: 0,
+          },
+        },
         'accordion-down': {
           from: { height: 0 },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -73,10 +81,25 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        spotlight: {
+          '0%': {
+            opacity: 0,
+            transform: 'translate(-72%, -62%) scale(0.5)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translate(-50%, -40%) scale(1)',
+          },
+        },
         scroll: {
           '0%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100%, 50%' },
           '100%': { backgroundPosition: '0% 50%' },
+        },
+        scrollInfinite: {
+          to: {
+            transform: 'translate(calc(-50% - 0.5rem))',
+          },
         },
         cursorBlink: {
           '0%': {
@@ -91,9 +114,13 @@ module.exports = {
         height: 'height',
       },
       animation: {
+        spotlight: 'spotlight 2s ease .75s 1 forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'meteor-effect': 'meteor 5s linear infinite',
         scroll: 'scroll 5s ease-in-out infinite',
+        scrollInfinite:
+          'scrollInfinite var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
         cursorBlink: 'cursorBlink 1.3s infinite',
       },
     },
