@@ -1,0 +1,52 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - uses: pnpm/action-setup@v2.4.0
+        name: Install pnpm
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set NX SHAs
+        uses: nrwl/nx-set-shas@v3
+
+      - name: Run nx format:write
+        run: pnpm nx format:write
+
+      - name: Check for modifications
+        id: git-check
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected."
+          else
+            echo "::set-output name=modified::true"
+          fi
+
+      - name: Commit and Push Changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Apply linting changes"
+          git push origin HEAD:${{ github.head_ref }}

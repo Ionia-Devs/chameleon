@@ -1,11 +1,12 @@
-name: CI
+name: Build
+
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  main:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,26 +15,19 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Restore cached npm dependencies
-        id: cache-dependencies-restore
-        uses: actions/cache/restore@v3
+      - uses: actions/setup-node@v4
         with:
-          path: |
-            node_modules
-            ~/.cache/Playwright
-          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm install --frozen-lockfile
-      - name: Cache npm dependencies
-        id: cache-dependencies-save
-        uses: actions/cache/save@v3
-        with:
-          path: |
-            node_modules
-            ~/.cache/Playwright
-          key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
-      - uses: nrwl/nx-set-shas@v3
-      # This line is needed for nx affected to work when CI is running on a PR
-      - run: git branch --track main origin/main
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set NX SHAs
+        uses: nrwl/nx-set-shas@v3
+
+      - name: Track main branch
+        run: git branch --track main origin/main
 
       - name: Post Initial Comment
         id: initial-comment
