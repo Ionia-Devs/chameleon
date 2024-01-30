@@ -1,8 +1,8 @@
 import { Resend } from 'resend'
-
+import { env } from '@/env.mjs'
 import { EmailTemplate } from '@/components/email-template'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(env.RESEND_API_KEY)
 
 interface RequestBody {
   emails: string[]
