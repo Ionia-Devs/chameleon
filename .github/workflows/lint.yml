@@ -1,20 +1,24 @@
-name: Lint and Format Code
+name: Lint
+
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  format-and-commit:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
       - uses: pnpm/action-setup@v2.4.0
         name: Install pnpm
         with:
           version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -25,9 +29,6 @@ jobs:
 
       - name: Set NX SHAs
         uses: nrwl/nx-set-shas@v3
-
-      - name: Track main branch
-        run: git branch --track main origin/main
 
       - name: Run nx format:write
         run: pnpm nx format:write
@@ -48,4 +49,4 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
           git commit -m "Apply linting changes"
-          git push
+          git push origin HEAD:${{ github.head_ref }}
