@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+
 import { env } from '@/env.mjs'
 import { EmailTemplate } from '@/components/email-template'
 
