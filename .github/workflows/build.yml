@@ -1,23 +1,23 @@
-name: Build
+name: Build Affected
 on:
   pull_request:
     branches:
       - main
 
 jobs:
-  setup:
-    uses: ./.github/workflows/cache-and-install.yml
-    with:
-      node-version: '18'
-      pnpm-version: '8'
-
-  build:
-    needs: setup
+  build-affected:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
 
       - uses: actions/setup-node@v3
         with:
