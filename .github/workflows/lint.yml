@@ -5,14 +5,7 @@ on:
       - main
 
 jobs:
-  setup:
-    uses: ./.github/workflows/cache-and-install.yml
-    with:
-      node-version: '18'
-      pnpm-version: '8'
-
   format-and-commit:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +25,7 @@ jobs:
         run: git branch --track main origin/main
 
       - name: Run nx format:write
-        run: pnpm exec nx format:write
+        run: npx nx format:write
 
       - name: Check for modifications
         id: git-check
