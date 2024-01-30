@@ -10,6 +10,20 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['avatars.githubusercontent.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'aceternity.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,
