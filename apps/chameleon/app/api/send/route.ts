@@ -9,7 +9,7 @@ interface RequestBody {
   name: string
   message: string
   subject: string
-} 
+}
 
 export async function POST(request: Request) {
   try {
