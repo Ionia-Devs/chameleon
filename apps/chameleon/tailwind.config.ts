@@ -1,14 +1,5 @@
-const { createGlobPatternsForDependencies } = require('@nx/react/tailwind')
-const { add } = require('date-fns')
-const { join } = require('path')
-
-const defaultTheme = require('tailwindcss/defaultTheme')
-const svgToDataUri = require('mini-svg-data-uri')
-
-const colors = require('tailwindcss/colors')
-const {
-  default: flattenColorPalette,
-} = require('tailwindcss/lib/util/flattenColorPalette')
+import { join } from 'path'
+import { createGlobPatternsForDependencies } from '@nx/react/tailwind'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -134,15 +125,5 @@ module.exports = {
       },
     },
   },
-  plugins: [addVariablesForColors, require('tailwindcss-animate')],
-}
-function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme('colors'))
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  )
-
-  addBase({
-    ':root': newVars,
-  })
+  plugins: [require('tailwindcss-animate')],
 }
