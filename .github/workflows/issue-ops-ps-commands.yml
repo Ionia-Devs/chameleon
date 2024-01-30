@@ -434,7 +434,6 @@ jobs:
         working-directory: ${{env.pscale_base_directory}}/cli-helper-scripts/
         run: | 
           ./create-db-branch-dr-and-connection.sh "$BRANCH_NAME" "$DDL_STATEMENTS"
-           
       - name: Push schema changes to database
         run: npx prisma db push --schema=./data-access/db/prisma/schema.prisma --skip-generate
         env:
