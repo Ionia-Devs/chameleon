@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["apps/chameleon/*"],
-      "@chameleon/data-access/db": ["data-access/db/src/index.ts"],
+      "@chameleon/db": ["data-access/db/src/index.ts"],
       "contentlayer/generated": ["apps/chameleon/.contentlayer/generated"]
     }
   },
