@@ -25,7 +25,7 @@
     "generate": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx prisma generate"],
+        "commands": ["npx prisma generate --no-engine"],
         "cwd": "data-access/db"
       }
     },

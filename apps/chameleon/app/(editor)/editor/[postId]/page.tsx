@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
-import { db } from '@chameleon/db'
+import { edge } from '@chameleon/db'
 import { Post, User } from '@prisma/client'
 
 import { authOptions } from '@/lib/auth'
@@ -7,7 +7,7 @@ import { getCurrentUser } from '@/lib/session'
 import { Editor } from '@/components/editor'
 
 async function getPostForUser(postId: Post['id'], userId: User['id']) {
-  return await db.post.findFirst({
+  return await edge.post.findFirst({
     where: {
       id: postId,
       authorId: userId,

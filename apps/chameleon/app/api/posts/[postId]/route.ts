@@ -1,8 +1,7 @@
-import { db } from '@chameleon/db'
-import { getServerSession } from 'next-auth'
+import { edge } from '@chameleon/db'
 import * as z from 'zod'
 
-import { authOptions } from '@/lib/auth'
+import { auth } from '@/lib/auth'
 import { postPatchSchema } from '@/lib/validations/post'
 
 const routeContextSchema = z.object({
@@ -25,7 +24,7 @@ export async function DELETE(
     }
 
     // Delete the post.
-    await db.post.delete({
+    await edge.post.delete({
       where: {
         id: params.postId as string,
       },
@@ -60,7 +59,7 @@ export async function PATCH(
 
     // Update the post.
     // TODO: Implement sanitization for content.
-    await db.post.update({
+    await edge.post.update({
       where: {
         id: params.postId,
       },
@@ -81,8 +80,8 @@ export async function PATCH(
 }
 
 async function verifyCurrentUserHasAccessToPost(postId: string) {
-  const session = await getServerSession(authOptions)
-  const count = await db.post.count({
+  const session = await auth()
+  const count = await edge.post.count({
     where: {
       id: postId,
       authorId: session?.user.id,

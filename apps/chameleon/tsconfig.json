@@ -28,7 +28,8 @@
     "../../dist/apps/chameleon/.next/types/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    "../../dist/apps/chameleon/.next/types/**/*.ts"
+    "../../dist/apps/chameleon/.next/types/**/*.ts",
+    "../../data-access/db/src/edge.ts"
   ],
   "exclude": [
     "node_modules",

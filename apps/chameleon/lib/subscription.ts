@@ -2,14 +2,14 @@
 // TODO: Fix this when we turn strict mode on.
 
 import { UserSubscriptionPlan } from '@/types'
-import { db } from '@chameleon/db'
+import { edge } from '@chameleon/db'
 
 import { freePlan, proPlan } from '@/config/subscriptions'
 
 export async function getUserSubscriptionPlan(
   userId: string
 ): Promise<UserSubscriptionPlan> {
-  const user = await db.user.findFirst({
+  const user = await edge.user.findFirst({
     where: {
       id: userId,
     },

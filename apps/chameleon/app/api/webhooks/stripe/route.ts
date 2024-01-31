@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import { db } from '@chameleon/db'
+import { edge } from '@chameleon/db'
 import Stripe from 'stripe'
 
 import { env } from '@/env.mjs'
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     // Update the user stripe into in our database.
     // Since this is the initial subscription, we need to update
     // the subscription id and customer id.
-    await db.user.update({
+    await edge.user.update({
       where: {
         id: session?.metadata?.userId,
       },
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     )
 
     // Update the price id and set the new period end.
-    await db.user.update({
+    await edge.user.update({
       where: {
         stripeSubscriptionId: subscription.id,
       },

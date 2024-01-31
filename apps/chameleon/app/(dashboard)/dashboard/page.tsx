@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { db } from '@chameleon/db'
+import { edge } from '@chameleon/db'
 
 import { authOptions } from '@/lib/auth'
 import { getCurrentUser } from '@/lib/session'
@@ -20,7 +20,7 @@ export default async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || '/login')
   }
 
-  const posts = await db.post.findMany({
+  const posts = await edge.post.findMany({
     where: {
       authorId: user.id,
     },
