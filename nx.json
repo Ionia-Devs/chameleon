@@ -25,13 +25,7 @@
     "contentlayer": {
       "cache": true
     },
-    "wunderctl-generate": {
-      "cache": true
-    },
     "generate": {
-      "cache": true
-    },
-    "deploy": {
       "cache": true
     },
     "@nx/jest:jest": {

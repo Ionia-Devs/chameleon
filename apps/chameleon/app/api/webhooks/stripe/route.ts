@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import { db } from '@chameleon/data-access/db'
+import { db } from '@chameleon/db'
 import Stripe from 'stripe'
 
 import { env } from '@/env.mjs'
