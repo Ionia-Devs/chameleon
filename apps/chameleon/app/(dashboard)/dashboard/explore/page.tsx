@@ -1,47 +1,14 @@
 import { Suspense } from 'react'
 import { LayoutGrid } from '@/components/ui/layout-grid'
-
-const SkeletonOne = () => {
-  return (
-    <div>
-      <p className="font-bold text-4xl text-white">This is a city</p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        BIG POG
-      </p>
-    </div>
-  );
-};
  
-const SkeletonTwo = () => {
+const Skeleton = (props: {title: string, content: string}) => {
+  const {title, content} = props
   return (
-    <div>
-      <p className="font-bold text-4xl text-white">Other City</p>
+    <div className='h-2/3'>
+      <p className="font-bold text-4xl text-white">{title}</p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Also Pog
-      </p>
-    </div>
-  );
-};
-const SkeletonThree = () => {
-  return (
-    <div>
-      <p className="font-bold text-4xl text-white">I queried for pizza with this on unsplash...</p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        Dose this image look like pizza to you?
-      </p>
-    </div>
-  );
-};
-const SkeletonFour = () => {
-  return (
-    <div>
-      <p className="font-bold text-4xl text-white">You&apos;d never guess what I queried for with this image</p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        It was a green car
+        {content}
       </p>
     </div>
   );
@@ -52,66 +19,52 @@ export default async function LayoutGridDemo() {
   const cards = [
     {
       id: 1,
-      content: <SkeletonOne />,
+      content: <Skeleton title={'Other City'} content={'BIG POG'} />,
       className: 'md:col-span-2',
       thumbnail:
         'https://source.unsplash.com/random/?city,night',
     },
     {
       id: 2,
-      content: <SkeletonTwo />,
+      content: <Skeleton title={'Other City'} content={'ALSO POG'}/>,
       className: 'col-span-1',
       thumbnail:
         'https://source.unsplash.com/random/?city,day',
     },
     {
       id: 3,
-      content: <SkeletonThree />,
+      content: <Skeleton title={'I queried for pizza with this on unsplash...'} content={'Does this look like pizza to you?'}/>,
       className: 'col-span-1',
       thumbnail:
         'https://source.unsplash.com/random/?pizza,night',
     },
     {
       id: 4,
-      content: <SkeletonFour />,
+      content: <Skeleton title={'You would never guess what I queried for with this image'} content={'It was a green car'}/>,
       className: 'md:col-span-2',
       thumbnail:
         'https://source.unsplash.com/random/?car,green',
     },
     {
       id: 5,
-      content: <SkeletonFour />,
+      content: <Skeleton title={'something something funny joke'} content={'DOPA DOWN'}/>,
       className: 'col-span-1',
       thumbnail:
         'https://source.unsplash.com/random/?trees,clean',
     },
     {
       id: 6,
-      content: <SkeletonFour />,
+      content: <Skeleton title={'angy'} content={'>:('}/>,
       className: 'col-span-1',
       thumbnail:
         'https://source.unsplash.com/random/?star,killer',
     },
     {
       id: 7,
-      content: <SkeletonFour />,
+      content: <Skeleton title={'OwO'} content={'UwU'}/>,
       className: 'col-span-1',
       thumbnail:
         'https://source.unsplash.com/random/?tables,stinky',
-    },
-    {
-      id: 8,
-      content: <SkeletonFour />,
-      className: 'col-span-1',
-      thumbnail:
-        'https://source.unsplash.com/random/?games,boring',
-    },
-    {
-      id: 9,
-      content: <SkeletonFour />,
-      className: 'md:col-span-2',
-      thumbnail:
-        'https://source.unsplash.com/random/?cardio',
     },
   ]
 
