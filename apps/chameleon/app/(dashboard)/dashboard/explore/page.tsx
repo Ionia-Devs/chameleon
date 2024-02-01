@@ -78,6 +78,41 @@ export default async function LayoutGridDemo() {
       thumbnail:
         'https://source.unsplash.com/random/?car,green',
     },
+    {
+      id: 5,
+      content: <SkeletonFour />,
+      className: 'col-span-1',
+      thumbnail:
+        'https://source.unsplash.com/random/?trees,clean',
+    },
+    {
+      id: 6,
+      content: <SkeletonFour />,
+      className: 'col-span-1',
+      thumbnail:
+        'https://source.unsplash.com/random/?star,killer',
+    },
+    {
+      id: 7,
+      content: <SkeletonFour />,
+      className: 'col-span-1',
+      thumbnail:
+        'https://source.unsplash.com/random/?tables,stinky',
+    },
+    {
+      id: 8,
+      content: <SkeletonFour />,
+      className: 'col-span-1',
+      thumbnail:
+        'https://source.unsplash.com/random/?games,boring',
+    },
+    {
+      id: 9,
+      content: <SkeletonFour />,
+      className: 'md:col-span-2',
+      thumbnail:
+        'https://source.unsplash.com/random/?cardio',
+    },
   ]
 
   return (
