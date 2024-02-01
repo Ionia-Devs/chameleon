@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { db } from '@chameleon/data-access/db'
+import { db } from '@chameleon/db'
 
 import { authOptions } from '@/lib/auth'
 import { getCurrentUser } from '@/lib/session'

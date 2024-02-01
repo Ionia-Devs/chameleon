@@ -19,7 +19,7 @@ COPY nx.json tsconfig.base.json ./
 ARG DATABASE_URL
 ARG wg_public_node_url
 
-RUN pnpm exec nx run data-access/db:generate
+RUN pnpm exec nx run db:generate
 RUN pnpm exec nx run chameleon:wunderctl-generate --skip-nx-cache
 
 # ----- Final Stage -----

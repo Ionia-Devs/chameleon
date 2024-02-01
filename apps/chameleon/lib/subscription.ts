@@ -2,7 +2,7 @@
 // TODO: Fix this when we turn strict mode on.
 
 import { UserSubscriptionPlan } from '@/types'
-import { db } from '@chameleon/data-access/db'
+import { db } from '@chameleon/db'
 
 import { freePlan, proPlan } from '@/config/subscriptions'
 

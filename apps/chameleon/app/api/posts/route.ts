@@ -1,4 +1,4 @@
-import { db } from '@chameleon/data-access/db'
+import { db } from '@chameleon/db'
 import { getServerSession } from 'next-auth/next'
 import * as z from 'zod'
 

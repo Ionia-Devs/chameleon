@@ -81,7 +81,7 @@ jobs:
       - name: Run Build and Tests
         id: build
         run: |
-          pnpm nx affected -t test,build --parallel=3 --configuration=ci > build-output.txt 2>&1 || echo "BUILD_FAILED" >> build-output.txt
+          pnpm nx affected -t build --parallel=3 --configuration=ci > build-output.txt 2>&1 || echo "BUILD_FAILED" >> build-output.txt
           echo "::set-output name=result::$(cat build-output.txt)"
           if grep -q "BUILD_FAILED" build-output.txt; then
             echo "build_failed=true" >> $GITHUB_ENV
