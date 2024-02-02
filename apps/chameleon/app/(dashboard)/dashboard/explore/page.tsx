@@ -5,7 +5,7 @@ import { LayoutGrid } from '@/components/ui/layout-grid'
 const Skeleton = (props: { title: string; content: string }) => {
   const { title, content } = props
   return (
-    <div className="h-screen">
+    <div className="h-2/3">
       <p className="font-bold text-4xl text-white">{title}</p>
       <p className="font-normal text-base text-white"></p>
       <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
