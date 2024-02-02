@@ -33,5 +33,10 @@ export const dashboardConfig: DashboardConfig = {
       href: '/dashboard/todos',
       icon: 'page',
     },
+    {
+      title: 'Explore',
+      href: '/dashboard/explore',
+      icon: 'pizza',
+    },
   ],
 }
