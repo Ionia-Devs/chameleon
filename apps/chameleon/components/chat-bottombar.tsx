@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Textarea } from '@/components/ui/textarea'
-import { Message, loggedInUserData } from '@/app/chat/data'
+import { Message, sugar_vailData } from '@/app/chat/data'
 
 import { EmojiPicker } from './emoji-picker'
 
@@ -43,8 +43,8 @@ export default function ChatBottombar({
   const handleThumbsUp = () => {
     const newMessage: Message = {
       id: message.length + 1,
-      name: loggedInUserData.name,
-      avatar: loggedInUserData.avatar,
+      name: sugar_vailData.name,
+      avatar: sugar_vailData.avatar,
       message: '👍',
     }
     sendMessage(newMessage)
@@ -55,8 +55,8 @@ export default function ChatBottombar({
     if (message.trim()) {
       const newMessage: Message = {
         id: message.length + 1,
-        name: loggedInUserData.name,
-        avatar: loggedInUserData.avatar,
+        name: sugar_vailData.name,
+        avatar: sugar_vailData.avatar,
         message: message.trim(),
       }
       sendMessage(newMessage)
@@ -90,7 +90,7 @@ export default function ChatBottombar({
               className={cn(
                 buttonVariants({ variant: 'ghost', size: 'icon' }),
                 'h-9 w-9',
-                'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
+                'dark:bg-muted dark:bg-neutral-900 dark:hover:bg-neutral-700 hover:bg-neutral-300 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
               )}
             >
               <PlusCircle size={20} className="text-muted-foreground" />
@@ -146,7 +146,7 @@ export default function ChatBottombar({
                 className={cn(
                   buttonVariants({ variant: 'ghost', size: 'icon' }),
                   'h-9 w-9',
-                  'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
+                  'dark:bg-muted dark:bg-neutral-900 dark:hover:bg-neutral-700 hover:bg-neutral-300 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white'
                 )}
               >
                 <icon.icon size={20} className="text-muted-foreground" />
@@ -180,9 +180,9 @@ export default function ChatBottombar({
             onChange={handleInputChange}
             name="message"
             placeholder="Aa"
-            className=" w-full border rounded-full flex items-center h-9 resize-none overflow-hidden bg-background"
+            className="w-full focus-visible:ring-blue-300 min-h-0 border rounded-full flex items-center h-9 resize-none overflow-hidden bg-background"
           ></Textarea>
-          <div className="absolute right-2 bottom-0.5  ">
+          <div className="absolute right-2 bottom-0.5">
             <EmojiPicker
               onChange={(value) => {
                 setMessage(message + value)
@@ -212,7 +212,7 @@ export default function ChatBottombar({
             className={cn(
               buttonVariants({ variant: 'ghost', size: 'icon' }),
               'h-9 w-9',
-              'dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white shrink-0'
+              'dark:bg-muted hover:bg-neutral-300 dark:bg-neutral-900 dark:hover:bg-neutral-700 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white shrink-0'
             )}
             onClick={handleThumbsUp}
           >

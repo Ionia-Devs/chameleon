@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { Message, UserData } from '@/app/data'
+import { Message, UserData } from '@/app/chat/data'
 
 import ChatBottombar from './chat-bottombar'
 
@@ -33,7 +33,7 @@ export function ChatList({
     <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
       <div
         ref={messagesContainerRef}
-        className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
+        className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col scrollbar-thin scrollbar-track-rounded-lg scrollbar-thumb-rounded scrollbar-thumb-neutral-900 dark:scrollbar-track-neutral-700 dark:scrollbar-thumb-neutral-100 scrollbar-track-neutral-300"
       >
         <AnimatePresence>
           {messages?.map((message, index) => (
@@ -71,9 +71,16 @@ export function ChatList({
                     />
                   </Avatar>
                 )}
-                <span className=" bg-accent p-3 rounded-md max-w-xs">
-                  {message.message}
-                </span>
+                {message.name === selectedUser.name && (
+                  <span className="bg-lime-300 p-3 text-black rounded-md max-w-xs">
+                    {message.message}
+                  </span>
+                )}
+                {message.name !== selectedUser.name && (
+                  <span className="bg-blue-300 p-3 text-black rounded-md max-w-xs">
+                    {message.message}
+                  </span>
+                )}
                 {message.name !== selectedUser.name && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
