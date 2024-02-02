@@ -1,9 +1,8 @@
-'use client'
-
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { cn } from '@/utils/cn'
-import { motion } from 'framer-motion'
+"use client";
+import React, { useState, } from "react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type Card = {
   id: number | string
