@@ -41,11 +41,11 @@ $GENERAL_CONNECTION_STRING
 EOF
 
     # if not running in CI
-    if [ -z "$CI" ]; then
+    # if [ -z "$CI" ]; then
         echo "In the next lines, you will see your secret, branch connection information: " 
         echo "$SECRET_TEXT"
         echo "::set-output name=CONNECTION_STRING_LINK::${link}"
-    fi
+    # fi
     echo
     echo "Alternatively, you can connect to your new branch like this:"
     echo "pscale shell \"$DB_NAME\" \"$BRANCH_NAME\" --org \"$ORG_NAME\""
