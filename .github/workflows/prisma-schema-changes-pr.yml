@@ -19,7 +19,6 @@ env:
 jobs:
   prechecks:
     name: Permission pre-check
-    if: github.event.issue.pull_request != null
     outputs:
       ref: ${{steps.prechecks.outputs.ref}}
       eyes: ${{steps.prechecks.outputs.eyes}}
