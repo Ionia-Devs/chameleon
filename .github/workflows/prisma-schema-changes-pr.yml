@@ -1,0 +1,114 @@
+name: Prisma Schema Automation
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+    paths:
+      - '**/schema.prisma'
+
+jobs:
+  check-schema-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      schema_changed: ${{ steps.schema-change-detection.outputs.schema_changed }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Detect Schema Changes in the Most Recent Commit
+        id: schema-change-detection
+        run: |
+          git fetch origin +refs/heads/*:refs/remotes/origin/* --depth=2
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          PREVIOUS_SHA=$(git rev-parse $HEAD_SHA^)
+          SCHEMA_CHANGE=$(git diff --name-only $PREVIOUS_SHA $HEAD_SHA -- '**/schema.prisma')
+          if [ -z "$SCHEMA_CHANGE" ]; then
+            echo "::set-output name=schema_changed::false"
+          else
+            echo "::set-output name=schema_changed::true"
+          fi
+
+  comment-on-pr:
+    needs: check-schema-changes
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' && needs.check-schema-changes.outputs.schema_changed == 'true' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Check if env file exists
+        id: check-env-file
+        run: |
+          REF=${{ github.event.pull_request.head.ref }}
+          FILE_PATH=".pscale/env/ps-env-$REF.sh"
+          if [ -f "$FILE_PATH" ]; then
+            echo "::set-output name=env_file_exists::true"
+          else
+            echo "::set-output name=env_file_exists::false"
+          fi
+
+      - name: Comment /ps-create or /ps-update on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const envFileExists = ${{ steps.check-env-file.outputs.env_file_exists }};
+            const message = envFileExists ? '/ps-update' : '/ps-create';
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: message,
+            });
+          github-token: ${{secrets.CHAMELEON_BOT}}
+
+  prepare-for-merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Post Merge Instructions Comment
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const issue_number = context.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const message = `
+              <!-- Merge-Instructions-Update -->
+              # 🌟 **Important Action Required!** 🌟
+
+              ## FINAL STEPS:
+
+              To finalize the changes to the schema and successfully merge them to PlanetScale, your action is needed. Please review the steps below:
+
+              | Step | Action |
+              | ---- | ------ |
+              | 1 | Review the proposed schema changes for accuracy. |
+              | 2 | Test the changes locally to ensure they work as expected. |
+              | 3 | **Comment \`/ps-merge\` on this PR to trigger the merge process.** |
+              | 4 | Await the automated merge process to apply your changes. |
+
+              This will trigger the merge process and apply your changes to PlanetScale. 🚀
+
+              ✨✨✨✨✨✨✨✨✨✨
+              \`\`\`
+              /ps-merge
+              \`\`\` 
+              ✨✨✨✨✨✨✨✨✨✨
+              `;
+            await github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body: message,
+            });

@@ -32,7 +32,7 @@ function create-branch-connection-string {
         exit 1
     fi
 
-    local DB_URL=`echo "$raw_output" |  jq -r ". | \"mysql://\" + .username +  \":\" + .plain_text +  \"@\" + .database_branch.access_host_url + \"/\""`
+    local DB_URL=`echo "$raw_output" | jq -r ". | \"mysql://\" + .username + \":\" + .plain_text + \"@\" + .database_branch.access_host_url + \"/$DB_NAME?sslaccept=strict\""`
     local GENERAL_CONNECTION_STRING=`echo "$raw_output" |  jq -r ". | .connection_strings.general"`
 
 read -r -d '' SECRET_TEXT <<EOF
@@ -51,5 +51,7 @@ EOF
     echo "pscale shell \"$DB_NAME\" \"$BRANCH_NAME\" --org \"$ORG_NAME\""
     echo "or, to create a local tunnel to the database:"
     echo "pscale connect \"$DB_NAME\" \"$BRANCH_NAME\" --org \"$ORG_NAME\""
+    echo "::set-output name=DATABASE_URL::$DB_URL"
+
     export MY_DB_URL=$DB_URL
 }
