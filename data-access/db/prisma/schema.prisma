@@ -44,7 +44,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// User model to represent both cosplayers and photographers
 model User {
   id             String    @id @default(cuid())
   name           String?
@@ -67,7 +66,6 @@ model User {
   Session Session[]
   Todo    Todo[]
   Post    Post[]
-  // test
 
   @@index([id], name: "idx_user_id")
 }
