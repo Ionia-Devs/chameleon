@@ -94,7 +94,7 @@ jobs:
           script: |
             const issue_number = context.issue.number;
             const message = `\
-            ### 🌟 **Important Action Required!** 🌟
+            # 🌟 **Important Action Required!** 🌟
 
             To finalize the changes to the schema and successfully merge them to PlanetScale, your action is needed. Please review the steps below:
 
