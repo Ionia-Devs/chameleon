@@ -21,21 +21,14 @@ jobs:
       schema_changed: ${{ steps.schema-change-detection.outputs.schema_changed }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
-          # Fetch the entire repo history so comparisons can be made between any two commits.
           fetch-depth: 0
 
       - name: Detect Schema Changes
         id: schema-change-detection
         run: |
-          # Get the commit hash for the last commit before the PR's latest commit.
-          # This helps ensure we are comparing against the correct base in cases of multiple commits.
-          BASE_COMMIT=$(git merge-base HEAD ${{ github.event.pull_request.base.sha }})
-          echo "Base commit for comparison: $BASE_COMMIT"
-
-          # Check for changes specifically in the schema.prisma file between the base commit and the latest commit.
-          SCHEMA_CHANGE=$(git diff --name-only $BASE_COMMIT HEAD -- '**/schema.prisma')
+          SCHEMA_CHANGE=$(git diff HEAD~1 HEAD --name-only -- '**/schema.prisma')
           if [ -z "$SCHEMA_CHANGE" ]; then
             echo "No schema changes detected."
             echo "::set-output name=schema_changed::false"

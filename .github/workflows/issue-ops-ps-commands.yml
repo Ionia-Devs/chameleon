@@ -630,8 +630,10 @@ jobs:
 
             const log_url = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`
 
+            const prCreator = github.event.pull_request.user.login; 
+
             const commentBody = `\
-            👋 __${context.actor}__, updating information ${DDL_UPDATED} of Git branch __${REF}__ now ...
+            👋 __${prCreator}__, updating information ${DDL_UPDATED} of Git branch __${REF}__ now ...
 
             You can watch the progress and authorize access [here](${log_url}).
             `;
