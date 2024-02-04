@@ -469,6 +469,7 @@ jobs:
           ORG_NAME: ${{ steps.create-db-branch-and-dr.outputs.ORG_NAME }}
           DDL_STATEMENTS: ${{ steps.validate_params.outputs.DDL_STATEMENTS }}
           BRANCH_DIFF: ${{ steps.create-db-branch-and-dr.outputs.BRANCH_DIFF }}
+          DATABASE_URL: ${{ steps.create-db-branch-and-dr.outputs.DATABASE_URL }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

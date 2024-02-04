@@ -42,6 +42,7 @@ function create-schema-change {
 
     echo "Changing schema with the following DDL statements:"
     echo $DDL_STATEMENTS
+    echo "DB_URL:" $DATABASE_URL
     echo pscale shell "$DB_NAME" "$BRANCH_NAME" --org "$ORG_NAME" | npx prisma db push --schema=../../data-access/db/prisma/schema.prisma --skip-generate
     if [ $? -ne 0 ]; then
         echo "Schema change in $BRANCH_NAME could not be created"
