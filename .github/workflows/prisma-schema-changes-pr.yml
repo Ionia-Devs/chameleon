@@ -43,48 +43,29 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' && needs.check-schema-changes.outputs.schema_changed == 'true' }}
     steps:
-      - name: Fetch All Bot Comments on PR
-        id: fetch_bot_comments
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issue_number = context.issue.number;
-            const comments = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue_number,
-            });
-            const botComments = comments.data.filter(comment => comment.user.login === 'github-actions[bot]');
-            const createCommentExists = botComments.some(comment => comment.body.includes('/ps-create'));
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-            // Output the IDs of bot comments to be deleted
-            const botCommentIds = botComments.map(comment => comment.id);
-            core.setOutput('bot_comment_ids', JSON.stringify(botCommentIds));
-            core.setOutput('create_comment_exists', createCommentExists);
-          github-token: ${{secrets.CHAMELEON_BOT}}
-
-      - name: Delete All Bot Comments
-        if: ${{ steps.fetch_bot_comments.outputs.bot_comment_ids }}
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const botCommentIds = JSON.parse('${{ steps.fetch_bot_comments.outputs.bot_comment_ids }}');
-            for (const commentId of botCommentIds) {
-              await github.rest.issues.deleteComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: commentId,
-              });
-            }
-          github-token: ${{secrets.CHAMELEON_BOT}}
+      - name: Check if env file exists
+        id: check-env-file
+        run: |
+          REF=${{ github.event.pull_request.head.ref }}
+          FILE_PATH=".pscale/env/ps-env-$REF.sh"
+          if [ -f "$FILE_PATH" ]; then
+            echo "Env file exists."
+            echo "::set-output name=env_file_exists::true"
+          else
+            echo "Env file does not exist."
+            echo "::set-output name=env_file_exists::false"
+          fi
 
       - name: Comment /ps-create or /ps-update on PR
         uses: actions/github-script@v6
         with:
           script: |
             const issue_number = context.issue.number;
-            const createCommentExists = '${{ steps.fetch_bot_comments.outputs.create_comment_exists }}';
-            const message = createCommentExists ? '/ps-update' : '/ps-create';
+            const envFileExists = ${{ steps.check-env-file.outputs.env_file_exists }};
+            const message = envFileExists ? '/ps-update' : '/ps-create';
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
