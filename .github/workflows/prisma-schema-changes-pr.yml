@@ -7,12 +7,6 @@ on:
     paths:
       - '**/schema.prisma'
     types: [opened, reopened, synchronize]
-  pull_request_target:
-    branches:
-      - main
-    paths:
-      - '**/schema.prisma'
-    types: [closed]
 
 jobs:
   check-schema-changes:
@@ -99,10 +93,23 @@ jobs:
         with:
           script: |
             const issue_number = context.issue.number;
-            const message = `🚀 **Action Required!** 🚀\n\n` +
-                            `To finalize the changes to the schema and merge them to PlanetScale, ` +
-                            `please run the command \`/ps-merge\` in the PR.\n\n` +
-                            `This will trigger the merge process and apply your changes. 🌟`;
+            const message = `\
+            🌟 **Important Action Required!** 🌟
+
+            To finalize the changes to the schema and successfully merge them to PlanetScale, your action is needed. Please review the steps below:
+
+            | Step | Action |
+            | ---- | ------ |
+            | 1 | Review the proposed schema changes for accuracy. |
+            | 2 | Test the changes locally to ensure they work as expected. |
+            | 3 | **Run the command \`/ps-merge\` in this PR's comment section.** |
+            | 4 | Await the automated merge process to apply your changes. |
+
+            This will trigger the merge process and apply your changes to PlanetScale. 🚀
+
+            Please run \`/ps-merge\` now 🤝
+            `;
+
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
