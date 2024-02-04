@@ -107,9 +107,11 @@ jobs:
 
             This will trigger the merge process and apply your changes to PlanetScale. 🚀
 
+            ✨✨✨✨✨✨✨✨✨✨
             \`\`\`
             /ps-merge
             \`\`\` 
+            ✨✨✨✨✨✨✨✨✨✨
             `;
 
             github.rest.issues.createComment({
