@@ -13,7 +13,7 @@ on:
     paths:
       - '**/schema.prisma'
     types: [closed]
-# test
+
 jobs:
   check-schema-changes:
     runs-on: ubuntu-latest
@@ -25,17 +25,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect Schema Changes
+      - name: Detect Schema Changes in the Most Recent Commit
         id: schema-change-detection
         run: |
-          SCHEMA_CHANGE=$(git diff HEAD~1 HEAD --name-only -- '**/schema.prisma')
+          # Get the hash of the most recent commit
+          LATEST_COMMIT=$(git rev-parse HEAD)
+          echo "Latest commit: $LATEST_COMMIT"
+
+          # Get the hash of the commit immediately before the latest
+          PREVIOUS_COMMIT=$(git rev-parse HEAD~1)
+          echo "Previous commit: $PREVIOUS_COMMIT"
+
+          # Check if schema.prisma has changed in the latest commit
+          SCHEMA_CHANGE=$(git diff --name-only $PREVIOUS_COMMIT $LATEST_COMMIT -- '**/schema.prisma')
           if [ -z "$SCHEMA_CHANGE" ]; then
-            echo "No schema changes detected."
+            echo "No schema changes detected in the most recent commit."
             echo "::set-output name=schema_changed::false"
           else
-            echo "Schema changes detected: $SCHEMA_CHANGE"
+            echo "Schema changes detected in the most recent commit: $SCHEMA_CHANGE"
             echo "::set-output name=schema_changed::true"
-          fi
 
   comment-on-pr:
     needs: check-schema-changes
