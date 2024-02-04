@@ -28,22 +28,25 @@ jobs:
       - name: Detect Schema Changes in the Most Recent Commit
         id: schema-change-detection
         run: |
-          # Get the hash of the most recent commit
-          LATEST_COMMIT=$(git rev-parse HEAD)
-          echo "Latest commit: $LATEST_COMMIT"
+          # Fetch all history for all tags and branches
+          git fetch --prune --unshallow
 
-          # Get the hash of the commit immediately before the latest
-          PREVIOUS_COMMIT=$(git rev-parse HEAD~1)
-          echo "Previous commit: $PREVIOUS_COMMIT"
+          # Get the most recent commit SHA
+          CURRENT_COMMIT=$(git rev-parse HEAD)
 
-          # Check if schema.prisma has changed in the latest commit
-          SCHEMA_CHANGE=$(git diff --name-only $PREVIOUS_COMMIT $LATEST_COMMIT -- '**/schema.prisma')
-          if [ -z "$SCHEMA_CHANGE" ]; then
-            echo "No schema changes detected in the most recent commit."
-            echo "::set-output name=schema_changed::false"
-          else
-            echo "Schema changes detected in the most recent commit: $SCHEMA_CHANGE"
+          # Get the previous commit SHA
+          PREVIOUS_COMMIT=$(git rev-parse HEAD^)
+
+          echo "Current Commit: $CURRENT_COMMIT"
+          echo "Previous Commit: $PREVIOUS_COMMIT"
+
+          if [ "$CURRENT_COMMIT" != "$PREVIOUS_COMMIT" ]; then
+            echo "Commits are different."
             echo "::set-output name=schema_changed::true"
+          else
+            echo "Commits are not different."
+            echo "::set-output name=schema_changed::false"
+          fi
 
   comment-on-pr:
     needs: check-schema-changes
