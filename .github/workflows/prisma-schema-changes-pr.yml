@@ -47,6 +47,7 @@ jobs:
           else
             echo "Schema changes detected in the most recent commit: $SCHEMA_CHANGE"
             echo "::set-output name=schema_changed::true"
+          fi
 
   comment-on-pr:
     needs: check-schema-changes
