@@ -1,10 +1,92 @@
 import Image from 'next/image'
-
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+
+
+export default function EditProfile() {
+  const profileImage = 'https://source.unsplash.com/random/?person'
+  const profileSkills = [
+    {name: "NSFW", isSelected: false,},
+    {name: "Boudoir", isSelected: false,},
+    {name: "Convention", isSelected: false,},
+    {name: "Off-Site / Location", isSelected: false,},
+    {name: "Studio", isSelected: false,},
+    {name: "Cosplay", isSelected: false,},
+    {name: "Portrait", isSelected: false,},
+    {name: "Editorial", isSelected: false,},
+    {name: "Events", isSelected: false,},
+    {name: "Fashion", isSelected: false,},
+    {name: "Fantast / Composite", isSelected: false,},
+    {name: "Videograph", isSelected: false,},
+  ]
+  return (
+    <div className="flex flex-col w-full">
+      <section className="flex justify-around w-full">
+        <div className="flex flex-col">
+          <div className="mb-2">
+            <Label className="m-2">Display Name</Label>
+            <Input value={'This is your name here'}></Input>
+          </div>
+          <div className="mb-2">
+            <Label className="m-2">Instagram Username</Label>
+            <Input value={'This is your name here'}></Input>
+          </div>
+          <div className="flex flex-col">
+            <Label className="m-2">I&apos;m currently shooting:</Label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
+              {profileSkills.map(skill => (
+                <Button key={skill.name} className="m-1 h-8">{skill.name}</Button>
+
+              ))}
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <Label className="m-2">I&apos;m open to:</Label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+              <Button className="m-1 h-8">nsfw</Button>
+            </div>
+            <div className="flex flex-col">
+              <Label className="m-2">I&apos;m most skilled with:</Label>
+              <div className="grid grid-cols-2 md:w-80">
+                <Button className="m-1 h-8">nsfw</Button>
+                <Button className="m-1 h-8">nsfw</Button>
+                <Button className="m-1 h-8">nsfw</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <Image
+            alt="profile image"
+            width="160"
+            height="160"
+            className="rounded-lg"
+            src={profileImage}
+          />
+          <div className="flex justify-around">
+            <button className="m-1">Upload</button>
+            <button className="m-1">Delete</button>
+          </div>
+        </div>
+      </section>
+      <div className="flex flex-col">
+        <Label className="flex self-center text-3xl">Portfolio</Label>
+        <LayoutGrid cards={cards} />
+      </div>
+    </div>
+  )
+}
 const Skeleton = (props: { title: string; content: string }) => {
   const { title, content } = props
   return (
@@ -71,68 +153,3 @@ const cards = [
     thumbnail: 'https://source.unsplash.com/random/?star,killer',
   },
 ]
-
-export default function EditProfile() {
-  const profileImage = 'https://source.unsplash.com/random/?person'
-  return (
-    <div className="flex flex-col w-full">
-      <section className="flex justify-around w-full">
-        <div className="flex flex-col">
-          <div className="mb-2">
-            <Label className="m-2">Display Name</Label>
-            <Input value={'This is your name here'}></Input>
-          </div>
-          <div className="mb-2">
-            <Label className="m-2">Instagram Username</Label>
-            <Input value={'This is your name here'}></Input>
-          </div>
-          <div className="flex flex-col">
-            <Label className="m-2">I&apos;m currently shooting: </Label>
-            <div className="grid grid-cols-3 md:w-80">
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <Label className="m-2">I&apos;m open to: </Label>
-            <div className="grid grid-cols-3 md:w-80">
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-            </div>
-            <div className="flex flex-col">
-              <Label className="m-2">I&apos;m most skilled with: </Label>
-              <div className="grid grid-cols-2 md:w-80">
-                <Button className="m-1 h-8">nsfw</Button>
-                <Button className="m-1 h-8">nsfw</Button>
-                <Button className="m-1 h-8">nsfw</Button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Image
-            alt="profile image"
-            width="160"
-            height="160"
-            className="rounded-lg"
-            src={profileImage}
-          />
-          <div className="flex justify-around">
-            <button className="m-1">Upload</button>
-            <button className="m-1">Delete</button>
-          </div>
-        </div>
-      </section>
-      <div className="flex flex-col">
-        <Label className="flex self-center text-3xl">Portfolio</Label>
-        <LayoutGrid cards={cards} />
-      </div>
-    </div>
-  )
-}
