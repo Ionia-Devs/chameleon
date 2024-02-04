@@ -23,21 +23,24 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 0 # Ensure we have the entire git history for the comparison
 
       - name: Detect Schema Changes in the Most Recent Commit
         id: schema-change-detection
         run: |
-          # Identifying the hash of the most recent commit
-          LATEST_COMMIT_HASH=$(git rev-parse HEAD)
-          echo "Latest commit hash: $LATEST_COMMIT_HASH"
+          # Fetch all history to ensure we have the necessary data
+          git fetch origin +refs/heads/*:refs/remotes/origin/* --depth=2
 
-          # Identifying the hash of the commit immediately before the latest
-          PREVIOUS_COMMIT_HASH=$(git rev-parse HEAD~1)
-          echo "Previous commit hash: $PREVIOUS_COMMIT_HASH"
+          # The SHA of the most recent commit on the head branch of the PR
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          echo "HEAD SHA: $HEAD_SHA"
 
-          # Using git diff to check for changes in 'schema.prisma' between the two commits
-          SCHEMA_CHANGE=$(git diff --name-only $PREVIOUS_COMMIT_HASH $LATEST_COMMIT_HASH -- '**/schema.prisma')
+          # The SHA of the commit immediately before the HEAD on the PR branch
+          PREVIOUS_SHA=$(git rev-parse $HEAD_SHA^)
+          echo "Previous SHA: $PREVIOUS_SHA"
+
+          # Check for changes in 'schema.prisma' between the HEAD commit and its immediate predecessor
+          SCHEMA_CHANGE=$(git diff --name-only $PREVIOUS_SHA $HEAD_SHA -- '**/schema.prisma')
           if [ -z "$SCHEMA_CHANGE" ]; then
             echo "No schema changes detected in the most recent commit."
             echo "::set-output name=schema_changed::false"
