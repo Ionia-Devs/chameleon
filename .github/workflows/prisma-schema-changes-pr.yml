@@ -81,7 +81,7 @@ jobs:
 
   prepare-for-merge:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' && github.event.review.state == 'approved' }}
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -107,7 +107,11 @@ jobs:
 
             This will trigger the merge process and apply your changes to PlanetScale. 🚀
 
-            Please run \`/ps-merge\` now 🤝
+            ```
+
+            /ps-merge
+
+            ``` 
             `;
 
             github.rest.issues.createComment({
