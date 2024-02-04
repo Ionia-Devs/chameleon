@@ -15,9 +15,33 @@ on:
     types: [closed]
 
 jobs:
-  comment-on-pr:
+  check-schema-changes:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' }}
+    outputs:
+      schema_changed: ${{ steps.schema-change-detection.outputs.schema_changed }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2 # Fetch the last two commits
+
+      - name: Detect Schema Changes
+        id: schema-change-detection
+        run: |
+          # Compare the schema file between the last two commits
+          SCHEMA_CHANGE=$(git diff --name-only HEAD^ HEAD -- '**/schema.prisma')
+          if [ -z "$SCHEMA_CHANGE" ]; then
+            echo "No schema changes detected."
+            echo "::set-output name=schema_changed::false"
+          else
+            echo "Schema changes detected."
+            echo "::set-output name=schema_changed::true"
+          fi
+
+  comment-on-pr:
+    needs: check-schema-changes
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' && needs.check-schema-changes.outputs.schema_changed == 'true' }}
     steps:
       - name: Fetch All Bot Comments on PR
         id: fetch_bot_comments
