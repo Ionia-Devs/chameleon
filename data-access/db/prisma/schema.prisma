@@ -67,6 +67,7 @@ model User {
   Todo    Todo[]
   Post    Post[]
 
+  // YES
   @@index([id], name: "idx_user_id")
 }
 
