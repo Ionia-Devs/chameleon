@@ -73,3 +73,29 @@ jobs:
               body: message,
             });
           github-token: ${{secrets.CHAMELEON_BOT}}
+
+  prepare-for-merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' && github.event.review.state == 'approved' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Comment with instructions to merge
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const message = `🚀 **Action Required!** 🚀\n\n` +
+                            `To finalize the changes to the schema and merge them to PlanetScale, ` +
+                            `please run the command \`/ps-merge\` in the PR.\n\n` +
+                            `This will trigger the merge process and apply your changes. 🌟`;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: message,
+            });
+          github-token: ${{secrets.GITHUB_TOKEN}}
