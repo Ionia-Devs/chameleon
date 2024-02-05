@@ -334,7 +334,7 @@ jobs:
           REF: ${{ needs.prechecks.outputs.ref }}
           comment: ${{ github.event.comment.body }}
           baseDirectory: ${{env.pscale_base_directory}}
-        uses: actions/github-script@v4
+        uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -401,11 +401,8 @@ jobs:
 
             const log_url = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`
 
-            const prCreator = github.event.pull_request.user.login; 
-
             const commentBody = `\
-                👋 __${prCreator}__, creating DB branch __${BRANCH_NAME}__ for Git branch __${REF}__ now ...`;
-
+            👋 __${context.actor}__, creating DB branch __${BRANCH_NAME}__ for Git branch __${REF}__ now ...
 
             You can watch the progress and authorize access [here](${log_url}).
             `;
