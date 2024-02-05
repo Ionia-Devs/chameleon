@@ -2,7 +2,7 @@ name: Prisma Schema Automation
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, closed]
     branches:
       - main
     paths:
@@ -112,3 +112,23 @@ jobs:
               repo,
               body: message,
             });
+
+  cleanup-after-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event.action == 'closed'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Call /ps-delete command
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: '/ps-delete',
+            });
+          github-token: ${{secrets.GITHUB_TOKEN}}
