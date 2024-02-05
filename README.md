@@ -90,6 +90,21 @@ pnpm exec nx run chameleon:dev
 - **Frontend**: `http://localhost:3000`
 - **Backend**: `http://localhost:9991/graphql`
 
+## Automated Database Deployment
+
+### Overview
+
+Our project leverages GitHub Actions for seamless database schema changes integration and deployment, utilizing IssueOps commands for efficient management with PlanetScale.
+
+### Commands
+
+- `/ps-create`: Creates a new database branch and deploy request for schema changes.
+- `/ps-update`: Updates the schema on an existing database branch.
+- `/ps-merge`: Merges approved schema changes into the main database branch.
+- `/ps-approve`: Approves a deploy request for merging schema changes.
+- `/ps-delete`: Deletes a database branch.
+- `/ps-attach`: Associates a specific deploy request or database branch with the current GitHub branch.
+
 ## Development Tools and Resources 🧰
 
 - **Shadcn UI Components**: [Shadcn UI](https://ui.shadcn.com/)
@@ -108,6 +123,15 @@ We use feature branches for development:
 
 For a step-by-step guide, GitHub's documentation on [creating a pull request from a branch](https://docs.github.com/en/pull-requests) is a great resource.
 
+### Branch Naming Restrictions
+
+Avoid underscores (`_`) in branch names, as PlanetScale does not allow them. Use hyphens (`-`) instead.
+
+#### Example
+
+- Good: `feature-add-new-table`
+- Bad: `feature_add_new_table`
+
 ## Linking Pull Requests to Issues
 
 For enhanced project tracking, ensure you link your pull requests to their corresponding issues:
@@ -124,10 +148,8 @@ Stay updated with our progress and keep track of tasks on our [GitHub Projects B
 
 ## Production Environments 🌍
 
-The project is live and accessible to users. Here's where you can find the production environments:
-
-- **Frontend**: The user interface is available at [chameleon-sandy.vercel.app](https://chameleon-sandy.vercel.app/).
-- **Backend**: Our server-side operations can be accessed at [chameleon-production.up.railway.app](https://chameleon-production.up.railway.app/).
+- **Frontend**: [chameleon-sandy.vercel.app](https://chameleon-sandy.vercel.app/)
+- **Backend**: [chameleon-production.up.railway.app](https://chameleon-production.up.railway.app/)
 
 ## Support
 
