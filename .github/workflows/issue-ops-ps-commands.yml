@@ -336,6 +336,7 @@ jobs:
           baseDirectory: ${{env.pscale_base_directory}}
         uses: actions/github-script@v3
         with:
+          debug: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { REF, comment, baseDirectory } = process.env;
