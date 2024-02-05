@@ -22,12 +22,6 @@
       ],
       "cache": true
     },
-    "contentlayer": {
-      "cache": true
-    },
-    "generate": {
-      "cache": true
-    },
     "@nx/jest:jest": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true,
