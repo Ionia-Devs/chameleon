@@ -79,6 +79,7 @@ model CurrentShoots {
 
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 model UserSkill {
   id        String   @id @default(uuid())
   userId    String   @unique
