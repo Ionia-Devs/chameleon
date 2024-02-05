@@ -66,8 +66,26 @@ model User {
   Session Session[]
   Todo    Todo[]
   Post    Post[]
+  UserSkill UserSkill[]
+  CurrentShoots CurrentShoots[]
 
   @@index([id], name: "idx_user_id")
+}
+
+model CurrentShoots {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  name      String
+
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model UserSkill {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  name      String
+  isHighlighted Boolean @default(false)
+
+  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Todo {

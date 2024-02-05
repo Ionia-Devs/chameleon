@@ -2,7 +2,6 @@ import Image from 'next/image'
 import DisplayNameInput from './_components/displayNameInput'
 import ProfileSkill from './_components/profileSkill'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -22,23 +21,28 @@ export default function EditProfile() {
     { name: 'Fantasy', isSelected: false },
     { name: 'Videograph', isSelected: false },
   ]
+  const bestProfileSkills = [
+    {name: 'Paid Shoots', isSelected: false},
+    {name: 'Convention Shoots', isSelected: false},
+    {name: 'Collabs', isSelected: false},
+  ]
   return (
     <div className="flex flex-col w-full">
       <section className="flex justify-around w-full">
         <div className="flex flex-col">
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
-            <DisplayNameInput></DisplayNameInput>
+            <DisplayNameInput />
           </div>
           <div className="mb-2">
             <Label className="m-2">Instagram Username</Label>
-            <Input value={'This is your name here'} readOnly></Input>
+            <Input className='border-none' value={'This is your name here'} readOnly></Input>
           </div>
           <div className="flex flex-col">
             <Label className="m-2">I&apos;m currently shooting:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
               {profileSkills.map((skill) => (
-                <ProfileSkill key={skill.name} name={skill.name} isSelected={skill.isSelected} />
+                <ProfileSkill key={skill.name} name={skill.name} />
               ))}
             </div>
           </div>
@@ -46,15 +50,15 @@ export default function EditProfile() {
             <Label className="m-2">I&apos;m open to:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
               {profileSkills.map((skill) => (
-                <ProfileSkill key={skill.name} name={skill.name} isSelected={skill.isSelected} />
+                <ProfileSkill key={skill.name} name={skill.name} />
               ))}
             </div>
             <div className="flex flex-col">
               <Label className="m-2">I&apos;m most skilled with:</Label>
               <div className="grid grid-cols-2 md:w-80">
-                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Paid Shoots</Button>
-                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Convention Shoots</Button>
-                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Collabs</Button>
+              {bestProfileSkills.map((skill) => (
+                <ProfileSkill key={skill.name} name={skill.name} />
+              ))}
               </div>
             </div>
           </div>
