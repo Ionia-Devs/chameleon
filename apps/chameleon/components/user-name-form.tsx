@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import * as z from 'zod'
 
 import { cn } from '@/lib/utils'
@@ -20,7 +21,6 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -59,16 +59,12 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
     setIsSaving(false)
 
     if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
+      return toast.error('Something went wrong.', {
         description: 'Your name was not updated. Please try again.',
-        variant: 'destructive',
       })
     }
 
-    toast({
-      description: 'Your name has been updated.',
-    })
+    toast.success('Your name has been updated.')
 
     router.refresh()
   }

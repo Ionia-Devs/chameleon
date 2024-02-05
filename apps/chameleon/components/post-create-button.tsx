@@ -2,10 +2,10 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { ButtonProps, buttonVariants } from '@/components/ui/button'
-import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
 
 interface PostCreateButtonProps extends ButtonProps {}
@@ -35,17 +35,13 @@ export function PostCreateButton({
 
     if (!response?.ok) {
       if (response.status === 402) {
-        return toast({
-          title: 'Limit of 3 posts reached.',
+        return toast.error('Limit of 3 posts reached.', {
           description: 'Please upgrade to the PRO plan.',
-          variant: 'destructive',
         })
       }
 
-      return toast({
-        title: 'Something went wrong.',
+      return toast.error('Something went wrong.', {
         description: 'Your post was not created. Please try again.',
-        variant: 'destructive',
       })
     }
 

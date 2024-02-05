@@ -8,12 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Post } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import TextareaAutosize from 'react-textarea-autosize'
+import { toast } from 'sonner'
 import * as z from 'zod'
 
 import { cn } from '@/lib/utils'
 import { postPatchSchema } from '@/lib/validations/post'
 import { buttonVariants } from '@/components/ui/button'
-import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
 
 import '@/styles/editor.css'
@@ -103,18 +103,14 @@ export function Editor({ post }: EditorProps) {
     setIsSaving(false)
 
     if (!response?.ok) {
-      return toast({
-        title: 'Something went wrong.',
+      return toast.error('Something went wrong.', {
         description: 'Your post was not saved. Please try again.',
-        variant: 'destructive',
       })
     }
 
     router.refresh()
 
-    return toast({
-      description: 'Your post has been saved.',
-    })
+    return toast('Your post has been saved.')
   }
 
   if (!isMounted) {
