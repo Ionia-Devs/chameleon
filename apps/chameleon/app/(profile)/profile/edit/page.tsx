@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import DisplayNameInput from './_components/displayNameInput'
-import ProfileSkill from './_components/profileSkill'
+import DisplayNameInput from './_components/display-name-input'
+import ProfileSkill from './_components/profile-skill'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

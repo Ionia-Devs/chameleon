@@ -12,7 +12,6 @@ export default function DisplayNameInput() {
     setButtonInvisible(false)
   }
   const handleSaveChanges = () => {
-    console.log(displayName)
     setButtonInvisible(true)
   }
   return (
