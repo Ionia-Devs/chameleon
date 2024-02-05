@@ -1,26 +1,26 @@
 import Image from 'next/image'
+import DisplayNameInput from './_components/displayNameInput'
+import ProfileSkill from './_components/profileSkill'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-
-
 export default function EditProfile() {
   const profileImage = 'https://source.unsplash.com/random/?person'
   const profileSkills = [
-    {name: "NSFW", isSelected: false,},
-    {name: "Boudoir", isSelected: false,},
-    {name: "Convention", isSelected: false,},
-    {name: "Off-Site / Location", isSelected: false,},
-    {name: "Studio", isSelected: false,},
-    {name: "Cosplay", isSelected: false,},
-    {name: "Portrait", isSelected: false,},
-    {name: "Editorial", isSelected: false,},
-    {name: "Events", isSelected: false,},
-    {name: "Fashion", isSelected: false,},
-    {name: "Fantast / Composite", isSelected: false,},
-    {name: "Videograph", isSelected: false,},
+    { name: 'NSFW', isSelected: false },
+    { name: 'Boudoir', isSelected: false },
+    { name: 'Convention', isSelected: false },
+    { name: 'Off-Site', isSelected: false },
+    { name: 'Studio', isSelected: false },
+    { name: 'Cosplay', isSelected: false },
+    { name: 'Portrait', isSelected: false },
+    { name: 'Editorial', isSelected: false },
+    { name: 'Events', isSelected: false },
+    { name: 'Fashion', isSelected: false },
+    { name: 'Fantasy', isSelected: false },
+    { name: 'Videograph', isSelected: false },
   ]
   return (
     <div className="flex flex-col w-full">
@@ -28,40 +28,33 @@ export default function EditProfile() {
         <div className="flex flex-col">
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
-            <Input value={'This is your name here'}></Input>
+            <DisplayNameInput></DisplayNameInput>
           </div>
           <div className="mb-2">
             <Label className="m-2">Instagram Username</Label>
-            <Input value={'This is your name here'}></Input>
+            <Input value={'This is your name here'} readOnly></Input>
           </div>
           <div className="flex flex-col">
             <Label className="m-2">I&apos;m currently shooting:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {profileSkills.map(skill => (
-                <Button key={skill.name} className="m-1 h-8">{skill.name}</Button>
-
+              {profileSkills.map((skill) => (
+                <ProfileSkill key={skill.name} name={skill.name} isSelected={skill.isSelected} />
               ))}
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
             </div>
           </div>
           <div className="flex flex-col">
             <Label className="m-2">I&apos;m open to:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
-              <Button className="m-1 h-8">nsfw</Button>
+              {profileSkills.map((skill) => (
+                <ProfileSkill key={skill.name} name={skill.name} isSelected={skill.isSelected} />
+              ))}
             </div>
             <div className="flex flex-col">
               <Label className="m-2">I&apos;m most skilled with:</Label>
               <div className="grid grid-cols-2 md:w-80">
-                <Button className="m-1 h-8">nsfw</Button>
-                <Button className="m-1 h-8">nsfw</Button>
-                <Button className="m-1 h-8">nsfw</Button>
+                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Paid Shoots</Button>
+                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Convention Shoots</Button>
+                <Button className="m-1 h-8 bg-primary-foreground text-white hover:text-black">Collabs</Button>
               </div>
             </div>
           </div>
