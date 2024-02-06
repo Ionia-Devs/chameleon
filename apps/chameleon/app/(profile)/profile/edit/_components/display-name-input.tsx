@@ -4,14 +4,18 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export default function DisplayNameInput() {
-  const [displayName, setDisplayName] = useState('name')
+interface DisplayNameProps {
+  currentUsername: string
+}
+
+export default function DisplayNameInput({currentUsername}: DisplayNameProps) {
+  const [displayName, setDisplayName] = useState(currentUsername)
   const [buttonInvisible, setButtonInvisible] = useState(true)
   const displayNameOnChange = (e: string) => {
     setDisplayName(e)
     setButtonInvisible(false)
   }
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     setButtonInvisible(true)
   }
   return (

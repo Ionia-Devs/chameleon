@@ -1,65 +1,71 @@
 import Image from 'next/image'
-import DisplayNameInput from './_components/display-name-input'
-import ProfileSkill from './_components/profile-skill'
+import { notFound } from 'next/navigation'
+import { db } from '@chameleon/db'
+
+import { getCurrentUser } from '@/lib/session'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export default function EditProfile() {
-  const profileImage = 'https://source.unsplash.com/random/?person'
-  const profileSkills = [
-    { name: 'NSFW', isSelected: false },
-    { name: 'Boudoir', isSelected: false },
-    { name: 'Convention', isSelected: false },
-    { name: 'Off-Site', isSelected: false },
-    { name: 'Studio', isSelected: false },
-    { name: 'Cosplay', isSelected: false },
-    { name: 'Portrait', isSelected: false },
-    { name: 'Editorial', isSelected: false },
-    { name: 'Events', isSelected: false },
-    { name: 'Fashion', isSelected: false },
-    { name: 'Fantasy', isSelected: false },
-    { name: 'Videograph', isSelected: false },
-  ]
-  const bestProfileSkills = [
-    {name: 'Paid Shoots', isSelected: false},
-    {name: 'Convention Shoots', isSelected: false},
-    {name: 'Collabs', isSelected: false},
-  ]
+import DisplayNameInput from './_components/display-name-input'
+import ProfileSkill from './_components/profile-skill'
+
+export default async function EditProfile() {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return notFound()
+  }
+  
+  const userData = await db.user.findUnique({
+    where: { id: user.id },
+    include: {
+      CurrentShoots: true,
+      UserSkill: true,
+    },
+  })
+  console.log(userData)
+  console.log(userData?.UserSkill)
+  console.log("user: ", user)
+
   return (
     <div className="flex flex-col w-full">
       <section className="flex justify-around w-full">
         <div className="flex flex-col">
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
-            <DisplayNameInput />
+            <DisplayNameInput currentUsername={userData?.name ? userData.name : "insert name here"}/>
           </div>
           <div className="mb-2">
             <Label className="m-2">Instagram Username</Label>
-            <Input className='border-none' value={'This is your name here'} readOnly></Input>
+            <Input
+              className="border-none"
+              value={'This is your insta name here'}
+              readOnly
+            ></Input>
           </div>
           <div className="flex flex-col">
             <Label className="m-2">I&apos;m currently shooting:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {profileSkills.map((skill) => (
-                <ProfileSkill key={skill.name} name={skill.name} />
+              {userData?.CurrentShoots.map((skill) => (
+                <ProfileSkill key={skill.id} name={skill.name} />
               ))}
             </div>
           </div>
           <div className="flex flex-col">
             <Label className="m-2">I&apos;m open to:</Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {profileSkills.map((skill) => (
-                <ProfileSkill key={skill.name} name={skill.name} />
+              {userData?.UserSkill.map((skill) => (
+                <ProfileSkill key={skill.id} name={skill.name} />
               ))}
             </div>
             <div className="flex flex-col">
               <Label className="m-2">I&apos;m most skilled with:</Label>
-              <div className="grid grid-cols-2 md:w-80">
-              {bestProfileSkills.map((skill) => (
-                <ProfileSkill key={skill.name} name={skill.name} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
+              {userData?.UserSkill.map((skill) => (
+                <ProfileSkill key={skill.id} name={skill.name} />
               ))}
-              </div>
+            </div>
             </div>
           </div>
         </div>
@@ -69,7 +75,7 @@ export default function EditProfile() {
             width="160"
             height="160"
             className="rounded-lg"
-            src={profileImage}
+            src={userData?.image ? userData.image :'https://source.unsplash.com/random/?person'}
           />
           <div className="flex justify-around">
             <button className="m-1">Upload</button>
