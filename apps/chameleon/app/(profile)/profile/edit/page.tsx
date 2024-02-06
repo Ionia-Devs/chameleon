@@ -16,7 +16,7 @@ export default async function EditProfile() {
   if (!user) {
     return notFound()
   }
-  
+
   const userData = await db.user.findUnique({
     where: { id: user.id },
     include: {
@@ -26,7 +26,6 @@ export default async function EditProfile() {
   })
   console.log(userData)
   console.log(userData?.UserSkill)
-  console.log("user: ", user)
 
   return (
     <div className="flex flex-col w-full">
@@ -34,7 +33,14 @@ export default async function EditProfile() {
         <div className="flex flex-col">
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
-            <DisplayNameInput currentUsername={userData?.name ? userData.name : "insert name here"}/>
+            <DisplayNameInput
+              userId={user.id}
+              currentUsername={
+                user.name !== null && user.name !== undefined
+                  ? user.name
+                  : 'insert name here'
+              }
+            />
           </div>
           <div className="mb-2">
             <Label className="m-2">Instagram Username</Label>
@@ -62,10 +68,14 @@ export default async function EditProfile() {
             <div className="flex flex-col">
               <Label className="m-2">I&apos;m most skilled with:</Label>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {userData?.UserSkill.map((skill) => (
-                <ProfileSkill key={skill.id} name={skill.name} />
-              ))}
-            </div>
+                {/* {userData?.UserSkill.map((skill) => {
+                  skill.isHighlighted === true ? (
+                    <ProfileSkill key={skill.id} name={skill.name} />
+                  ) : (
+                    <></>
+                  )
+                })} */}
+              </div>
             </div>
           </div>
         </div>
@@ -75,7 +85,11 @@ export default async function EditProfile() {
             width="160"
             height="160"
             className="rounded-lg"
-            src={userData?.image ? userData.image :'https://source.unsplash.com/random/?person'}
+            src={
+              userData?.image
+                ? userData.image
+                : 'https://source.unsplash.com/random/?person'
+            }
           />
           <div className="flex justify-around">
             <button className="m-1">Upload</button>

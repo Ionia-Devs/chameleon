@@ -75,7 +75,7 @@ model User {
 
 model CurrentShoots {
   id        String   @id @default(uuid())
-  userId    String   @unique
+  userId    String   
   name      String
 
   User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -83,7 +83,7 @@ model CurrentShoots {
 
 model UserSkill {
   id        String   @id @default(uuid())
-  userId    String   @unique
+  userId    String   
   name      String
   isHighlighted Boolean @default(false)
 
