@@ -4,6 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Post } from '@prisma/client'
+import { toast } from 'sonner'
 
 import {
   AlertDialog,
@@ -22,7 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { toast } from '@/components/ui/use-toast'
 import { Icons } from '@/components/icons'
 
 async function deletePost(postId: string) {
@@ -31,10 +31,8 @@ async function deletePost(postId: string) {
   })
 
   if (!response?.ok) {
-    toast({
-      title: 'Something went wrong.',
+    toast.error('Something went wrong.', {
       description: 'Your post was not deleted. Please try again.',
-      variant: 'destructive',
     })
   }
 
