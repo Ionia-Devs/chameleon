@@ -1,18 +1,21 @@
+// import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { db } from '@chameleon/db'
-
 import { getCurrentUser } from '@/lib/session'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+// page specific components
+import CurrentShoot from './_components/current-shoot'
 import DisplayNameInput from './_components/display-name-input'
-import ProfileSkill from './_components/profile-skill'
+import ProfileSkills from './_components/profile-skill'
+import ProfileSpecialtySkills from './_components/specialty-skills'
 
 export default async function EditProfile() {
   const user = await getCurrentUser()
-
+  
   if (!user) {
     return notFound()
   }
@@ -21,11 +24,46 @@ export default async function EditProfile() {
     where: { id: user.id },
     include: {
       CurrentShoots: true,
-      UserSkill: true,
+      UserSkills: true,
+      SpecialtySkills: true,
     },
   })
-  console.log(userData)
-  console.log(userData?.UserSkill)
+  const handleSpecialtySkill = async (
+    isRemoved: boolean,
+    specialtySkillName: string
+  ) => {
+    'use server'
+    const specialtySkill = userData?.SpecialtySkills.find(
+      (skill) => skill.name === specialtySkillName
+    )
+    console.log('here is the specialty skill: ', specialtySkill)
+    if (isRemoved === true && specialtySkill !== undefined) {
+      await db.specialtySkill.delete({
+        where: {
+          id: user.id,
+          name: specialtySkill.id,
+        },
+      })
+    } else if (isRemoved === false) {
+      console.log("you're in the upsert part")
+    }
+  }
+
+  const updateDisplayName = async (newName: string) => {
+    "use server"
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        name: newName,
+      },
+    })
+  }
+
+  const specialtySkills = [
+    { name: 'Paid Shoots', isSelected: false, id: '1' },
+    { name: 'Convention Shoots', isSelected: false, id: '2' },
+    { name: 'Collabs', isSelected: false, id: '3' },
+  ]
 
   return (
     <div className="flex flex-col w-full">
@@ -34,7 +72,7 @@ export default async function EditProfile() {
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
             <DisplayNameInput
-              userId={user.id}
+              updateDisplayName={updateDisplayName}
               currentUsername={
                 user.name !== null && user.name !== undefined
                   ? user.name
@@ -51,30 +89,51 @@ export default async function EditProfile() {
             ></Input>
           </div>
           <div className="flex flex-col">
-            <Label className="m-2">I&apos;m currently shooting:</Label>
+            <Label className="m-2 w-64 underline text-lg">
+              I&apos;m currently shooting:
+            </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {userData?.CurrentShoots.map((skill) => (
-                <ProfileSkill key={skill.id} name={skill.name} />
-              ))}
-            </div>
+              <CurrentShoot
+                currentShoots={
+                  userData?.CurrentShoots !== undefined
+                    ? userData?.CurrentShoots
+                    : null
+                }
+              />
+            </div>{' '}
           </div>
           <div className="flex flex-col">
-            <Label className="m-2">I&apos;m open to:</Label>
+            <Label className="m-2 w-64 underline text-lg">
+              I&apos;m open to:
+            </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {userData?.UserSkill.map((skill) => (
-                <ProfileSkill key={skill.id} name={skill.name} />
-              ))}
+              <ProfileSkills
+                userSkills={
+                  userData?.UserSkills !== undefined
+                    ? userData?.UserSkills
+                    : null
+                }
+              />
             </div>
             <div className="flex flex-col">
-              <Label className="m-2">I&apos;m most skilled with:</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-                {/* {userData?.UserSkill.map((skill) => {
-                  skill.isHighlighted === true ? (
-                    <ProfileSkill key={skill.id} name={skill.name} />
-                  ) : (
-                    <></>
-                  )
-                })} */}
+              <Label className="m-2 w-64 underline text-lg">
+                I&apos;m most skilled with:
+              </Label>
+              <div className="grid grid-cols-2 md:w-80">
+                {/* {specialtySkills.map((skill) => (
+                  <ProfileSpecialtySkills
+                    key={skill.id}
+                    userSkillName={skill.name}
+                    userSkillIsSelected={
+                      userData?.SpecialtySkills.find(
+                        (skillName) => skillName.name === skill.name
+                      )
+                        ? true
+                        : false
+                    }
+                    handleSpecialtySkill={handleSpecialtySkill}
+                  />
+                ))} */}
               </div>
             </div>
           </div>
@@ -91,10 +150,6 @@ export default async function EditProfile() {
                 : 'https://source.unsplash.com/random/?person'
             }
           />
-          <div className="flex justify-around">
-            <button className="m-1">Upload</button>
-            <button className="m-1">Delete</button>
-          </div>
         </div>
       </section>
       <div className="flex flex-col">

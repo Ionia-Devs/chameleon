@@ -3,27 +3,22 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { db } from '@chameleon/db'
 
 interface DisplayNameProps {
   currentUsername: string
-  userId: string
+  updateDisplayName: (newName: string) => Promise<void>
 }
 
-export default function DisplayNameInput({currentUsername, userId}: DisplayNameProps) {
+export default function DisplayNameInput({currentUsername, updateDisplayName}: DisplayNameProps) {
   const [displayName, setDisplayName] = useState(currentUsername)
   const [buttonInvisible, setButtonInvisible] = useState(true)
   const displayNameOnChange = (e: string) => {
     setDisplayName(e)
     setButtonInvisible(false)
   }
+
   const handleSaveChanges = async () => {
-    await db.user.update({
-      where: {id: userId},
-      data: {
-        name: displayName
-      }
-    })
+    await updateDisplayName(displayName)
     setButtonInvisible(true)
   }
   return (
