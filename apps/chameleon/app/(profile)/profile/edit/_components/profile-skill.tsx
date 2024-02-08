@@ -10,13 +10,13 @@ import { handleConnectPhotographySkill } from '../actions'
 interface ProfileSkillsProps {
   user: Pick<User, 'id'>
   isSelected: boolean
-  photographySkillName: Pick<PhotographySkill, 'name'>
+  photographySkill: Pick<PhotographySkill, 'name' | "skillType">
 }
 
 export default function ProfileSkill({
   user,
   isSelected,
-  photographySkillName,
+  photographySkill,
 }: ProfileSkillsProps) {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -24,9 +24,8 @@ export default function ProfileSkill({
     setIsLoading(true)
     await handleConnectPhotographySkill({
       isDisconected: isSelected,
-      photographySkillName: photographySkillName,
+      photographySkill: photographySkill,
       userId: user,
-      photographySkillType: 'CURRENT_FOCUS',
     })
     setIsLoading(false)
   }
@@ -35,9 +34,9 @@ export default function ProfileSkill({
       disabled={isLoading}
       pressed={isSelected}
       onPressedChange={toggleSpecialtySkill}
-      className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80`}
+      className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80 disabled:text-secondary`}
     >
-      {photographySkillName.name}
+      {photographySkill.name}
     </Toggle>
   )
 }

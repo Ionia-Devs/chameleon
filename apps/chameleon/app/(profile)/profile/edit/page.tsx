@@ -13,7 +13,6 @@ import { Label } from '@/components/ui/label'
 import DisplayNameInput from './_components/display-name-input'
 import ProfileSkill from './_components/profile-skill'
 import ProfileShootType from './_components/shoot-type'
-import ProfileSpecialtySkill from './_components/specialty-skills'
 
 export default async function EditProfile() {
   const user = await getCurrentUser()
@@ -89,12 +88,17 @@ export default async function EditProfile() {
               {allFocusSkills.map((skill) => (
                 <ProfileSkill
                   key={skill.id}
-                  photographySkillName={{ name: skill.name }}
+                  photographySkill={{
+                    name: skill.name,
+                    skillType: skill.skillType,
+                  }}
                   isSelected={
+                    // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS", 
+                    // this is to make sure the correct name for the skilltype is highlighted when selected
                     userProfileData?.photographySkills.find(
-                      (skillName) =>
-                        skillName.name === skill.name &&
-                        skillName.skillType === 'CURRENT_FOCUS'
+                      (profileSkill) =>
+                        profileSkill.name === skill.name &&
+                        profileSkill.skillType === skill.skillType
                     )
                       ? true
                       : false
@@ -109,14 +113,19 @@ export default async function EditProfile() {
               </Label>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
                 {allSpecialtySkills.map((skill) => (
-                  <ProfileSpecialtySkill
+                  <ProfileSkill
                     key={skill.id}
-                    photographySkillName={{ name: skill.name }}
+                    photographySkill={{
+                      name: skill.name,
+                      skillType: skill.skillType,
+                    }}
                     isSelected={
+                      // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS", 
+                      // this is to make sure the correct name for the skilltype is highlighted when selected
                       userProfileData?.photographySkills.find(
-                        (skillName) =>
-                          skillName.name === skill.name &&
-                          skillName.skillType === 'SPECIALTY'
+                        (profileSkill) =>
+                          profileSkill.name === skill.name &&
+                          profileSkill.skillType === skill.skillType
                       )
                         ? true
                         : false
@@ -144,21 +153,27 @@ export default async function EditProfile() {
       </section>
       <div className="flex flex-col">
         <Label className="flex self-center text-3xl">Portfolio</Label>
+        {/* <div className="w-full h-full p-10 grid grid-cols-1 md:grid-cols-3  max-w-7xl mx-auto gap-4">
+          {cards.map((card) => (
+            <Image key={cards.id} src={card.thumbnail} width={200} height={200}/>
+          ))}
+        </div> */}
         <LayoutGrid cards={cards} />
       </div>
     </div>
   )
 }
 const Skeleton = (props: { title: string; content: string }) => {
-  const { title, content } = props
+  // const { title, content } = props
   return (
-    <div className="h-2/3">
-      <p className="font-bold text-4xl text-white">{title}</p>
-      <p className="font-normal text-base text-white"></p>
-      <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-        {content}
-      </p>
-    </div>
+    <></>
+    // <div className="h-2/3">
+    //   <p className="font-bold text-4xl text-white">{title}</p>
+    //   <p className="font-normal text-base text-white"></p>
+    //   <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
+    //     {content}
+    //   </p>
+    // </div>
   )
 }
 

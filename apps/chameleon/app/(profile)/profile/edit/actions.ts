@@ -57,27 +57,25 @@ export const handleConnectPhotoShootType = async ({
 
 interface HandlePhotographySkillProps {
   isDisconected: boolean
-  photographySkillName: Pick<PhotographySkill, 'name'>
+  photographySkill: Pick<PhotographySkill, 'name' | "skillType">
   userId: Pick<User, 'id'>
-  photographySkillType: "SPECIALTY" | "CURRENT_FOCUS"
 }
 
 export const handleConnectPhotographySkill = async ({
   isDisconected,
-  photographySkillName,
+  photographySkill,
   userId,
-  photographySkillType,
 }: HandlePhotographySkillProps) => {
-  const selectedSpecialtySkill = await db.photographySkill.findFirst({
+  const selectedSkill = await db.photographySkill.findFirst({
     where: {
-      skillType: photographySkillType,
-      name: photographySkillName.name,
+      skillType: photographySkill.skillType,
+      name: photographySkill.name,
     },
   })
-  if (isDisconected === true && selectedSpecialtySkill !== null) {
+  if (isDisconected === true && selectedSkill !== null) {
     await db.photographySkill.update({
       where: {
-        id: selectedSpecialtySkill.id,
+        id: selectedSkill.id,
       },
       data: {
         UserProfile: {
@@ -88,10 +86,10 @@ export const handleConnectPhotographySkill = async ({
       },
     })
   }
-  if (isDisconected === false && selectedSpecialtySkill !== null) {
+  if (isDisconected === false && selectedSkill !== null) {
     await db.photographySkill.update({
       where: {
-        id: selectedSpecialtySkill.id,
+        id: selectedSkill.id,
       },
       data: {
         UserProfile: {
