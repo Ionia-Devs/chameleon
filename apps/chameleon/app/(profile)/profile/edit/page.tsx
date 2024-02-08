@@ -1,10 +1,8 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { db } from '@chameleon/db'
-import { PhotographySkill, User } from '@prisma/client'
 
 import { getCurrentUser } from '@/lib/session'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
@@ -12,68 +10,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 // page specific components
-import ShootTypeComponent from './_components/current-shoot'
 import DisplayNameInput from './_components/display-name-input'
-import ProfileSkillCompnent from './_components/profile-skill'
-import ProfileSpecialtySkillComponent from './_components/specialty-skills'
-
-export const updateDisplayName = async (newName: string, userId: string) => {
-  await db.user.update({
-    where: { id: userId },
-    data: {
-      name: newName,
-    },
-  })
-  revalidatePath('/profile/edit')
-}
-
-interface handleConnectSpecialtySkillProps {
-  isDisconected: boolean
-  specialtySkillName: Pick<PhotographySkill, 'name'>
-  userId: Pick<User, 'id'>
-}
-
-export const handleConnectSpecialtySkill = async ({
-  isDisconected,
-  specialtySkillName,
-  userId,
-}: handleConnectSpecialtySkillProps) => {
-  const spName = await db.photographySkill.findFirst({
-    where: {
-      name: specialtySkillName.name,
-      skillType: 'SPECIALTY',
-    },
-  })
-  if (isDisconected === true && spName !== null) {
-    await db.photographySkill.update({
-      where: {
-        id: spName.id,
-      },
-      data: {
-        UserProfile: {
-          disconnect: {
-            userId: userId.id,
-          },
-        },
-      },
-    })
-  }
-  if (isDisconected === false && spName !== null) {
-    await db.photographySkill.update({
-      where: {
-        id: spName.id,
-      },
-      data: {
-        UserProfile: {
-          connect: {
-            userId: userId.id,
-          },
-        },
-      },
-    })
-  }
-  revalidatePath('/profile/edit')
-}
+import ProfileSkill from './_components/profile-skill'
+import ProfileShootType from './_components/shoot-type'
+import ProfileSpecialtySkill from './_components/specialty-skills'
 
 export default async function EditProfile() {
   const user = await getCurrentUser()
@@ -81,8 +21,15 @@ export default async function EditProfile() {
   if (!user) {
     return notFound()
   }
-  const photos = await db.photoShootType.findMany()
-  const photographySkills = await db.photographySkill.findMany()
+
+  const allPhotoShootsTypes = await db.photoShootType.findMany()
+  const allPhotographySkills = await db.photographySkill.findMany()
+  const allFocusSkills = allPhotographySkills.filter(
+    (skill) => skill.skillType === 'CURRENT_FOCUS'
+  )
+  const allSpecialtySkills = allPhotographySkills.filter(
+    (skill) => skill.skillType === 'SPECIALTY'
+  )
 
   const userProfileData = await db.userProfile.findUnique({
     where: { userId: user.id },
@@ -117,11 +64,19 @@ export default async function EditProfile() {
             <Label className="m-2 w-64 underline text-lg">
               I&apos;m currently shooting:
             </Label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {photos.map((p) => (
-                <ShootTypeComponent
-                  key={p.id}
-                  photoShootType={{ id: p.id, name: p.name }}
+            <div className="grid grid-cols-2 md:w-80">
+              {allPhotoShootsTypes.map((photogType) => (
+                <ProfileShootType
+                  key={photogType.id}
+                  isSelected={
+                    userProfileData?.photoShootTypes.find(
+                      (skillName) => skillName.name === photogType.name
+                    )
+                      ? true
+                      : false
+                  }
+                  photoShootType={{ name: photogType.name }}
+                  user={{ id: user.id }}
                 />
               ))}
             </div>{' '}
@@ -131,9 +86,20 @@ export default async function EditProfile() {
               I&apos;m open to:
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              {photographySkills.map((skill) => (
-                <ProfileSkillCompnent key={skill.id}
-                  userSkills={skill}
+              {allFocusSkills.map((skill) => (
+                <ProfileSkill
+                  key={skill.id}
+                  photographySkillName={{ name: skill.name }}
+                  isSelected={
+                    userProfileData?.photographySkills.find(
+                      (skillName) =>
+                        skillName.name === skill.name &&
+                        skillName.skillType === 'CURRENT_FOCUS'
+                    )
+                      ? true
+                      : false
+                  }
+                  user={{ id: user.id }}
                 />
               ))}
             </div>
@@ -141,14 +107,16 @@ export default async function EditProfile() {
               <Label className="m-2 w-64 underline text-lg">
                 I&apos;m most skilled with:
               </Label>
-              <div className="grid grid-cols-2 md:w-80">
-                {userProfileData?.photographySkills.map((skill) => (
-                  <ProfileSpecialtySkillComponent
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
+                {allSpecialtySkills.map((skill) => (
+                  <ProfileSpecialtySkill
                     key={skill.id}
-                    userSkillName={{ name: skill.name }}
-                    userSkillIsSelected={
+                    photographySkillName={{ name: skill.name }}
+                    isSelected={
                       userProfileData?.photographySkills.find(
-                        (skillName) => skillName.name === skill.name
+                        (skillName) =>
+                          skillName.name === skill.name &&
+                          skillName.skillType === 'SPECIALTY'
                       )
                         ? true
                         : false

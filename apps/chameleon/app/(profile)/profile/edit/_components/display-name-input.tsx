@@ -1,5 +1,5 @@
 'use client'
-import { updateDisplayName } from '../page'
+import { handleUpdateDisplayName } from '../actions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
@@ -33,7 +33,7 @@ export default function DisplayNameInput({
   const nameHasChanged = user.name !== name;
 
   const onSubmit = async (data: FormData) => {
-    await updateDisplayName(data.name, user.id)
+    await handleUpdateDisplayName(data.name, user.id)
   }
 
   return (

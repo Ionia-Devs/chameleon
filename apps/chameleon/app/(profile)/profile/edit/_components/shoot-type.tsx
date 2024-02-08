@@ -1,32 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-import { PhotographySkill, User } from '@prisma/client'
+import { PhotoShootType, User } from '@prisma/client'
 
 import { Toggle } from '@/components/ui/toggle'
 
-import { handleConnectPhotographySkill } from '../actions'
+import { handleConnectPhotoShootType } from '../actions'
 
-interface ProfileSkillsProps {
-  user: Pick<User, 'id'>
+interface PhotoShootTypeProps {
   isSelected: boolean
-  photographySkillName: Pick<PhotographySkill, 'name'>
+  photoShootType: Pick<PhotoShootType, 'name'>
+  user: Pick<User, 'id'>
 }
 
-export default function ProfileSkill({
-  user,
+export default function ProfileShootType({
   isSelected,
-  photographySkillName,
-}: ProfileSkillsProps) {
+  photoShootType,
+  user,
+}: PhotoShootTypeProps) {
   const [isLoading, setIsLoading] = useState(false)
 
   const toggleSpecialtySkill = async () => {
     setIsLoading(true)
-    await handleConnectPhotographySkill({
+    await handleConnectPhotoShootType({
       isDisconected: isSelected,
-      photographySkillName: photographySkillName,
+      photoShootName: photoShootType,
       userId: user,
-      photographySkillType: 'CURRENT_FOCUS',
     })
     setIsLoading(false)
   }
@@ -37,7 +36,7 @@ export default function ProfileSkill({
       onPressedChange={toggleSpecialtySkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80`}
     >
-      {photographySkillName.name}
+      {photoShootType.name}
     </Toggle>
   )
 }

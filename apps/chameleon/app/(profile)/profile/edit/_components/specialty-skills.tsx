@@ -5,31 +5,29 @@ import { PhotographySkill, User } from '@prisma/client'
 
 import { Toggle } from '@/components/ui/toggle'
 
-import { handleConnectSpecialtySkill } from '../page'
+import { handleConnectPhotographySkill } from '../actions'
 
 interface ProfileSpecialtySkillProps {
   user: Pick<User, 'id'>
-  userSkillIsSelected: boolean
-  userSkillName: Pick<PhotographySkill, 'name'>
+  isSelected: boolean
+  photographySkillName: Pick<PhotographySkill, 'name'>
 }
 
-export default function ProfileSpecialtySkillComponent({
+export default function ProfileSpecialtySkill({
   user,
-  userSkillIsSelected,
-  userSkillName,
+  isSelected,
+  photographySkillName,
 }: ProfileSpecialtySkillProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [specialtySkillToggle, setSpecialtySkillToggle] =
-    useState(userSkillIsSelected)
 
   const toggleSpecialtySkill = async () => {
     setIsLoading(true)
-    await handleConnectSpecialtySkill({
-      isDisconected: specialtySkillToggle,
-      specialtySkillName: userSkillName,
+    await handleConnectPhotographySkill({
+      isDisconected: isSelected,
+      photographySkillName: photographySkillName,
       userId: user,
+      photographySkillType: "SPECIALTY",
     })
-    setSpecialtySkillToggle(!specialtySkillToggle)
     setIsLoading(false)
   }
 
@@ -37,11 +35,11 @@ export default function ProfileSpecialtySkillComponent({
     <>
       <Toggle
         disabled={isLoading}
-        pressed={specialtySkillToggle}
+        pressed={isSelected}
         onPressedChange={toggleSpecialtySkill}
-        className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary`}
+        className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80`}
       >
-        {userSkillName.name}
+        {photographySkillName.name}
       </Toggle>
     </>
   )

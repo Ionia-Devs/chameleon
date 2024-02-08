@@ -110,7 +110,7 @@ enum PhotographySkillName {
 }
 
 model PhotographySkill {
-  id        Int   @id
+  id        Int   @id 
   name      PhotographySkillName 
   skillType PhotographySkillType
   UserProfile   UserProfile[]
