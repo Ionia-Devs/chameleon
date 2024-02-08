@@ -31,12 +31,17 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: 'Todos',
       href: '/dashboard/todos',
-      icon: 'page',
+      icon: 'CheckCircledIcon',
     },
     {
       title: 'Explore',
       href: '/dashboard/explore',
       icon: 'pizza',
+    },
+    {
+      title: 'Cards',
+      href: '/dashboard/cards',
+      icon: 'CardStackPlusIcon',
     },
   ],
 }

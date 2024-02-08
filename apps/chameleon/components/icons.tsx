@@ -1,3 +1,4 @@
+import * as RadixIcons from '@radix-ui/react-icons'
 import {
   AlertTriangle,
   ArrowRight,
@@ -66,4 +67,5 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
+  ...RadixIcons,
 }

@@ -1,4 +1,5 @@
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
+import type * as RadixIcons from '@radix-ui/react-icons'
 
 import { Icons } from '@/components/icons'
 
@@ -14,7 +15,7 @@ export type SidebarNavItem = {
   title: string
   disabled?: boolean
   external?: boolean
-  icon?: keyof typeof Icons
+  icon?: keyof typeof Icons | keyof typeof RadixIcons
 } & (
   | {
       href: string
