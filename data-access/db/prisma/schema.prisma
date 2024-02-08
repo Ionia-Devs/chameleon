@@ -63,39 +63,57 @@ model User {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
+  UserProfile UserProfile?
   Account Account[]
   Session Session[]
   Todo    Todo[]
   Post    Post[]
-  UserSkills UserSkill[]
-  SpecialtySkills SpecialtySkill[]
-  CurrentShoots CurrentShoot[]
 
   @@index([id], name: "idx_user_id")
 }
 
-model CurrentShoot {
-  id        String   @id @default(uuid())
-  userId    String   
-  name      String
+model UserProfile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
 
-  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User       User       @relation(fields: [userId], references: [id])
+
+  photographySkills PhotographySkill[]
+  photoShootTypes PhotoShootType[]
 }
 
-model SpecialtySkill {
-  id        String   @id @default(uuid())
-  userId    String   
-  name      String
-
-  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+enum PhotoShootTypeName {
+  PAID
+  COLLAB
+  CONVENTION
+}
+model PhotoShootType {
+  id        Int   @id @default(autoincrement())
+  name      PhotoShootTypeName @unique
+  UserProfile   UserProfile[]
 }
 
-model UserSkill {
-  id        String   @id @default(uuid())
-  userId    String   
-  name      String
+enum PhotographySkillType {
+  CURRENT_FOCUS
+  SPECIALTY
+}
 
-  User   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+enum PhotographySkillName {
+  NSFW
+  STUDIO
+  OFF_SITE
+  EDITORIAL
+  COSPLAY
+  FASHION
+  PORTRAIT
+  EVENTS
+}
+
+model PhotographySkill {
+  id        Int   @id
+  name      PhotographySkillName 
+  skillType PhotographySkillType
+  UserProfile   UserProfile[]
 }
 
 model Todo {

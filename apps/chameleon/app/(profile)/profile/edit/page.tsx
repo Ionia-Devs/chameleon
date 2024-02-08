@@ -1,69 +1,96 @@
-// import { revalidatePath } from 'next/cache'
+'use server'
+
+import { revalidatePath } from 'next/cache'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { db } from '@chameleon/db'
+import { PhotographySkill, User } from '@prisma/client'
+
 import { getCurrentUser } from '@/lib/session'
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 // page specific components
-import CurrentShoot from './_components/current-shoot'
+import ShootTypeComponent from './_components/current-shoot'
 import DisplayNameInput from './_components/display-name-input'
-import ProfileSkills from './_components/profile-skill'
-import ProfileSpecialtySkills from './_components/specialty-skills'
+import ProfileSkillCompnent from './_components/profile-skill'
+import ProfileSpecialtySkillComponent from './_components/specialty-skills'
 
-export default async function EditProfile() {
-  const user = await getCurrentUser()
-  
-  if (!user) {
-    return notFound()
-  }
-
-  const userData = await db.user.findUnique({
-    where: { id: user.id },
-    include: {
-      CurrentShoots: true,
-      UserSkills: true,
-      SpecialtySkills: true,
+export const updateDisplayName = async (newName: string, userId: string) => {
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      name: newName,
     },
   })
-  const handleSpecialtySkill = async (
-    isRemoved: boolean,
-    specialtySkillName: string
-  ) => {
-    'use server'
-    const specialtySkill = userData?.SpecialtySkills.find(
-      (skill) => skill.name === specialtySkillName
-    )
-    console.log('here is the specialty skill: ', specialtySkill)
-    if (isRemoved === true && specialtySkill !== undefined) {
-      await db.specialtySkill.delete({
-        where: {
-          id: user.id,
-          name: specialtySkill.id,
-        },
-      })
-    } else if (isRemoved === false) {
-      console.log("you're in the upsert part")
-    }
-  }
+  revalidatePath('/profile/edit')
+}
 
-  const updateDisplayName = async (newName: string) => {
-    "use server"
-    await db.user.update({
-      where: { id: user.id },
+interface handleConnectSpecialtySkillProps {
+  isDisconected: boolean
+  specialtySkillName: Pick<PhotographySkill, 'name'>
+  userId: Pick<User, 'id'>
+}
+
+export const handleConnectSpecialtySkill = async ({
+  isDisconected,
+  specialtySkillName,
+  userId,
+}: handleConnectSpecialtySkillProps) => {
+  const spName = await db.photographySkill.findFirst({
+    where: {
+      name: specialtySkillName.name,
+      skillType: 'SPECIALTY',
+    },
+  })
+  if (isDisconected === true && spName !== null) {
+    await db.photographySkill.update({
+      where: {
+        id: spName.id,
+      },
       data: {
-        name: newName,
+        UserProfile: {
+          disconnect: {
+            userId: userId.id,
+          },
+        },
       },
     })
   }
+  if (isDisconected === false && spName !== null) {
+    await db.photographySkill.update({
+      where: {
+        id: spName.id,
+      },
+      data: {
+        UserProfile: {
+          connect: {
+            userId: userId.id,
+          },
+        },
+      },
+    })
+  }
+  revalidatePath('/profile/edit')
+}
 
-  const specialtySkills = [
-    { name: 'Paid Shoots', isSelected: false, id: '1' },
-    { name: 'Convention Shoots', isSelected: false, id: '2' },
-    { name: 'Collabs', isSelected: false, id: '3' },
-  ]
+export default async function EditProfile() {
+  const user = await getCurrentUser()
+
+  if (!user) {
+    return notFound()
+  }
+  const photos = await db.photoShootType.findMany()
+  const photographySkills = await db.photographySkill.findMany()
+
+  const userProfileData = await db.userProfile.findUnique({
+    where: { userId: user.id },
+    include: {
+      photoShootTypes: true,
+      photographySkills: true,
+    },
+  })
 
   return (
     <div className="flex flex-col w-full">
@@ -72,12 +99,10 @@ export default async function EditProfile() {
           <div className="mb-2">
             <Label className="m-2">Display Name</Label>
             <DisplayNameInput
-              updateDisplayName={updateDisplayName}
-              currentUsername={
-                user.name !== null && user.name !== undefined
-                  ? user.name
-                  : 'insert name here'
-              }
+              user={{
+                id: user.id,
+                name: user.name ? user.name : 'Change Name Here',
+              }}
             />
           </div>
           <div className="mb-2">
@@ -93,13 +118,12 @@ export default async function EditProfile() {
               I&apos;m currently shooting:
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              <CurrentShoot
-                currentShoots={
-                  userData?.CurrentShoots !== undefined
-                    ? userData?.CurrentShoots
-                    : null
-                }
-              />
+              {photos.map((p) => (
+                <ShootTypeComponent
+                  key={p.id}
+                  photoShootType={{ id: p.id, name: p.name }}
+                />
+              ))}
             </div>{' '}
           </div>
           <div className="flex flex-col">
@@ -107,33 +131,31 @@ export default async function EditProfile() {
               I&apos;m open to:
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:w-80">
-              <ProfileSkills
-                userSkills={
-                  userData?.UserSkills !== undefined
-                    ? userData?.UserSkills
-                    : null
-                }
-              />
+              {photographySkills.map((skill) => (
+                <ProfileSkillCompnent key={skill.id}
+                  userSkills={skill}
+                />
+              ))}
             </div>
             <div className="flex flex-col">
               <Label className="m-2 w-64 underline text-lg">
                 I&apos;m most skilled with:
               </Label>
               <div className="grid grid-cols-2 md:w-80">
-                {/* {specialtySkills.map((skill) => (
-                  <ProfileSpecialtySkills
+                {userProfileData?.photographySkills.map((skill) => (
+                  <ProfileSpecialtySkillComponent
                     key={skill.id}
-                    userSkillName={skill.name}
+                    userSkillName={{ name: skill.name }}
                     userSkillIsSelected={
-                      userData?.SpecialtySkills.find(
+                      userProfileData?.photographySkills.find(
                         (skillName) => skillName.name === skill.name
                       )
                         ? true
                         : false
                     }
-                    handleSpecialtySkill={handleSpecialtySkill}
+                    user={{ id: user.id }}
                   />
-                ))} */}
+                ))}
               </div>
             </div>
           </div>
@@ -145,8 +167,8 @@ export default async function EditProfile() {
             height="160"
             className="rounded-lg"
             src={
-              userData?.image
-                ? userData.image
+              user?.image
+                ? user.image
                 : 'https://source.unsplash.com/random/?person'
             }
           />

@@ -1,38 +1,56 @@
 'use client'
-
-import { useState } from 'react'
+import { updateDisplayName } from '../page'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { User } from '@prisma/client'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { userNameSchema } from '@/lib/validations/user'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 interface DisplayNameProps {
-  currentUsername: string
-  updateDisplayName: (newName: string) => Promise<void>
+  user: Pick<User, 'id' | 'name'>
 }
+type FormData = z.infer<typeof userNameSchema>
 
-export default function DisplayNameInput({currentUsername, updateDisplayName}: DisplayNameProps) {
-  const [displayName, setDisplayName] = useState(currentUsername)
-  const [buttonInvisible, setButtonInvisible] = useState(true)
-  const displayNameOnChange = (e: string) => {
-    setDisplayName(e)
-    setButtonInvisible(false)
+export default function DisplayNameInput({
+  user,
+}: DisplayNameProps) {
+
+  const {
+    handleSubmit,
+    register,
+    // formState: { errors },
+    watch,
+  } = useForm<FormData>({
+    resolver: zodResolver(userNameSchema),
+    defaultValues: {
+      name: user?.name || '',
+    },
+  })
+
+  const name = watch("name")
+  const nameHasChanged = user.name !== name;
+
+  const onSubmit = async (data: FormData) => {
+    await updateDisplayName(data.name, user.id)
   }
 
-  const handleSaveChanges = async () => {
-    await updateDisplayName(displayName)
-    setButtonInvisible(true)
-  }
   return (
-    <div className="flex justify-between items-center">
+    <form
+      className="flex justify-between items-center"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Input
-        onChange={(e) => displayNameOnChange(e.target.value)}
-        value={displayName}
+        id="name"
+        {...register('name')}
       />
       <Button
-        onClick={handleSaveChanges}
-        className={`ml-5 w-16 h-8 ${buttonInvisible === true && 'invisible'}`}
+        type="submit"
+        className={`ml-5 w-16 h-8 ${nameHasChanged ? "visible" : 'invisible'}`}
       >
         Save
       </Button>
-    </div>
+    </form>
   )
 }

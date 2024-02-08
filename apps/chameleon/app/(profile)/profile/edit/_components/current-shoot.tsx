@@ -2,16 +2,14 @@
 
 // import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { PhotoShootType } from '@prisma/client'
 
-interface CurrentShootProps {
-  currentShoots: {
-    id: string
-    userId: string
-    name: string
-  }[] | null
+interface PhotoShootTypeProps {
+  photoShootType: Pick<PhotoShootType, 'id' | 'name'>
 }
 
-export default function CurrentShoots({ currentShoots }: CurrentShootProps) {
+export default function ShootTypeComponent({ photoShootType }: PhotoShootTypeProps) {
+  console.log(photoShootType)
   const shoots = [
     { name: 'NSFW', isSelected: false, id: '1' },
     { name: 'Studio', isSelected: false, id: '2' },
