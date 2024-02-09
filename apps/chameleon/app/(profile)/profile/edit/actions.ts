@@ -1,11 +1,29 @@
 "use server"
 import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
-import { PhotoShootType, PhotographySkill, User } from '@prisma/client'
+import { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
 
-export const handleUpdateDisplayName = async (newName: string, userId: string) => {
+interface HandleRemovePhotoProps {
+  image: Pick<Portfolio, "id">
+}
+
+export const handleRemovePhoto = async ({image}: HandleRemovePhotoProps) => {
+  await db.portfolio.delete({
+    where: {
+      id: image.id
+    }
+  })
+  revalidatePath('/profile/edit')
+}
+
+interface handleUpdateDisplayNameProps {
+  newName: string
+  user: Pick<User, "id">
+}
+
+export const handleUpdateDisplayName = async ({newName, user}: handleUpdateDisplayNameProps) => {
   await db.user.update({
-    where: { id: userId },
+    where: { id: user.id },
     data: {
       name: newName,
     },

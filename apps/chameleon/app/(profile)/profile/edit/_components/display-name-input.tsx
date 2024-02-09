@@ -33,7 +33,7 @@ export default function DisplayNameInput({
   const nameHasChanged = user.name !== name;
 
   const onSubmit = async (data: FormData) => {
-    await handleUpdateDisplayName(data.name, user.id)
+    await handleUpdateDisplayName({newName: data.name, user})
   }
 
   return (

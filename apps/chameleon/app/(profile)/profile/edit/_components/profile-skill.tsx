@@ -19,9 +19,11 @@ export default function ProfileSkill({
   photographySkill,
 }: ProfileSkillsProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isSelectedState, setIsSelectedState] = useState(isSelected)
 
   const toggleSpecialtySkill = async () => {
     setIsLoading(true)
+    setIsSelectedState(!isSelectedState)
     await handleConnectPhotographySkill({
       isDisconected: isSelected,
       photographySkill: photographySkill,
@@ -32,7 +34,7 @@ export default function ProfileSkill({
   return (
     <Toggle
       disabled={isLoading}
-      pressed={isSelected}
+      pressed={isSelectedState}
       onPressedChange={toggleSpecialtySkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80 disabled:text-secondary`}
     >

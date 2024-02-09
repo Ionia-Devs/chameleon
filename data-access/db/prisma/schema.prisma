@@ -78,8 +78,16 @@ model UserProfile {
 
   User       User       @relation(fields: [userId], references: [id])
 
+  Portfolio Portfolio[]
   photographySkills PhotographySkill[]
   photoShootTypes PhotoShootType[]
+}
+
+model Portfolio {
+  id  String @id @default(cuid())
+  userId String
+  image String
+  UserProfile UserProfile @relation(fields: [userId], references: [userId])
 }
 
 enum PhotoShootTypeName {
