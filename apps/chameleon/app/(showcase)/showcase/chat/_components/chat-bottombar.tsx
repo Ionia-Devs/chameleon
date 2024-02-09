@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Textarea } from '@/components/ui/textarea'
-import { Message, sugar_vailData } from '@/app/chat/data'
+import { Message, sugar_vailData } from '@/app/(showcase)/showcase/chat/data'
 
 import { EmojiPicker } from './emoji-picker'
 

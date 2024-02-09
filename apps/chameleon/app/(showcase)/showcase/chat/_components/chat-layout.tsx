@@ -8,10 +8,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
-import { userData } from '@/app/chat/data'
+import { Sidebar } from '@/components/sidebar'
+import { userData } from '@/app/(showcase)/showcase/chat/data'
 
 import { Chat } from './chat'
-import { Sidebar } from './sidebar'
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined
