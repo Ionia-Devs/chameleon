@@ -85,7 +85,7 @@
     "react-editor-js": "^2.1.0",
     "react-element-to-jsx-string": "^15.0.0",
     "react-hook-form": "^7.47.0",
-    "react-resizable-panels": "^1.0.9",
+    "react-resizable-panels": "^0.0.55",
     "react-textarea-autosize": "^8.4.1",
     "resend": "^3.1.0",
     "shiki": "^0.11.1",

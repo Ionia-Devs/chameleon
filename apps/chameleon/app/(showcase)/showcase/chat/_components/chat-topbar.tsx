@@ -4,7 +4,7 @@ import { Info, Phone, Video } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { buttonVariants } from '@/components/ui/button'
-import { UserData } from '@/app/chat/data'
+import { UserData } from '@/app/(showcase)/showcase/chat/data'
 
 interface ChatTopbarProps {
   selectedUser: UserData

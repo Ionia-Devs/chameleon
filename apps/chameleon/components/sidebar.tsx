@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Message } from '@/app/chat/data'
+import { Message } from '@/app/(showcase)/showcase/chat/data'
 
 interface SidebarProps {
   isCollapsed: boolean

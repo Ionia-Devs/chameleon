@@ -77,6 +77,9 @@ export function Mail({
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
               collapsed
             )}`
+            // console.log(
+            //   `react-resizable-panels:collapsed=${JSON.stringify(collapsed)}`
+            // )
           }}
           className={cn(
             isCollapsed &&
