@@ -10,12 +10,14 @@ import { handleConnectPhotoShootType } from '../actions'
 interface PhotoShootTypeProps {
   isSelected: boolean
   photoShootType: Pick<PhotoShootType, 'name'>
+  formatedShootTypeName: string
   user: Pick<User, 'id'>
 }
 
 export default function ProfileShootType({
   isSelected,
   photoShootType,
+  formatedShootTypeName,
   user,
 }: PhotoShootTypeProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -38,7 +40,7 @@ export default function ProfileShootType({
       onPressedChange={toggleSpecialtySkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary disabled:opacity-80 disabled:text-secondary`}
     >
-      {photoShootType.name}
+      {formatedShootTypeName}
     </Toggle>
   )
 }

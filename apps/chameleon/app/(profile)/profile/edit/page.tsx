@@ -13,6 +13,7 @@ import DisplayNameInput from './_components/display-name-input'
 import Portfolio from './_components/portfolio-image'
 import ProfileSkill from './_components/profile-skill'
 import ProfileShootType from './_components/shoot-type'
+import { formatEnumString } from './actions'
 
 export default async function EditProfile() {
   const user = await getCurrentUser()
@@ -75,6 +76,7 @@ export default async function EditProfile() {
                       ? true
                       : false
                   }
+                  formatedShootTypeName={formatEnumString(photogType.name)}
                   photoShootType={{ name: photogType.name }}
                   user={{ id: user.id }}
                 />
@@ -91,6 +93,7 @@ export default async function EditProfile() {
                     name: skill.name,
                     skillType: skill.skillType,
                   }}
+                  formatedSkillName={formatEnumString(skill.name)}
                   isSelected={
                     // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS",
                     // this is to make sure the correct name for the skilltype is highlighted when selected
@@ -118,6 +121,7 @@ export default async function EditProfile() {
                       name: skill.name,
                       skillType: skill.skillType,
                     }}
+                    formatedSkillName={formatEnumString(skill.name)}
                     isSelected={
                       // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS",
                       // this is to make sure the correct name for the skilltype is highlighted when selected
@@ -154,9 +158,9 @@ export default async function EditProfile() {
       <div className="flex flex-col mt-5 md:mt-0">
         <Label className="flex self-center text-3xl">Portfolio</Label>
         <div className="h-[40rem] items-start overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto gap-10 py-40 px-10">
-          {userProfileData?.Portfolio.map((card, index) => (
+          {userProfileData?.Portfolio.length !== undefined && userProfileData?.Portfolio.length > 0 ?  (userProfileData?.Portfolio.map((card, index) => (
             <Portfolio key={index} picture={card} />
-          ))}
+          ))) : <div></div>}
         </div>
       </div>
     </div>

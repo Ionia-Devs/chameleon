@@ -3,6 +3,16 @@ import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
 import { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
 
+export const formatEnumString = (inputString:string) => {
+  // Replace underscores with spaces and lowercase
+  const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase();
+
+  // Capitalize the first letter of each word
+  const formattedString = stringWithSpaces.replace(/\b\w/g, (match) => match.toUpperCase());
+
+  return formattedString;
+}
+
 interface HandleRemovePhotoProps {
   image: Pick<Portfolio, "id">
 }

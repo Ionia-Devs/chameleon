@@ -11,16 +11,17 @@ interface ProfileSkillsProps {
   user: Pick<User, 'id'>
   isSelected: boolean
   photographySkill: Pick<PhotographySkill, 'name' | "skillType">
+  formatedSkillName: string
 }
 
 export default function ProfileSkill({
   user,
   isSelected,
   photographySkill,
+  formatedSkillName,
 }: ProfileSkillsProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isSelectedState, setIsSelectedState] = useState(isSelected)
-
   const toggleSpecialtySkill = async () => {
     setIsLoading(true)
     setIsSelectedState(!isSelectedState)
@@ -38,7 +39,7 @@ export default function ProfileSkill({
       onPressedChange={toggleSpecialtySkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80 disabled:text-secondary`}
     >
-      {photographySkill.name}
+      {formatedSkillName}
     </Toggle>
   )
 }
