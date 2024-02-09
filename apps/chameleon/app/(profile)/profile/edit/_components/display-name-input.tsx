@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { cn } from '@/lib/utils'
 import { userNameSchema } from '@/lib/validations/user'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -47,7 +48,7 @@ export default function DisplayNameInput({
       />
       <Button
         type="submit"
-        className={`ml-5 w-16 h-8 ${nameHasChanged ? "visible" : 'invisible'}`}
+        className={cn(`ml-5 w-16 h-8`, nameHasChanged ? "visible" : 'invisible')}
       >
         Save
       </Button>

@@ -13,7 +13,7 @@ export default function Portfolio({ picture }: PortfolioProps) {
     await handleRemovePhoto({image: {id: picture.id}})
   }
   return (
-    <div className='group relative'>
+    <div className='group relative border-2 border-accent rounded-lg'>
       <Image
         alt="portfolio picture"
         src={picture.image}
