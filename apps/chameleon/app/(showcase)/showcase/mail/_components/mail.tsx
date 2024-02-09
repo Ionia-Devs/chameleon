@@ -72,14 +72,17 @@ export function Mail({
           collapsible={true}
           minSize={15}
           maxSize={20}
-          onCollapse={(collapsed) => {
-            setIsCollapsed(collapsed)
+          onCollapse={() => {
+            setIsCollapsed(true)
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              collapsed
+              true
             )}`
-            // console.log(
-            //   `react-resizable-panels:collapsed=${JSON.stringify(collapsed)}`
-            // )
+          }}
+          onExpand={() => {
+            setIsCollapsed(false)
+            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+              false
+            )}`
           }}
           className={cn(
             isCollapsed &&

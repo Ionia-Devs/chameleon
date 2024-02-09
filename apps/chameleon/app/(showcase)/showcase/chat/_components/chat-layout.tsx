@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Sidebar } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import {
@@ -9,6 +8,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
+import { Sidebar } from '@/components/sidebar'
 import { userData } from '@/app/(showcase)/showcase/chat/data'
 
 import { Chat } from './chat'
