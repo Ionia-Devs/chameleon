@@ -162,18 +162,3 @@ export default async function EditProfile() {
     </div>
   )
 }
-
-// const cards = [
-//   'https://source.unsplash.com/random/?city,night',
-//   'https://source.unsplash.com/random/?city,day',
-//   'https://source.unsplash.com/random/?pizza,night',
-//   'https://source.unsplash.com/random/?car,green',
-//   'https://source.unsplash.com/random/?trees,clean',
-//   'https://source.unsplash.com/random/?star,killer',
-//   'https://source.unsplash.com/random/?city,night',
-//   'https://source.unsplash.com/random/?city,day',
-//   'https://source.unsplash.com/random/?pizza,night',
-//   'https://source.unsplash.com/random/?car,green',
-//   'https://source.unsplash.com/random/?trees,clean',
-//   'https://source.unsplash.com/random/?star,killer',
-// ]
