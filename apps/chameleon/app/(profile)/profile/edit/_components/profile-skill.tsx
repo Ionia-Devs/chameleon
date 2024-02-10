@@ -26,7 +26,7 @@ export default function ProfileSkill({
     setIsLoading(true)
     setIsSelectedState(!isSelectedState)
     await handleConnectPhotographySkill({
-      isDisconected: isSelected,
+      isDisconnected: isSelected,
       photographySkill: photographySkill,
       userId: user,
     })
