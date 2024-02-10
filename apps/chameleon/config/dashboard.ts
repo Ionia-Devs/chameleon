@@ -7,9 +7,12 @@ export const dashboardConfig: DashboardConfig = {
       href: '/docs',
     },
     {
-      title: 'Support',
-      href: '/support',
-      disabled: true,
+      title: 'Chat',
+      href: '/showcase/chat',
+    },
+    {
+      title: 'Mail',
+      href: '/showcase/mail',
     },
   ],
   sidebarNav: [
@@ -31,12 +34,17 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: 'Todos',
       href: '/dashboard/todos',
-      icon: 'page',
+      icon: 'CheckCircledIcon',
     },
     {
       title: 'Explore',
       href: '/dashboard/explore',
       icon: 'pizza',
+    },
+    {
+      title: 'Cards',
+      href: '/dashboard/cards',
+      icon: 'CardStackPlusIcon',
     },
   ],
 }

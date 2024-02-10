@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { Message, UserData } from '@/app/chat/data'
+import { Message, UserData } from '@/app/(showcase)/showcase/chat/data'
 
 import ChatBottombar from './chat-bottombar'
 
