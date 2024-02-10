@@ -157,7 +157,7 @@ export default async function EditProfile() {
       </section>
       <div className="flex flex-col mt-5 md:mt-0">
         <Label className="flex self-center text-3xl">Portfolio</Label>
-        <div className="h-[40rem] items-start overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto gap-10 py-40 px-10">
+        <div className="h-screen py-20 mt-3 w-full p-10 overflow-y-auto border-2 border-accent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  max-w-7xl mx-auto gap-4 ">
           {userProfileData?.Portfolio.length !== undefined && userProfileData?.Portfolio.length > 0 ?  (userProfileData?.Portfolio.map((card, index) => (
             <Portfolio key={index} picture={card} />
           ))) : <div></div>}
