@@ -36,10 +36,11 @@ export default async function EditProfile() {
       Portfolio: true,
     },
   })
-  if(userProfileData === null) {
+  if (userProfileData === null) {
     await db.userProfile.create({
-    data: {userId: user.id}
-  })}
+      data: { userId: user.id },
+    })
+  }
 
   return (
     <div className="flex flex-col w-full">

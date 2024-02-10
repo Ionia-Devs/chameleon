@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+
 import { LayoutGrid } from '@/components/ui/aceternity/layout-grid'
 
 const Skeleton = (props: { title: string; content: string }) => {

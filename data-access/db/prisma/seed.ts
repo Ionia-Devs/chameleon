@@ -86,7 +86,7 @@ const seed = async () => {
         skillType: 'CURRENT_FOCUS',
       },
     ],
-    skipDuplicates: true
+    skipDuplicates: true,
   });
   await prisma.photoShootType.createMany({
     data: [

@@ -1,36 +1,47 @@
-"use server"
+'use server'
+
 import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
-import type { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
+import type {
+  PhotoShootType,
+  PhotographySkill,
+  Portfolio,
+  User,
+} from '@prisma/client'
+
 import { type Action } from '@/lib/validations/action'
 
+export const formatEnumString = (inputString: string) => {
+  const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase()
+  const capitalizedString = stringWithSpaces.replace(/\b\w/g, (word) =>
+    word.toUpperCase()
+  )
 
-export const formatEnumString = (inputString:string) => {
-  const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase();
-  const capitalizedString = stringWithSpaces.replace(/\b\w/g, (word) => word.toUpperCase());
-  
-  return capitalizedString;
+  return capitalizedString
 }
 
 interface HandleRemovePhotoProps {
-  image: Pick<Portfolio, "id">
+  image: Pick<Portfolio, 'id'>
 }
 
-export const handleRemovePhoto = async ({image}: HandleRemovePhotoProps) => {
+export const handleRemovePhoto = async ({ image }: HandleRemovePhotoProps) => {
   await db.portfolio.delete({
     where: {
-      id: image.id
-    }
+      id: image.id,
+    },
   })
   revalidatePath('/profile/edit')
 }
 
 interface handleUpdateDisplayNameProps {
   newName: string
-  user: Pick<User, "id">
+  user: Pick<User, 'id'>
 }
 
-export const handleUpdateDisplayName = async ({newName, user}: handleUpdateDisplayNameProps) => {
+export const handleUpdateDisplayName = async ({
+  newName,
+  user,
+}: handleUpdateDisplayNameProps) => {
   await db.user.update({
     where: { id: user.id },
     data: {
@@ -39,7 +50,6 @@ export const handleUpdateDisplayName = async ({newName, user}: handleUpdateDispl
   })
   revalidatePath('/profile/edit')
 }
-
 
 interface HandlePhotoShootTypeProps {
   action: Action
@@ -50,26 +60,26 @@ interface HandlePhotoShootTypeProps {
 export const handleConnectPhotoShootType = async ({
   action,
   photoShootName,
-  userId
+  userId,
 }: HandlePhotoShootTypeProps) => {
-    await db.photoShootType.update({
-      where: {
-        name: photoShootName.name,
-      },
-      data: {
-        UserProfile: {
-          [action]: {
-            userId: userId.id,
-          },
+  await db.photoShootType.update({
+    where: {
+      name: photoShootName.name,
+    },
+    data: {
+      UserProfile: {
+        [action]: {
+          userId: userId.id,
         },
       },
-    })
+    },
+  })
   revalidatePath('/profile/edit')
 }
 
 interface HandlePhotographySkillProps {
   action: Action
-  photographySkill: Pick<PhotographySkill, 'name' | "skillType">
+  photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
   userId: Pick<User, 'id'>
 }
 

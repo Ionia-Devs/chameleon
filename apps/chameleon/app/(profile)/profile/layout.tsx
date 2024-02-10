@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+
 import { dashboardConfig } from '@/config/dashboard'
 import { getCurrentUser } from '@/lib/session'
 import { MainNav } from '@/components/main-nav'
@@ -9,9 +10,7 @@ interface ProfileLayoutProps {
   children?: React.ReactNode
 }
 
-export default async function ProfileLayout({
-  children,
-}: ProfileLayoutProps) {
+export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   const user = await getCurrentUser()
 
   if (!user) {
