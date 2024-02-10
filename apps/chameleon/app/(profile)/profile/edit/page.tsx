@@ -98,9 +98,9 @@ export default async function EditProfile() {
                   formattedSkillName={formatEnumString(skill.name)}
                   isSelected={
                     userProfileData?.photographySkills.find(
-                      (profileSkill) =>
-                        profileSkill.name === skill.name &&
-                        profileSkill.skillType === skill.skillType
+                      (findProfileSkill) =>
+                        findProfileSkill.name === skill.name &&
+                        findProfileSkill.skillType === skill.skillType
                     )
                       ? true
                       : false
@@ -124,9 +124,9 @@ export default async function EditProfile() {
                     formattedSkillName={formatEnumString(skill.name)}
                     isSelected={
                       userProfileData?.photographySkills.find(
-                        (profileSkill) =>
-                          profileSkill.name === skill.name &&
-                          profileSkill.skillType === skill.skillType
+                        (findProfileSkill) =>
+                          findProfileSkill.name === skill.name &&
+                          findProfileSkill.skillType === skill.skillType
                       )
                         ? true
                         : false
