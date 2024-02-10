@@ -4,11 +4,12 @@ import { db } from '@chameleon/db'
 import { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
 
 export const formatEnumString = (inputString:string) => {
-  // Replace underscores with spaces and lowercase
+  // Replace underscores with spaces and lowercase | note: /_/g takes EVERY instance of _ in a string not just the first
   const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase();
 
-  // Capitalize the first letter of each word
-  const formattedString = stringWithSpaces.replace(/\b\w/g, (match) => match.toUpperCase());
+  //                                          | note: /\b\w/g means to select every single word in a string
+  // Capitalize the first letter of each word | aka "off site" becomes "off".toUpperCase() + " " + "site".toUpperCase() === "Off Site"
+  const formattedString = stringWithSpaces.replace(/\b\w/g, (word) => word.toUpperCase());
 
   return formattedString;
 }
