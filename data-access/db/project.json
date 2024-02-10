@@ -32,7 +32,7 @@
     "seed": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx prisma db seed"],
+        "commands": ["ts-node prisma/seed.ts"],
         "cwd": "data-access/db"
       }
     },

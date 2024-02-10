@@ -1,5 +1,5 @@
 'use client'
-import { Portfolio } from '@prisma/client'
+import type { Portfolio } from '@prisma/client'
 import Image from 'next/image'
 import { XIcon } from 'lucide-react'
 import { handleRemovePhoto } from '../actions'

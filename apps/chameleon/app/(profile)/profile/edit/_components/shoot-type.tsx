@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { PhotoShootType, User } from '@prisma/client'
+import type { PhotoShootType, User } from '@prisma/client'
 
+import { actionSchema } from '@/lib/validations/action'
 import { Toggle } from '@/components/ui/toggle'
 
 import { handleConnectPhotoShootType } from '../actions'
@@ -10,14 +11,14 @@ import { handleConnectPhotoShootType } from '../actions'
 interface PhotoShootTypeProps {
   isSelected: boolean
   photoShootType: Pick<PhotoShootType, 'name'>
-  formatedShootTypeName: string
+  formattedShootTypeName: string
   user: Pick<User, 'id'>
 }
 
 export default function ProfileShootType({
   isSelected,
   photoShootType,
-  formatedShootTypeName,
+  formattedShootTypeName,
   user,
 }: PhotoShootTypeProps) {
   const [isLoading, setIsLoading] = useState(false)
@@ -26,8 +27,11 @@ export default function ProfileShootType({
   const toggleSpecialtySkill = async () => {
     setIsLoading(true)
     setIsSelectedState(!isSelectedState)
+    const action = isSelectedState
+      ? actionSchema.Enum.disconnect
+      : actionSchema.Enum.connect
     await handleConnectPhotoShootType({
-      isDisconected: isSelected,
+      action,
       photoShootName: photoShootType,
       userId: user,
     })
@@ -40,7 +44,7 @@ export default function ProfileShootType({
       onPressedChange={toggleSpecialtySkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary disabled:opacity-80 disabled:text-secondary`}
     >
-      {formatedShootTypeName}
+      {formattedShootTypeName}
     </Toggle>
   )
 }

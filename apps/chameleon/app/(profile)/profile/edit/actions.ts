@@ -1,17 +1,15 @@
 "use server"
 import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
-import { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
+import type { PhotoShootType, PhotographySkill, User, Portfolio } from '@prisma/client'
+import { type Action } from '@/lib/validations/action'
+
 
 export const formatEnumString = (inputString:string) => {
-  // Replace underscores with spaces and lowercase | note: /_/g takes EVERY instance of _ in a string not just the first
   const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase();
-
-  //                                          | note: /\b\w/g means to select every single word in a string
-  // Capitalize the first letter of each word | aka "off site" becomes "off".toUpperCase() + " " + "site".toUpperCase() === "Off Site"
-  const formattedString = stringWithSpaces.replace(/\b\w/g, (word) => word.toUpperCase());
-
-  return formattedString;
+  const capitalizedString = stringWithSpaces.replace(/\b\w/g, (word) => word.toUpperCase());
+  
+  return capitalizedString;
 }
 
 interface HandleRemovePhotoProps {
@@ -42,56 +40,41 @@ export const handleUpdateDisplayName = async ({newName, user}: handleUpdateDispl
   revalidatePath('/profile/edit')
 }
 
+
 interface HandlePhotoShootTypeProps {
-  isDisconected: boolean
+  action: Action
   photoShootName: Pick<PhotoShootType, 'name'>
   userId: Pick<User, 'id'>
 }
 
 export const handleConnectPhotoShootType = async ({
-  isDisconected,
+  action,
   photoShootName,
   userId
 }: HandlePhotoShootTypeProps) => {
-  if (isDisconected === true) {
     await db.photoShootType.update({
       where: {
         name: photoShootName.name,
       },
       data: {
         UserProfile: {
-          disconnect: {
+          [action]: {
             userId: userId.id,
           },
         },
       },
     })
-  }
-  if (isDisconected === false) {
-    await db.photoShootType.update({
-      where: {
-        name: photoShootName.name,
-      },
-      data: {
-        UserProfile: {
-          connect: {
-            userId: userId.id,
-          },
-        },
-      },
-    })
-  }
   revalidatePath('/profile/edit')
 }
 
 interface HandlePhotographySkillProps {
-  isDisconected: boolean
+  action: Action
   photographySkill: Pick<PhotographySkill, 'name' | "skillType">
   userId: Pick<User, 'id'>
 }
 
 export const handleConnectPhotographySkill = async ({
-  isDisconected,
+  action,
   photographySkill,
   userId,
 }: HandlePhotographySkillProps) => {
@@ -101,28 +84,14 @@ export const handleConnectPhotographySkill = async ({
       name: photographySkill.name,
     },
   })
-  if (isDisconected === true && selectedSkill !== null) {
+  if (selectedSkill !== null) {
     await db.photographySkill.update({
       where: {
         id: selectedSkill.id,
       },
       data: {
         UserProfile: {
-          disconnect: {
-            userId: userId.id,
-          },
-        },
-      },
-    })
-  }
-  if (isDisconected === false && selectedSkill !== null) {
-    await db.photographySkill.update({
-      where: {
-        id: selectedSkill.id,
-      },
-      data: {
-        UserProfile: {
-          connect: {
+          [action]: {
             userId: userId.id,
           },
         },

@@ -1,5 +1,3 @@
-'use server'
-
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { db } from '@chameleon/db'
@@ -8,7 +6,6 @@ import { getCurrentUser } from '@/lib/session'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-// page specific components
 import DisplayNameInput from './_components/display-name-input'
 import Portfolio from './_components/portfolio-image'
 import ProfileSkill from './_components/profile-skill'
@@ -39,6 +36,10 @@ export default async function EditProfile() {
       Portfolio: true,
     },
   })
+  if(userProfileData === null) {
+    await db.userProfile.create({
+    data: {userId: user.id}
+  })}
 
   return (
     <div className="flex flex-col w-full">
@@ -76,7 +77,7 @@ export default async function EditProfile() {
                       ? true
                       : false
                   }
-                  formatedShootTypeName={formatEnumString(photogType.name)}
+                  formattedShootTypeName={formatEnumString(photogType.name)}
                   photoShootType={{ name: photogType.name }}
                   user={{ id: user.id }}
                 />
@@ -93,10 +94,8 @@ export default async function EditProfile() {
                     name: skill.name,
                     skillType: skill.skillType,
                   }}
-                  formatedSkillName={formatEnumString(skill.name)}
+                  formattedSkillName={formatEnumString(skill.name)}
                   isSelected={
-                    // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS",
-                    // this is to make sure the correct name for the skilltype is highlighted when selected
                     userProfileData?.photographySkills.find(
                       (profileSkill) =>
                         profileSkill.name === skill.name &&
@@ -121,10 +120,8 @@ export default async function EditProfile() {
                       name: skill.name,
                       skillType: skill.skillType,
                     }}
-                    formatedSkillName={formatEnumString(skill.name)}
+                    formattedSkillName={formatEnumString(skill.name)}
                     isSelected={
-                      // Since the prisma model PhotographySkill has 2 tables per name, one for "SPECIALTY" and one for "CURRENT_FOCUS",
-                      // this is to make sure the correct name for the skilltype is highlighted when selected
                       userProfileData?.photographySkills.find(
                         (profileSkill) =>
                           profileSkill.name === skill.name &&
@@ -164,13 +161,13 @@ export default async function EditProfile() {
             ))
           ) : (
             <>
-              <div className="flex justify-center items-center h-80 w-72 border-2 border-accen text-2xl visible">
+              <div className="flex justify-center items-center h-80 w-72 border-2 border-accent text-2xl visible">
                 Empty
               </div>
-              <div className="flex justify-center items-center h-80 w-72 border-2 border-accen text-2xl invisible md:visible">
+              <div className="flex justify-center items-center h-80 w-72 border-2 border-accent text-2xl invisible md:visible">
                 Empty
               </div>
-              <div className="flex justify-center items-center h-80 w-72 border-2 border-accen text-2xl invisible lg:visible">
+              <div className="flex justify-center items-center h-80 w-72 border-2 border-accent text-2xl invisible lg:visible">
                 Empty
               </div>
             </>

@@ -1,7 +1,7 @@
 'use client'
 import { handleUpdateDisplayName } from '../actions'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { cn } from '@/lib/utils'
@@ -21,7 +21,6 @@ export default function DisplayNameInput({
   const {
     handleSubmit,
     register,
-    // formState: { errors },
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(userNameSchema),
@@ -48,7 +47,7 @@ export default function DisplayNameInput({
       />
       <Button
         type="submit"
-        className={cn(`ml-5 w-16 h-8`, nameHasChanged ? "visible" : 'invisible')}
+        className={cn('ml-5 w-16 h-8', nameHasChanged ? "visible" : 'invisible')}
       >
         Save
       </Button>
