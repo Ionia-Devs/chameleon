@@ -63,12 +63,65 @@ model User {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
+  UserProfile UserProfile? 
   Account Account[]
   Session Session[]
   Todo    Todo[]
   Post    Post[]
 
   @@index([id], name: "idx_user_id")
+}
+
+model UserProfile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+
+  User       User       @relation(fields: [userId], references: [id])
+
+  Portfolio Portfolio[]
+  photographySkills PhotographySkill[]
+  photoShootTypes PhotoShootType[]
+}
+
+model Portfolio {
+  id  String @id @default(cuid())
+  userId String
+  image String
+  UserProfile UserProfile @relation(fields: [userId], references: [userId])
+}
+
+enum PhotoShootTypeName {
+  PAID
+  COLLAB
+  CONVENTION
+}
+model PhotoShootType {
+  id        Int   @id @default(autoincrement())
+  name      PhotoShootTypeName @unique
+  UserProfile   UserProfile[]
+}
+
+enum PhotographySkillType {
+  CURRENT_FOCUS
+  SPECIALTY
+}
+
+enum PhotographySkillName {
+  NSFW
+  STUDIO
+  OFF_SITE
+  EDITORIAL
+  COSPLAY
+  FASHION
+  PORTRAIT
+  EVENTS
+}
+
+model PhotographySkill {
+  id        Int   @id 
+  name      PhotographySkillName 
+  skillType PhotographySkillType
+  UserProfile   UserProfile[]
 }
 
 model Todo {
