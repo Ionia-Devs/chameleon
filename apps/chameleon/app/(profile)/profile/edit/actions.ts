@@ -1,5 +1,4 @@
 'use server'
-
 import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
 import type {
@@ -25,12 +24,16 @@ interface HandleRemovePhotoProps {
 }
 
 export const handleRemovePhoto = async ({ image }: HandleRemovePhotoProps) => {
-  await db.portfolio.delete({
-    where: {
-      id: image.id,
-    },
-  })
-  revalidatePath('/profile/edit')
+  try {
+    await db.portfolio.delete({
+      where: {
+        id: image.id,
+      },
+    })
+    revalidatePath('/profile/edit')
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 interface handleUpdateDisplayNameProps {
@@ -42,13 +45,19 @@ export const handleUpdateDisplayName = async ({
   newName,
   user,
 }: handleUpdateDisplayNameProps) => {
-  await db.user.update({
-    where: { id: user.id },
-    data: {
-      name: newName,
-    },
-  })
-  revalidatePath('/profile/edit')
+  try {
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        name: newName,
+      },
+    })
+    
+    revalidatePath('/profile/edit')
+    return "success"
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 interface HandlePhotoShootTypeProps {
@@ -62,19 +71,23 @@ export const handleConnectPhotoShootType = async ({
   photoShootName,
   userId,
 }: HandlePhotoShootTypeProps) => {
-  await db.photoShootType.update({
-    where: {
-      name: photoShootName.name,
-    },
-    data: {
-      UserProfile: {
-        [action]: {
-          userId: userId.id,
+  try {
+    await db.photoShootType.update({
+      where: {
+        name: photoShootName.name,
+      },
+      data: {
+        UserProfile: {
+          [action]: {
+            userId: userId.id,
+          },
         },
       },
-    },
-  })
-  revalidatePath('/profile/edit')
+    })
+    revalidatePath('/profile/edit')
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 interface HandlePhotographySkillProps {
@@ -88,25 +101,29 @@ export const handleConnectPhotographySkill = async ({
   photographySkill,
   userId,
 }: HandlePhotographySkillProps) => {
-  const selectedSkill = await db.photographySkill.findFirst({
-    where: {
-      skillType: photographySkill.skillType,
-      name: photographySkill.name,
-    },
-  })
-  if (selectedSkill !== null) {
-    await db.photographySkill.update({
+  try {
+    const selectedSkill = await db.photographySkill.findFirst({
       where: {
-        id: selectedSkill.id,
-      },
-      data: {
-        UserProfile: {
-          [action]: {
-            userId: userId.id,
-          },
-        },
+        skillType: photographySkill.skillType,
+        name: photographySkill.name,
       },
     })
+    if (selectedSkill !== null) {
+      await db.photographySkill.update({
+        where: {
+          id: selectedSkill.id,
+        },
+        data: {
+          UserProfile: {
+            [action]: {
+              userId: userId.id,
+            },
+          },
+        },
+      })
+    }
+    revalidatePath('/profile/edit')
+  } catch (e) {
+    console.error(e)
   }
-  revalidatePath('/profile/edit')
 }

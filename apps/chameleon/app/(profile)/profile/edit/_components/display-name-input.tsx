@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import type { User } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { toast } from 'sonner'
 
 import { cn } from '@/lib/utils'
 import { userNameSchema } from '@/lib/validations/user'
@@ -29,7 +30,15 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   const nameHasChanged = user.name !== name
 
   const onSubmit = async (data: FormData) => {
-    await handleUpdateDisplayName({ newName: data.name, user })
+    const res = await handleUpdateDisplayName({ newName: data.name, user })
+    if (res === "success") {
+      toast.success("Name successfully changed")
+    } else {
+      toast.error('Something went wrong.', {
+        description: 'Your name failed to update. Please refresh the page and try again.',
+      })
+    }
+    
   }
 
   return (
