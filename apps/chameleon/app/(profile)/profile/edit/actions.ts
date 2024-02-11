@@ -1,4 +1,5 @@
 'use server'
+
 import { revalidatePath } from 'next/cache'
 import { db } from '@chameleon/db'
 import type {
@@ -52,9 +53,9 @@ export const handleUpdateDisplayName = async ({
         name: newName,
       },
     })
-    
+
     revalidatePath('/profile/edit')
-    return "success"
+    return 'success'
   } catch (e) {
     console.error(e)
   }
