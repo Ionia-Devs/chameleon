@@ -43,7 +43,7 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
 
   return (
     <form
-      className="flex justify-between items-center"
+      className="flex justify-between items-center mt-2"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input id="name" {...register('name')} />

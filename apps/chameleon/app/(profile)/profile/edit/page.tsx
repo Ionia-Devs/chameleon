@@ -58,10 +58,10 @@ export default async function EditProfile() {
           <div className="mb-2">
             <Label className="m-2">Instagram Username</Label>
             <Input
-              className="border-none"
+              className="border-none mt-2"
               value={'This is your insta name here'}
               readOnly
-            ></Input>
+            />
           </div>
           <div className="flex flex-col">
             <Label className="m-2 w-64 text-lg">
