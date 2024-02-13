@@ -10,14 +10,14 @@ import { handleConnectPhotoShootType } from '../actions'
 
 interface PhotoShootTypeProps {
   isSelected: boolean
-  photoShootType: PhotoShootType['name']
+  photoShootTypeName: PhotoShootType['name']
   formattedShootTypeName: string
   userId: User['id']
 }
 
 export default function ProfileShootType({
   isSelected,
-  photoShootType,
+  photoShootTypeName,
   formattedShootTypeName,
   userId,
 }: PhotoShootTypeProps) {
@@ -32,7 +32,7 @@ export default function ProfileShootType({
       : actionSchema.Enum.connect
     await handleConnectPhotoShootType({
       action,
-      photoShootName: photoShootType,
+      photoShootTypeName,
       userId,
     })
     setIsLoading(false)

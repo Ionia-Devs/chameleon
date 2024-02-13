@@ -67,19 +67,19 @@ export const updateDisplayName = async ({
 
 interface HandlePhotoShootTypeProps {
   action: Action
-  photoShootName: PhotoShootType['name']
-  userId: User['id']
+  photoShootTypeName: PhotoShootType["name"]
+  userId: User["id"]
 }
 
 export const handleConnectPhotoShootType = async ({
   action,
-  photoShootName,
+  photoShootTypeName,
   userId,
 }: HandlePhotoShootTypeProps) => {
   try {
     await db.photoShootType.update({
       where: {
-        name: photoShootName,
+        name: photoShootTypeName,
       },
       data: {
         UserProfile: {
