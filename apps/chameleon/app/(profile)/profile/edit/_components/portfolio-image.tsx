@@ -10,7 +10,7 @@ interface PortfolioProps {
   photo: Pick<Portfolio, 'id' | 'image'>
 }
 
-export default function Portfolio({ photo }: PortfolioProps) {
+export default function PortfolioImage({ photo }: PortfolioProps) {
   const handleRemovePhoto = async () => {
     await removePhoto({ photoId: photo.id })
   }

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import DisplayNameInput from './_components/display-name-input'
-import Portfolio from './_components/portfolio-image'
+import PortfolioImage from './_components/portfolio-image'
 import ProfileSkill from './_components/profile-skill'
 import ProfileShootType from './_components/shoot-type'
 import { formatEnumString } from './actions'
@@ -79,7 +79,7 @@ export default async function EditProfile() {
                       : false
                   }
                   formattedShootTypeName={formatEnumString(photoShootType.name)}
-                  photoShootType={photoShootType.name}
+                  photoShootTypeName={photoShootType.name}
                   userId={user.id}
                 />
               ))}
@@ -157,7 +157,7 @@ export default async function EditProfile() {
         <div className="h-screen place-items-center py-20 mt-3 w-full p-10 overflow-y-auto border-2 border-accent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  max-w-7xl mx-auto gap-4 ">
           {userProfileData?.Portfolio?.length ? (
             userProfileData?.Portfolio.map((photo) => (
-              <Portfolio key={photo.id} photo={photo} />
+              <PortfolioImage key={photo.id} photo={photo} />
             ))
           ) : (
             <>
