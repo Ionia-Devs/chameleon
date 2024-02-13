@@ -11,24 +11,26 @@ import type {
 
 import { type Action } from '@/lib/validations/action'
 
-export const formatEnumString = (inputString: string) => {
-  const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase()
-  const capitalizedString = stringWithSpaces.replace(/\b\w/g, (word) =>
+export const formatEnumString = (enumString: string) => {
+  const everyUnderscore = /_/g;
+  const everyWord = /\b\w/g;
+  const stringWithSpaces = enumString.replace(everyUnderscore, ' ').toLowerCase() 
+  const capitalizedString = stringWithSpaces.replace(everyWord, (word) =>
     word.toUpperCase()
   )
 
   return capitalizedString
 }
 
-interface HandleRemovePhotoProps {
-  image: Pick<Portfolio, 'id'>
+interface RemovePhotoProps {
+  photoId: Portfolio["id"]
 }
 
-export const handleRemovePhoto = async ({ image }: HandleRemovePhotoProps) => {
+export const removePhoto = async ({photoId}: RemovePhotoProps) => {
   try {
     await db.portfolio.delete({
       where: {
-        id: image.id,
+        id: photoId,
       },
     })
     revalidatePath('/profile/edit')
@@ -37,18 +39,18 @@ export const handleRemovePhoto = async ({ image }: HandleRemovePhotoProps) => {
   }
 }
 
-interface handleUpdateDisplayNameProps {
+interface UpdateDisplayNameProps {
   newName: string
-  user: Pick<User, 'id'>
+  userId: User["id"]
 }
 
-export const handleUpdateDisplayName = async ({
+export const updateDisplayName = async ({
   newName,
-  user,
-}: handleUpdateDisplayNameProps) => {
+  userId,
+}: UpdateDisplayNameProps) => {
   try {
     await db.user.update({
-      where: { id: user.id },
+      where: { id: userId },
       data: {
         name: newName,
       },
@@ -63,8 +65,8 @@ export const handleUpdateDisplayName = async ({
 
 interface HandlePhotoShootTypeProps {
   action: Action
-  photoShootName: Pick<PhotoShootType, 'name'>
-  userId: Pick<User, 'id'>
+  photoShootName: PhotoShootType["name"]
+  userId: User["id"]
 }
 
 export const handleConnectPhotoShootType = async ({
@@ -75,12 +77,12 @@ export const handleConnectPhotoShootType = async ({
   try {
     await db.photoShootType.update({
       where: {
-        name: photoShootName.name,
+        name: photoShootName,
       },
       data: {
         UserProfile: {
           [action]: {
-            userId: userId.id,
+            userId,
           },
         },
       },
@@ -94,7 +96,7 @@ export const handleConnectPhotoShootType = async ({
 interface HandlePhotographySkillProps {
   action: Action
   photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
-  userId: Pick<User, 'id'>
+  userId: User["id"]
 }
 
 export const handleConnectPhotographySkill = async ({
@@ -117,7 +119,7 @@ export const handleConnectPhotographySkill = async ({
         data: {
           UserProfile: {
             [action]: {
-              userId: userId.id,
+              userId,
             },
           },
         },

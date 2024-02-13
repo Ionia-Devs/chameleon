@@ -11,7 +11,7 @@ import { userNameSchema } from '@/lib/validations/user'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-import { handleUpdateDisplayName } from '../actions'
+import { updateDisplayName } from '../actions'
 
 interface DisplayNameProps {
   user: Pick<User, 'id' | 'name'>
@@ -30,7 +30,7 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   const nameHasChanged = user.name !== name
 
   const onSubmit = async (data: FormData) => {
-    const res = await handleUpdateDisplayName({ newName: data.name, user })
+    const res = await updateDisplayName({ newName: data.name, userId: user.id })
     if (res === 'success') {
       toast.success('Name successfully changed')
     } else {
