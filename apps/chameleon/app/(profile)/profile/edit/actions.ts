@@ -12,9 +12,11 @@ import type {
 import { type Action } from '@/lib/validations/action'
 
 export const formatEnumString = (enumString: string) => {
-  const everyUnderscore = /_/g;
-  const everyWord = /\b\w/g;
-  const stringWithSpaces = enumString.replace(everyUnderscore, ' ').toLowerCase() 
+  const everyUnderscore = /_/g
+  const everyWord = /\b\w/g
+  const stringWithSpaces = enumString
+    .replace(everyUnderscore, ' ')
+    .toLowerCase()
   const capitalizedString = stringWithSpaces.replace(everyWord, (word) =>
     word.toUpperCase()
   )
@@ -23,10 +25,10 @@ export const formatEnumString = (enumString: string) => {
 }
 
 interface RemovePhotoProps {
-  photoId: Portfolio["id"]
+  photoId: Portfolio['id']
 }
 
-export const removePhoto = async ({photoId}: RemovePhotoProps) => {
+export const removePhoto = async ({ photoId }: RemovePhotoProps) => {
   try {
     await db.portfolio.delete({
       where: {
@@ -41,7 +43,7 @@ export const removePhoto = async ({photoId}: RemovePhotoProps) => {
 
 interface UpdateDisplayNameProps {
   newName: string
-  userId: User["id"]
+  userId: User['id']
 }
 
 export const updateDisplayName = async ({
@@ -65,8 +67,8 @@ export const updateDisplayName = async ({
 
 interface HandlePhotoShootTypeProps {
   action: Action
-  photoShootName: PhotoShootType["name"]
-  userId: User["id"]
+  photoShootName: PhotoShootType['name']
+  userId: User['id']
 }
 
 export const handleConnectPhotoShootType = async ({
@@ -96,7 +98,7 @@ export const handleConnectPhotoShootType = async ({
 interface HandlePhotographySkillProps {
   action: Action
   photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
-  userId: User["id"]
+  userId: User['id']
 }
 
 export const handleConnectPhotographySkill = async ({

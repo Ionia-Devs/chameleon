@@ -93,7 +93,7 @@ export default async function EditProfile() {
                   key={skill.id}
                   photographySkill={{
                     name: skill.name,
-                    skillType: "CURRENT_FOCUS",
+                    skillType: 'CURRENT_FOCUS',
                   }}
                   formattedSkillName={formatEnumString(skill.name)}
                   isSelected={
@@ -119,7 +119,7 @@ export default async function EditProfile() {
                     key={skill.id}
                     photographySkill={{
                       name: skill.name,
-                      skillType: "SPECIALTY",
+                      skillType: 'SPECIALTY',
                     }}
                     formattedSkillName={formatEnumString(skill.name)}
                     isSelected={

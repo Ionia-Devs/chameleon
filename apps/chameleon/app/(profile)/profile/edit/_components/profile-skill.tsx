@@ -9,7 +9,7 @@ import { Toggle } from '@/components/ui/toggle'
 import { handleConnectPhotographySkill } from '../actions'
 
 interface ProfileSkillsProps {
-  userId: User["id"]
+  userId: User['id']
   isSelected: boolean
   photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
   formattedSkillName: string
