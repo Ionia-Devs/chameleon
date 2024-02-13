@@ -67,8 +67,8 @@ export const updateDisplayName = async ({
 
 interface HandlePhotoShootTypeProps {
   action: Action
-  photoShootTypeName: PhotoShootType["name"]
-  userId: User["id"]
+  photoShootTypeName: PhotoShootType['name']
+  userId: User['id']
 }
 
 export const handleConnectPhotoShootType = async ({
