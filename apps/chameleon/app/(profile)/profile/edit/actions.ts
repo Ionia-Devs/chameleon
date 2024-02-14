@@ -11,7 +11,7 @@ import type {
 import { z } from 'zod'
 
 import { type ConnectionAction } from '@/lib/validations/action'
-import { userNameSchema } from '@/lib/validations/user'
+import { type userNameSchema } from '@/lib/validations/user'
 
 export const formatEnumString = (enumString: string) => {
   const everyUnderscore = /_/g
