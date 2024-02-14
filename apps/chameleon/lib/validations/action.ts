@@ -2,4 +2,4 @@ import { z } from 'zod'
 
 export const connectionSchema = z.enum(['connect', 'disconnect'])
 
-export type Connection = z.infer<typeof connectionSchema>
+export type ConnectionAction = z.infer<typeof connectionSchema>

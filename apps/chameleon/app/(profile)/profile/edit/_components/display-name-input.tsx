@@ -29,8 +29,8 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   const name = watch('name')
   const nameHasChanged = user.name !== name
 
-  const onSubmit = async (data: FormData) => {
-    const { name } = data
+  const onSubmit = async (newNameForm: FormData) => {
+    const { name } = newNameForm
     const res = await updateDisplayName({
       newName: { name },
       userId: user.id,
