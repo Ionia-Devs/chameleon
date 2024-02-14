@@ -46,7 +46,7 @@ export default function ProfileShootType({
       pressed={optimisticIsSelected}
       onPressedChange={toggleShootType}
       className={
-        'm-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary disabled:opacity-80 disabled:text-secondary'
+        'm-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:opacity-100'
       }
     >
       {formattedShootTypeName}
