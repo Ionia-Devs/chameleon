@@ -30,7 +30,11 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   const nameHasChanged = user.name !== name
 
   const onSubmit = async (data: FormData) => {
-    const res = await updateDisplayName({ newName: data.name, userId: user.id })
+    const { name } = data
+    const res = await updateDisplayName({
+      newName: { name },
+      userId: user.id,
+    })
     if (res === 'success') {
       toast.success('Name successfully changed')
     } else {

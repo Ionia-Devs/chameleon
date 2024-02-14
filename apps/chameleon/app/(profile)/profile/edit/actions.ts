@@ -8,8 +8,10 @@ import type {
   Portfolio,
   User,
 } from '@prisma/client'
+import { z } from 'zod'
 
 import { type Action } from '@/lib/validations/action'
+import { userNameSchema } from '@/lib/validations/user'
 
 export const formatEnumString = (enumString: string) => {
   const everyUnderscore = /_/g
@@ -42,7 +44,7 @@ export const removePhoto = async ({ photoId }: RemovePhotoProps) => {
 }
 
 interface UpdateDisplayNameProps {
-  newName: string
+  newName: z.infer<typeof userNameSchema>
   userId: User['id']
 }
 
@@ -50,11 +52,12 @@ export const updateDisplayName = async ({
   newName,
   userId,
 }: UpdateDisplayNameProps) => {
+  const { name } = newName
   try {
     await db.user.update({
       where: { id: userId },
       data: {
-        name: newName,
+        name,
       },
     })
 
