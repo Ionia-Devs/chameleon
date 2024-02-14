@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useOptimistic, useState } from 'react'
 import type { PhotoShootType, User } from '@prisma/client'
 
 import { connectionSchema } from '@/lib/validations/action'
@@ -22,12 +22,15 @@ export default function ProfileShootType({
   userId,
 }: PhotoShootTypeProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [selected, setSelected] = useState(isSelected)
+  const [optimisticIsSelected, addOptimisticIsSelected] = useOptimistic(
+    isSelected,
+    () => !isSelected
+  )
 
   const toggleShootType = async () => {
     setIsLoading(true)
-    setSelected(!selected)
-    const action = selected
+    addOptimisticIsSelected(isSelected)
+    const action = optimisticIsSelected
       ? connectionSchema.Enum.disconnect
       : connectionSchema.Enum.connect
     await handleConnectPhotoShootType({
@@ -40,7 +43,7 @@ export default function ProfileShootType({
   return (
     <Toggle
       disabled={isLoading}
-      pressed={selected}
+      pressed={optimisticIsSelected}
       onPressedChange={toggleShootType}
       className={
         'm-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary disabled:opacity-80 disabled:text-secondary'

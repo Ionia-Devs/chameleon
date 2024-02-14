@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useOptimistic, useState } from 'react'
 import { PhotographySkill, User } from '@prisma/client'
 
 import { connectionSchema } from '@/lib/validations/action'
@@ -22,11 +22,14 @@ export default function ProfileSkill({
   formattedSkillName,
 }: ProfileSkillsProps) {
   const [isLoading, setIsLoading] = useState(false)
-  const [selected, setSelected] = useState(isSelected)
+  const [optimisticIsSelected, addOptimisticIsSelected] = useOptimistic(
+    isSelected,
+    () => !isSelected
+  )
   const toggleSkill = async () => {
     setIsLoading(true)
-    setSelected(!selected)
-    const action = selected
+    addOptimisticIsSelected(isSelected)
+    const action = optimisticIsSelected
       ? connectionSchema.Enum.disconnect
       : connectionSchema.Enum.connect
     await handleConnectPhotographySkill({
@@ -39,7 +42,7 @@ export default function ProfileSkill({
   return (
     <Toggle
       disabled={isLoading}
-      pressed={selected}
+      pressed={optimisticIsSelected}
       onPressedChange={toggleSkill}
       className={`m-1 h-8 bg-accent hover:bg-primary/80 hover:text-secondary data-[state=on]:bg-primary data-[state=on]:text-secondary disabled:bg-primary/80 disabled:text-secondary`}
     >

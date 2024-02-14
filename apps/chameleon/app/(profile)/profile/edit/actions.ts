@@ -37,9 +37,10 @@ export const removePhoto = async ({ photoId }: RemovePhotoProps) => {
         id: photoId,
       },
     })
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
@@ -61,10 +62,11 @@ export const updateDisplayName = async ({
       },
     })
 
-    revalidatePath('/profile/edit')
     return 'success'
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
@@ -92,9 +94,10 @@ export const handleConnectPhotoShootType = async ({
         },
       },
     })
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
@@ -130,8 +133,9 @@ export const handleConnectPhotographySkill = async ({
         },
       })
     }
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
