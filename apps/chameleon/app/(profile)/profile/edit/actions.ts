@@ -10,7 +10,7 @@ import type {
 } from '@prisma/client'
 import { z } from 'zod'
 
-import { type Action } from '@/lib/validations/action'
+import { type Connection } from '@/lib/validations/action'
 import { userNameSchema } from '@/lib/validations/user'
 
 export const formatEnumString = (enumString: string) => {
@@ -69,7 +69,7 @@ export const updateDisplayName = async ({
 }
 
 interface HandlePhotoShootTypeProps {
-  action: Action
+  action: Connection
   photoShootTypeName: PhotoShootType['name']
   userId: User['id']
 }
@@ -99,7 +99,7 @@ export const handleConnectPhotoShootType = async ({
 }
 
 interface HandlePhotographySkillProps {
-  action: Action
+  action: Connection
   photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
   userId: User['id']
 }

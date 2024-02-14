@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { PhotoShootType, User } from '@prisma/client'
 
-import { actionSchema } from '@/lib/validations/action'
+import { connectionSchema } from '@/lib/validations/action'
 import { Toggle } from '@/components/ui/toggle'
 
 import { handleConnectPhotoShootType } from '../actions'
@@ -28,8 +28,8 @@ export default function ProfileShootType({
     setIsLoading(true)
     setSelected(!selected)
     const action = selected
-      ? actionSchema.Enum.disconnect
-      : actionSchema.Enum.connect
+      ? connectionSchema.Enum.disconnect
+      : connectionSchema.Enum.connect
     await handleConnectPhotoShootType({
       action,
       photoShootTypeName,
