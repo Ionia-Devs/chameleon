@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import DisplayNameInput from './_components/display-name-input'
-import Portfolio from './_components/portfolio-image'
+import PortfolioImage from './_components/portfolio-image'
 import ProfileSkill from './_components/profile-skill'
 import ProfileShootType from './_components/shoot-type'
 import { formatEnumString } from './actions'
@@ -19,7 +19,7 @@ export default async function EditProfile() {
     return notFound()
   }
 
-  const allPhotoShootsTypes = await db.photoShootType.findMany()
+  const allPhotoShootTypes = await db.photoShootType.findMany()
   const allPhotographySkills = await db.photographySkill.findMany()
   const allFocusSkills = allPhotographySkills.filter(
     (skill) => skill.skillType === 'CURRENT_FOCUS'
@@ -68,19 +68,19 @@ export default async function EditProfile() {
               I&apos;m currently shooting:
             </Label>
             <div className="grid grid-cols-2 md:w-80">
-              {allPhotoShootsTypes.map((photogType) => (
+              {allPhotoShootTypes.map((photoShootType) => (
                 <ProfileShootType
-                  key={photogType.id}
+                  key={photoShootType.id}
                   isSelected={
                     userProfileData?.photoShootTypes.find(
-                      (skillName) => skillName.name === photogType.name
+                      (skillName) => skillName.name === photoShootType.name
                     )
                       ? true
                       : false
                   }
-                  formattedShootTypeName={formatEnumString(photogType.name)}
-                  photoShootType={{ name: photogType.name }}
-                  user={{ id: user.id }}
+                  formattedShootTypeName={formatEnumString(photoShootType.name)}
+                  photoShootTypeName={photoShootType.name}
+                  userId={user.id}
                 />
               ))}
             </div>{' '}
@@ -93,7 +93,7 @@ export default async function EditProfile() {
                   key={skill.id}
                   photographySkill={{
                     name: skill.name,
-                    skillType: skill.skillType,
+                    skillType: 'CURRENT_FOCUS',
                   }}
                   formattedSkillName={formatEnumString(skill.name)}
                   isSelected={
@@ -105,7 +105,7 @@ export default async function EditProfile() {
                       ? true
                       : false
                   }
-                  user={{ id: user.id }}
+                  userId={user.id}
                 />
               ))}
             </div>
@@ -119,7 +119,7 @@ export default async function EditProfile() {
                     key={skill.id}
                     photographySkill={{
                       name: skill.name,
-                      skillType: skill.skillType,
+                      skillType: 'SPECIALTY',
                     }}
                     formattedSkillName={formatEnumString(skill.name)}
                     isSelected={
@@ -131,7 +131,7 @@ export default async function EditProfile() {
                         ? true
                         : false
                     }
-                    user={{ id: user.id }}
+                    userId={user.id}
                   />
                 ))}
               </div>
@@ -155,10 +155,9 @@ export default async function EditProfile() {
       <div className="flex flex-col mt-5 md:mt-0">
         <Label className="flex self-center text-3xl">Portfolio</Label>
         <div className="h-screen place-items-center py-20 mt-3 w-full p-10 overflow-y-auto border-2 border-accent grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  max-w-7xl mx-auto gap-4 ">
-          {userProfileData?.Portfolio.length !== undefined &&
-          userProfileData?.Portfolio.length > 0 ? (
-            userProfileData?.Portfolio.map((card, index) => (
-              <Portfolio key={index} picture={card} />
+          {userProfileData?.Portfolio?.length ? (
+            userProfileData?.Portfolio.map((photo) => (
+              <PortfolioImage key={photo.id} photo={photo} />
             ))
           ) : (
             <>

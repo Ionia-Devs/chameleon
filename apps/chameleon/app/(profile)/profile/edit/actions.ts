@@ -8,93 +8,103 @@ import type {
   Portfolio,
   User,
 } from '@prisma/client'
+import { z } from 'zod'
 
-import { type Action } from '@/lib/validations/action'
+import { type ConnectionAction } from '@/lib/validations/action'
+import { type userNameSchema } from '@/lib/validations/user'
 
-export const formatEnumString = (inputString: string) => {
-  const stringWithSpaces = inputString.replace(/_/g, ' ').toLowerCase()
-  const capitalizedString = stringWithSpaces.replace(/\b\w/g, (word) =>
+export const formatEnumString = (enumString: string) => {
+  const everyUnderscore = /_/g
+  const everyWord = /\b\w/g
+  const stringWithSpaces = enumString
+    .replace(everyUnderscore, ' ')
+    .toLowerCase()
+  const capitalizedString = stringWithSpaces.replace(everyWord, (word) =>
     word.toUpperCase()
   )
 
   return capitalizedString
 }
 
-interface HandleRemovePhotoProps {
-  image: Pick<Portfolio, 'id'>
+interface RemovePhotoProps {
+  photoId: Portfolio['id']
 }
 
-export const handleRemovePhoto = async ({ image }: HandleRemovePhotoProps) => {
+export const removePhoto = async ({ photoId }: RemovePhotoProps) => {
   try {
     await db.portfolio.delete({
       where: {
-        id: image.id,
+        id: photoId,
       },
     })
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
-interface handleUpdateDisplayNameProps {
-  newName: string
-  user: Pick<User, 'id'>
+interface UpdateDisplayNameProps {
+  newName: z.infer<typeof userNameSchema>
+  userId: User['id']
 }
 
-export const handleUpdateDisplayName = async ({
+export const updateDisplayName = async ({
   newName,
-  user,
-}: handleUpdateDisplayNameProps) => {
+  userId,
+}: UpdateDisplayNameProps) => {
+  const { name } = newName
   try {
     await db.user.update({
-      where: { id: user.id },
+      where: { id: userId },
       data: {
-        name: newName,
+        name,
       },
     })
 
-    revalidatePath('/profile/edit')
     return 'success'
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
 interface HandlePhotoShootTypeProps {
-  action: Action
-  photoShootName: Pick<PhotoShootType, 'name'>
-  userId: Pick<User, 'id'>
+  action: ConnectionAction
+  photoShootTypeName: PhotoShootType['name']
+  userId: User['id']
 }
 
 export const handleConnectPhotoShootType = async ({
   action,
-  photoShootName,
+  photoShootTypeName,
   userId,
 }: HandlePhotoShootTypeProps) => {
   try {
     await db.photoShootType.update({
       where: {
-        name: photoShootName.name,
+        name: photoShootTypeName,
       },
       data: {
         UserProfile: {
           [action]: {
-            userId: userId.id,
+            userId,
           },
         },
       },
     })
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
 
 interface HandlePhotographySkillProps {
-  action: Action
+  action: ConnectionAction
   photographySkill: Pick<PhotographySkill, 'name' | 'skillType'>
-  userId: Pick<User, 'id'>
+  userId: User['id']
 }
 
 export const handleConnectPhotographySkill = async ({
@@ -117,14 +127,15 @@ export const handleConnectPhotographySkill = async ({
         data: {
           UserProfile: {
             [action]: {
-              userId: userId.id,
+              userId,
             },
           },
         },
       })
     }
-    revalidatePath('/profile/edit')
   } catch (e) {
     console.error(e)
+  } finally {
+    revalidatePath('/profile/edit')
   }
 }
