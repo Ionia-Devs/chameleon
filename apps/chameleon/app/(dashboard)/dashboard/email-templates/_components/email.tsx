@@ -1,15 +1,16 @@
-import * as React from 'react';
+import * as React from 'react'
 
 interface EmailTemplateProps {
-  name: string;
-  message: string;
+  name: string
+  message: string
 }
 
 export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  name, message
+  name,
+  message,
 }) => (
-  <div className='flex flex-col'>
+  <div className="flex flex-col">
     <h1>Welcome, {name}!</h1>
     <p>{message}</p>
   </div>
-);
+)
