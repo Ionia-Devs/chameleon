@@ -28,7 +28,7 @@ function SendEmailForm() {
 
   const onSubmit: SubmitHandler<Inputs> = async (emailForm) => {
     console.log(emailForm)
-    const result = await send(emailForm.type, emailForm.name)
+    const result = await send(emailForm.type, emailForm.name, emailForm.message)
     if (result.success === true) toast.success("email was sent successfully")
     if (result.success === false) toast.error("failed to send email")
   }
@@ -44,7 +44,7 @@ function SendEmailForm() {
       </select>
       <Input placeholder='name' id="name" {...register('name')} />
       <Input placeholder='message' id="message" {...register('message')} />
-      <Button type="submit">Submit</Button>
+      <Button type="submit">Send</Button>
     </form>
   )
 }

@@ -42,6 +42,11 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'pizza',
     },
     {
+      title: 'Email Templates',
+      href: '/dashboard/email-templates',
+      icon: 'EnvelopeClosedIcon',
+    },
+    {
       title: 'Cards',
       href: '/dashboard/cards',
       icon: 'CardStackPlusIcon',
