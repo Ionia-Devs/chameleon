@@ -21,7 +21,11 @@ export async function send(emailType: string, name: string, message: string) {
     return { success: false, error }
   }
 }
-export async function sendWelcome(emailType: string, name: string, message: string) {
+export async function sendWelcome(
+  emailType: string,
+  name: string,
+  message: string
+) {
   try {
     await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
@@ -30,8 +34,8 @@ export async function sendWelcome(emailType: string, name: string, message: stri
       react: WelcomeTemplate({ name }) as React.ReactElement,
     })
 
-    return {success: true}
+    return { success: true }
   } catch (error) {
-    return {success: false, error}
+    return { success: false, error }
   }
 }
