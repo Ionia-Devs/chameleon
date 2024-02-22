@@ -2,11 +2,9 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-
+import { sendWelcome } from '../actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-
-import { send } from '../actions'
 
 enum Types {
   delivered = 'delivered',
@@ -30,10 +28,9 @@ function SendEmailForm() {
   })
 
   const onSubmit: SubmitHandler<Inputs> = async (emailForm) => {
-    console.log(emailForm)
-    const result = await send(emailForm.type, emailForm.name, emailForm.message)
-    if (result.success === true) toast.success('email was sent successfully')
-    if (result.success === false) toast.error('failed to send email')
+    const result = await sendWelcome(emailForm.type, emailForm.name, emailForm.message)
+    if (result.success === true) toast.success("email was sent successfully")
+    if (result.success === false) toast.error("failed to send email")
   }
   return (
     <form
