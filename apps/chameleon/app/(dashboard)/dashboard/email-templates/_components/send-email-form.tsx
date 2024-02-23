@@ -8,20 +8,20 @@ import { Input } from '@/components/ui/input'
 
 import { sendWelcome } from '../actions'
 
-enum Types {
+enum DeliveredEmailTypes {
   delivered = 'delivered',
   bounced = 'bounced',
   complained = 'complained',
 }
 
-interface Inputs {
+interface EmailFormProps {
   name: string
   message: string
-  type: Types
+  type: DeliveredEmailTypes
 }
 
-function SendEmailForm() {
-  const { handleSubmit, register } = useForm<Inputs>({
+function EmailForm() {
+  const { handleSubmit, register } = useForm<EmailFormProps>({
     defaultValues: {
       name: '',
       message: '',
@@ -29,7 +29,7 @@ function SendEmailForm() {
     },
   })
 
-  const onSubmit: SubmitHandler<Inputs> = async (emailForm) => {
+  const onSubmit: SubmitHandler<EmailFormProps> = async (emailForm) => {
     const result = await sendWelcome(
       emailForm.type,
       emailForm.name,
@@ -55,4 +55,4 @@ function SendEmailForm() {
   )
 }
 
-export default SendEmailForm
+export default EmailForm
