@@ -9,6 +9,15 @@ import { z } from 'zod'
 import { cn } from '@/lib/utils'
 import { userNameSchema } from '@/lib/validations/user'
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 import { updateDisplayName } from '../actions'
@@ -19,12 +28,13 @@ interface DisplayNameProps {
 type FormData = z.infer<typeof userNameSchema>
 
 export default function DisplayNameInput({ user }: DisplayNameProps) {
-  const { handleSubmit, register, watch } = useForm<FormData>({
+  const form = useForm<FormData>({
     resolver: zodResolver(userNameSchema),
     defaultValues: {
       name: user?.name || '',
     },
   })
+  const { handleSubmit, watch } = form
 
   const name = watch('name')
   const nameHasChanged = user.name !== name
@@ -46,20 +56,36 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   }
 
   return (
-    <form
-      className="flex justify-between items-center mt-2"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Input id="name" {...register('name')} />
-      <Button
-        type="submit"
-        className={cn(
-          'ml-5 w-16 h-8',
-          nameHasChanged ? 'visible' : 'invisible'
-        )}
-      >
-        Save
-      </Button>
-    </form>
+    <Form {...form}>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <div className="flex">
+                <FormControl>
+                  <Input id="name" {...field} />
+                </FormControl>
+                <Button
+                  type="submit"
+                  className={cn(
+                    'ml-5 w-16 h-8 mt-1',
+                    nameHasChanged ? 'visible' : 'invisible'
+                  )}
+                >
+                  Save
+                </Button>
+              </div>
+              <FormDescription>
+                This is your public display name
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   )
 }

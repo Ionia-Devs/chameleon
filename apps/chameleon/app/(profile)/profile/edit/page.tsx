@@ -47,7 +47,6 @@ export default async function EditProfile() {
       <section className="flex justify-around w-full">
         <div className="flex flex-col">
           <div className="mb-2">
-            <Label className="m-2">Display Name</Label>
             <DisplayNameInput
               user={{
                 id: user.id,
