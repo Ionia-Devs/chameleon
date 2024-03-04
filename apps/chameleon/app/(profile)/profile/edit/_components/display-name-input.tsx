@@ -56,36 +56,36 @@ export default function DisplayNameInput({ user }: DisplayNameProps) {
   }
 
   return (
-      <Form {...form}>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <div className="flex">
-                  <FormControl>
-                    <Input id="name" {...field} />
-                  </FormControl>
-                  <Button
-                    type="submit"
-                    className={cn(
-                      'ml-5 w-16 h-8 mt-1',
-                      nameHasChanged ? 'visible' : 'invisible'
-                      )}
-                      >
-                      Save
-                    </Button>
-                </div>
-                <FormDescription>
-                  This is your public display name
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
+    <Form {...form}>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <div className="flex">
+                <FormControl>
+                  <Input id="name" {...field} />
+                </FormControl>
+                <Button
+                  type="submit"
+                  className={cn(
+                    'ml-5 w-16 h-8 mt-1',
+                    nameHasChanged ? 'visible' : 'invisible'
+                  )}
+                >
+                  Save
+                </Button>
+              </div>
+              <FormDescription>
+                This is your public display name
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   )
 }
