@@ -16,3 +16,5 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export const db = prisma;
+
+export * from '../prisma/generated/zod/';
