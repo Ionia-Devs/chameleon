@@ -74,7 +74,7 @@
     "lucide-react": "^0.282.0",
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.1.0",
-    "next-auth": "^4.24.7",
+    "next-auth": "5.0.0-beta.15",
     "next-contentlayer": "^0.3.4",
     "next-themes": "^0.2.1",
     "nodemailer": "^6.9.1",
