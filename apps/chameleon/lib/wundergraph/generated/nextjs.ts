@@ -1,40 +1,61 @@
 import {
-	createWunderGraphNext as createWunderGraphNextInternal,
-	createHooks,
-	WithWunderGraphOptions,
-	SSRCache,
-} from "@wundergraph/nextjs";
-import { User } from "@wundergraph/sdk/client";
-import { createClient, Operations, UserRole } from "./client";
+  SSRCache,
+  WithWunderGraphOptions,
+  createHooks,
+  createWunderGraphNext as createWunderGraphNextInternal,
+} from '@wundergraph/nextjs'
+import { User } from '@wundergraph/sdk/client'
+
+import { Operations, UserRole, createClient } from './client'
 
 export interface WunderGraphPageProps {
-	ssrCache?: SSRCache;
-	user?: User<UserRole>;
+  ssrCache?: SSRCache
+  user?: User<UserRole>
 }
 
-export interface CreateWunderGraphNextOptions extends Omit<WithWunderGraphOptions, "client"> {
-	baseURL?: string;
+export interface CreateWunderGraphNextOptions
+  extends Omit<WithWunderGraphOptions, 'client'> {
+  baseURL?: string
 }
 
-export const createWunderGraphNext = (options: CreateWunderGraphNextOptions) => {
-	const { baseURL, ...rest } = options;
-	const client = createClient(
-		baseURL
-			? {
-					baseURL,
-			  }
-			: undefined
-	);
+export const createWunderGraphNext = (
+  options: CreateWunderGraphNextOptions
+) => {
+  const { baseURL, ...rest } = options
+  const client = createClient(
+    baseURL
+      ? {
+          baseURL,
+        }
+      : undefined
+  )
 
-	return createWunderGraphNextInternal<Operations, typeof client>({
-		client,
-		...rest,
-	});
-};
+  return createWunderGraphNextInternal<Operations, typeof client>({
+    client,
+    ...rest,
+  })
+}
 
-const { client, withWunderGraph, useQuery, useMutation, useSubscription, useUser, useAuth, useFileUpload } =
-	createWunderGraphNext({
-		ssr: true,
-	});
+const {
+  client,
+  withWunderGraph,
+  useQuery,
+  useMutation,
+  useSubscription,
+  useUser,
+  useAuth,
+  useFileUpload,
+} = createWunderGraphNext({
+  ssr: true,
+})
 
-export { client, withWunderGraph, useQuery, useMutation, useSubscription, useUser, useAuth, useFileUpload };
+export {
+  client,
+  withWunderGraph,
+  useQuery,
+  useMutation,
+  useSubscription,
+  useUser,
+  useAuth,
+  useFileUpload,
+}
