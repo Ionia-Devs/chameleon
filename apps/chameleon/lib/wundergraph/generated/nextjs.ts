@@ -1,7 +1,6 @@
 import {
   SSRCache,
   WithWunderGraphOptions,
-  createHooks,
   createWunderGraphNext as createWunderGraphNextInternal,
 } from '@wundergraph/nextjs'
 import { User } from '@wundergraph/sdk/client'
@@ -51,11 +50,11 @@ const {
 
 export {
   client,
-  withWunderGraph,
-  useQuery,
-  useMutation,
-  useSubscription,
-  useUser,
   useAuth,
   useFileUpload,
+  useMutation,
+  useQuery,
+  useSubscription,
+  useUser,
+  withWunderGraph,
 }

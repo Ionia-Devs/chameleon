@@ -1,8 +1,7 @@
 import { db } from '@chameleon/db'
-import { getServerSession } from 'next-auth/next'
 import { z } from 'zod'
 
-import { authOptions } from '@/lib/auth'
+import { auth } from '@/lib/auth'
 import { userNameSchema } from '@/lib/validations/user'
 
 const routeContextSchema = z.object({
@@ -20,7 +19,7 @@ export async function PATCH(
     const { params } = routeContextSchema.parse(context)
 
     // Ensure user is authentication and has access to this user.
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session?.user || params.userId !== session?.user.id) {
       return new Response(null, { status: 403 })
     }
