@@ -11,7 +11,6 @@ import type function_OpenaiWeather from '../../../.wundergraph/operations/openai
 import type function_UsersGet from '../../../.wundergraph/operations/users/get'
 import type function_UsersSubscribe from '../../../.wundergraph/operations/users/subscribe'
 import type function_UsersUpdate from '../../../.wundergraph/operations/users/update'
-import type { OperationErrors } from './ts-operation-errors'
 
 export type JSONValue =
   | string

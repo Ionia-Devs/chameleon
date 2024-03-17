@@ -7,7 +7,10 @@
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["nx run chameleon:serve", "nx run chameleon:wunderctl-up"]
+        "commands": [
+          "nx run chameleon:serve"
+          // "nx run chameleon:wunderctl-up"
+        ]
       }
     },
     "build": {
@@ -17,7 +20,11 @@
       "options": {
         "outputPath": "dist/apps/chameleon"
       },
-      "dependsOn": ["^generate", "contentlayer", "wunderctl-generate"],
+      "dependsOn": [
+        "^generate",
+        "contentlayer"
+        // "wunderctl-generate"
+      ],
       "configurations": {
         "development": {
           "outputPath": "apps/chameleon"

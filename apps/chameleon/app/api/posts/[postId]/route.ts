@@ -1,8 +1,7 @@
 import { db } from '@chameleon/db'
-import { getServerSession } from 'next-auth'
 import * as z from 'zod'
 
-import { authOptions } from '@/lib/auth'
+import { auth } from '@/lib/auth'
 import { postPatchSchema } from '@/lib/validations/post'
 
 const routeContextSchema = z.object({
@@ -81,7 +80,7 @@ export async function PATCH(
 }
 
 async function verifyCurrentUserHasAccessToPost(postId: string) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const count = await db.post.count({
     where: {
       id: postId,
